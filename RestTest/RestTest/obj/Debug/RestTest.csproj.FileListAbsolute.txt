@@ -1,0 +1,8 @@
+c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\bin\Debug\RestTest.exe.config
+c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\bin\Debug\RestTest.exe
+c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\bin\Debug\RestTest.pdb
+c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\bin\Debug\RestSharp.dll
+c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\bin\Debug\RestSharp.xml
+c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\obj\Debug\RestTest.csprojResolveAssemblyReference.cache
+c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\obj\Debug\RestTest.exe
+c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\obj\Debug\RestTest.pdb
