@@ -17,6 +17,6 @@ namespace RestTest
         public Link[] supportingInformation;
         public Link[] specimen;
         public string status;
-        public Code[] item;
+        public CodeableConcept[] item;
     }
 }

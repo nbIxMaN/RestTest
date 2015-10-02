@@ -11,7 +11,7 @@ namespace RestTest
     class Extension
     {
         public string url;
-        public Code valueCodeableConcept;
+        public CodeableConcept valueCodeableConcept;
         public Link valueReference;
     }
 }
