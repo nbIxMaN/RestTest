@@ -66,7 +66,7 @@ namespace RestTest
                 }
             };
             var c = new RestClient();
-            c.BaseUrl = new Uri("http://fhir-demo.zdrav.netrika.ru/fhir/Patient");
+            c.BaseUrl = new Uri("http://fhir.zdrav.netrika.ru/fhir/Patient");
             var request = new RestRequest(Method.POST);
             var s = request.JsonSerializer.Serialize(p);
             request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
