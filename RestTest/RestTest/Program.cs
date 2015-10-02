@@ -7,57 +7,6 @@ using RestSharp;
 
 namespace RestTest
 {
-
-    class Coding
-    {
-        public string system;
-        public int version;
-        public int code;
-    }
-
-    class When
-    {
-        public Code code;
-    }
-
-    class Code
-    {
-        public Extension[] extension;
-        public Coding[] coding;
-    }
-    class Cov
-    {
-        public const string resourseType = "Coverage";
-        public Coding type;
-        public Identifier identifier;
-        public Link subscriber;
-    }
-
-    class Coverage
-    {
-        public Cov resourse;
-    }
-
-    class Order
-    {
-        public const string resourceType = "Order";
-        public Identifier[] identifier;
-        public DateTime date;
-        public Link subject;
-        public Link source;
-        public Link target;
-        public When when;
-        public Link[] detail;
-        public string status;
-    }
-    //Циклическая зависимость, стоит подумать ещё
-    class Extension
-    {
-        public string url;
-        public Code valueCodeableConcept;
-        public Link valueReference;
-    }
-
     //class URLandCODEABLE : Extension
     //{
     //    public string url;
@@ -74,34 +23,6 @@ namespace RestTest
     //    public Extension[] extension;
     //    public Coding[] coding;
     //}
-
-    class DiagnosticOrder
-    {
-        public const string resourceType = "DiagnosticOrder";
-        public string id;
-        public Link subject;
-        public Link orderer;
-        public Link encounter;
-        public Link[] supportingInformation;
-        public Link[] specimen;
-        public string status;
-        public Code[] item;
-    }
-
-    class Container
-    {
-        public Identifier identifier;
-        public Code type;
-    }
-    class Specimen
-    {
-        public const string resourseType = "Specimen";
-        public string id;
-        public Code type;
-        public Link subject;
-        public Link collection;
-        public Container container;
-    }
 
     class Program
     {
