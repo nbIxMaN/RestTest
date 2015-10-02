@@ -10,6 +10,6 @@ namespace RestTest
     class Container
     {
         public Identifier identifier;
-        public Code type;
+        public CodeableConcept type;
     }
 }

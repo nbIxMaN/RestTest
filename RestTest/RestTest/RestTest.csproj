@@ -52,7 +52,7 @@
     <Compile Include="Extension.cs" />
     <Compile Include="ExtensionWithReference.cs" />
     <Compile Include="Item.cs" />
-    <Compile Include="Code.cs" />
+    <Compile Include="CodeableConcept.cs" />
     <Compile Include="Coding.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Coverage.cs" />

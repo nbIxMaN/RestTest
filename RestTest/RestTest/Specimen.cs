@@ -11,7 +11,7 @@ namespace RestTest
     {
         public const string resourseType = "Specimen";
         public string id;
-        public Code type;
+        public CodeableConcept type;
         public Link subject;
         public Link collection;
         public Container container;

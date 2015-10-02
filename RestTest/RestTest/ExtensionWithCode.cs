@@ -11,6 +11,6 @@ namespace RestTest
     class ExtensionWithCode : Extension
     {
         public string url;
-        public Code valueCodeableConcept;
+        public CodeableConcept valueCodeableConcept;
     }
 }

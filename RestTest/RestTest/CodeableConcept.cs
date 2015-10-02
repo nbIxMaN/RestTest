@@ -7,7 +7,7 @@ using RestSharp;
 
 namespace RestTest
 {
-    class Code
+    class CodeableConcept
     {
         //public Extension[] extension;
         public Coding[] coding;

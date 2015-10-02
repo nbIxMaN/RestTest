@@ -9,6 +9,6 @@ namespace RestTest
 {
     class When
     {
-        public Code code;
+        public CodeableConcept code;
     }
 }
