@@ -7,45 +7,6 @@ using RestSharp;
 
 namespace RestTest
 {
-    class Address
-    {
-        public string Use;
-        public string text;
-    }
-    class HumanName
-    {
-        public string[] family;
-        public string[] given;
-    }
-    class Link
-    {
-        
-    }
-
-    class Reference : Link
-    {
-        public string reference;
-    }
-
-    class Display : Link
-    {
-        public string display;
-    }
-    class Identifier
-    {
-        public string system;
-        public string value;
-        public Link assigner;
-    }
-    class  Patient
-    {
-        public string resourceType = "Patient";
-        public Identifier[] identifier;
-        public HumanName name;
-        public string gender;
-        public DateTime birthDate;
-        public Address[] address;
-    }
 
     class Coding
     {
@@ -183,8 +144,15 @@ namespace RestTest
                     }
                 }
             };
-            var request = new RestRequest("http://fhir.zdrav.netrika.ru/api/fhir/", Method.POST);
+            var c = new RestClient();
+            c.BaseUrl = new Uri("http://fhir-demo.zdrav.netrika.ru/fhir/Patient");
+            var request = new RestRequest(Method.POST);
             var s = request.JsonSerializer.Serialize(p);
+            request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
+            request.RequestFormat = DataFormat.Json;
+            request.AddBody(p);
+            //request.AddParameter("application/json", s, RestSharp.ParameterType.RequestBody);
+            var r = c.Execute(request);
         }
     }
 }
