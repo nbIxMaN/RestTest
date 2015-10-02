@@ -7,8 +7,11 @@ using RestSharp;
 
 namespace RestTest
 {
-    class Coverage
+    class Coverage : ResourseBase
     {
-        public Cov resourse;
+        public const string resourseType = "Coverage";
+        public Coding type;
+        public Identifier identifier;
+        public Link subscriber;
     }
 }

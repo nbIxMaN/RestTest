@@ -49,14 +49,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Address.cs" />
+    <Compile Include="Extension.cs" />
+    <Compile Include="ExtensionWithReference.cs" />
+    <Compile Include="Item.cs" />
     <Compile Include="Code.cs" />
     <Compile Include="Coding.cs" />
     <Compile Include="Container.cs" />
-    <Compile Include="Cov.cs" />
     <Compile Include="Coverage.cs" />
     <Compile Include="DiagnosticOrder.cs" />
     <Compile Include="Display.cs" />
-    <Compile Include="Extension.cs" />
+    <Compile Include="ExtensionWithCode.cs" />
     <Compile Include="HumanName.cs" />
     <Compile Include="Identifier.cs" />
     <Compile Include="Link.cs" />
@@ -65,6 +67,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reference.cs" />
+    <Compile Include="Resourse.cs" />
+    <Compile Include="ResourseBase.cs" />
     <Compile Include="Specimen.cs" />
     <Compile Include="When.cs" />
   </ItemGroup>

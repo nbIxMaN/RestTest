@@ -14,3 +14,11 @@ C:\Users\User\Desktop\RestTest\RestTest\RestTest\bin\Debug\RestTest.exe
 C:\Users\User\Desktop\RestTest\RestTest\RestTest\bin\Debug\RestTest.pdb
 C:\Users\User\Desktop\RestTest\RestTest\RestTest\bin\Debug\RestSharp.dll
 C:\Users\User\Desktop\RestTest\RestTest\RestTest\bin\Debug\RestSharp.xml
+C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\RestTest.exe.config
+C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\obj\Debug\RestTest.exe
+C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\obj\Debug\RestTest.pdb
+C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\obj\Debug\RestTest.csprojResolveAssemblyReference.cache
+C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\RestTest.exe
+C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\RestTest.pdb
+C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\RestSharp.dll
+C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\RestSharp.xml
