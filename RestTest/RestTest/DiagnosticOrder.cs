@@ -7,7 +7,7 @@ using RestSharp;
 
 namespace RestTest
 {
-    class DiagnosticOrder
+    class DiagnosticOrder : ResourseBase
     {
         public const string resourceType = "DiagnosticOrder";
         public string id;
@@ -17,10 +17,6 @@ namespace RestTest
         public Link[] supportingInformation;
         public Link[] specimen;
         public string status;
-<<<<<<< HEAD
         public Item[] item;
-=======
-        public CodeableConcept[] item;
->>>>>>> 6cd157246ab6b4f56dc9c58857da0c8ba1df6615
     }
 }
