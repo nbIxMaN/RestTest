@@ -6,3 +6,6 @@ c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestT
 c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\obj\Debug\RestTest.csprojResolveAssemblyReference.cache
 c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\obj\Debug\RestTest.exe
 c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\obj\Debug\RestTest.pdb
+C:\Users\User\Desktop\RestTest\RestTest\RestTest\bin\Debug\RestTest.exe.config
+C:\Users\User\Desktop\RestTest\RestTest\RestTest\obj\Debug\RestTest.exe
+C:\Users\User\Desktop\RestTest\RestTest\RestTest\obj\Debug\RestTest.pdb
