@@ -17,4 +17,5 @@ namespace RestTest
         public string description; // Комментарий к результату
         public Link[] fulfillment; // Ссылка на DiagnosticReport
     }
+
 }
