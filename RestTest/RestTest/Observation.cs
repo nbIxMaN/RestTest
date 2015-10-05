@@ -17,6 +17,6 @@ namespace RestTest
         public Link performer; // Ссылка на Practitioner
         // value[x]
         public CodeableConcept dataAbsentReason; // Причина, по которой результат отсутствует (1.2.643.2.69.1.1.1.38)
-        // referenceRange
+        public ReferenceRange referenceRange;
     }
 }
