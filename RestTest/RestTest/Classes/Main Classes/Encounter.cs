@@ -8,5 +8,13 @@ namespace RestTest
 {
     class Encounter
     {
+        public Identifier identifier;
+        public string status;
+        public string clas; // class
+        public CodeableConcept type;
+        public Link patient;
+        public CodeableConcept reason;
+        public Link[] indication;
+        public Link serviceProvider;
     }
 }

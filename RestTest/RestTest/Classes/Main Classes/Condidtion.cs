@@ -8,5 +8,13 @@ namespace RestTest
 {
     class Condidtion
     {
+        public Identifier identifier;
+        public Link subject;
+        public DateTime dateAsserted;
+        public CodeableConcept code;
+        public CodeableConcept category;
+        public string clinicalStatus;
+        public string notes;
+      //  public Link dueTo.target ?
     }
 }

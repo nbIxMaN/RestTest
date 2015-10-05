@@ -10,6 +10,7 @@ namespace RestTest
     class Item
     {
         public Extension[] extension;
+       // public CodeableConcept code;
         public Coding[] coding;
     }
 }

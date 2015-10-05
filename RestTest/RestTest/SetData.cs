@@ -30,6 +30,8 @@ namespace RestTest
             return Streets[R.Next(Streets.Length)] + ", д." + R.Next(30).ToString() + ", кв." + R.Next(150).ToString();
         }
 
+        //продумать ссылки!!
+
         public Patient SetPatient()
         {
             return new Patient
@@ -78,10 +80,10 @@ namespace RestTest
             return new BundleOrder
             {
                 order = SetOrder(patient),
-                diagnosticOrder = new DiagnosticOrder[] { SetDiagnosticOrder() },
-                specimen = new Specimen[] { SetSpecimen() },
-                encounter = SetEncounter(),
-                condition = new Condidtion[] { SetCondition() },
+                diagnosticOrder = new DiagnosticOrder[] { SetDiagnosticOrder(patient) },
+                specimen = new Specimen[] { SetSpecimen(patient) },
+                encounter = SetEncounter(patient),
+                condition = new Condidtion[] { SetCondition(patient) },
                 observation = new Observation[] { SetObservation() },
                 practitioner = new Practitioner[] { SetPractitioner() },
             };
@@ -113,41 +115,105 @@ namespace RestTest
             };
         }
 
-        private DiagnosticOrder SetDiagnosticOrder()
+        private DiagnosticOrder SetDiagnosticOrder(string patient)
         {
             return new DiagnosticOrder
             {
+                subject = new Reference { reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
+                orderer = new Reference { reference = "923cad32-88e6-4ab0-a4cc-5052895b29d9" },
+                encounter = new Reference { reference = "f0ceca14-6847-4ea4-b128-7c86820da428" },
+                supportingInformation = new Reference[] { new Reference { reference = "56350c6f-7333-4002-a622-96968b85381e" } },
+                specimen = new Reference[] { new Reference { reference = "f8cd600f-f5b5-4b18-9662-18212c1935f9" } },
+                status = "requested",
+                item = new Item[]
+                {
+                    new Item
+                    {
+                        //??
+                    }
+                }
+            };
+        }
 
+        private Specimen SetSpecimen(string patient)
+        {
+            return new Specimen
+            {
+                type = new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = "1.2.643.2.69.1.1.1.33", code = "1", version = 1 } }
+                },
+                subject = new Reference { reference = "Patient/" + patient },
+                // collection ??
+                container = new Container
+                {
+                    identifier = new Identifier { system = "http://netrika.ru/container-type-identifier", value = "barcode111" }, // system?
+                    type = new CodeableConcept
+                    {
+                        coding = new Coding[] { new Coding { system = Dictionary.TYPE_CONTAINER, code = "1", version = 1 } }
+                    }
+                }
+
+            };
+        }
+
+        private Encounter SetEncounter(string patient)
+        {
+            return new Encounter
+            {
+                identifier = new Identifier { system = "urn:oid:1.2.643.2.69.1.2.6", value = "IdCaseMis" + new Random().Next(1000) },
+                status = "in-progress",
+                clas = "ambulatory",
+                type = new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = Dictionary.TYPE_CASE, code = "2", version = 1 } }
+                },
+                patient = new Reference { reference = "Patient/" + patient },
+                reason = new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = Dictionary.REASON, code = "1", version = 1 } }
+                },
+                indication = new Reference[] { new Reference { reference = "71cf33b8-2eae-432d-88d5-747ef8147d0b" } },
+                serviceProvider = new Reference { reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" }
+            };
+        }
+
+        private Condidtion SetCondition(string patient)
+        {
+            return new Condidtion
+            {
+                identifier = new Identifier
+                {
+                    system = "1.2.643.2.69.1.1.1.61",
+                    value = "Стандарт первичной медико-санитарной помощи при хронической болезни почек 4 стадии"
+                },
+                subject = new Reference { reference = "Patient/" + patient },
+                dateAsserted = Convert.ToDateTime("01.02.2012"),
+                code =  new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = Dictionary.DIAGNOSIS, code = "N18.9", version = 1 } }
+                },
+                category = new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = Dictionary.TYPE_CONDITION, code = "diagnosis", version = 1 } }
+                },
+                clinicalStatus = "confirmed",
+                notes = "Уточнение",
+                //dueTo.target?
             };
         }
 
         private Practitioner SetPractitioner()
         {
-            throw new NotImplementedException();
+            return new Practitioner
+            {
+
+            };
         }
 
         private Observation SetObservation()
         {
             throw new NotImplementedException();
         }
-
-        private Condidtion SetCondition()
-        {
-            throw new NotImplementedException();
-        }
-
-        private Encounter SetEncounter()
-        {
-            throw new NotImplementedException();
-        }
-
-        private Specimen SetSpecimen()
-        {
-            throw new NotImplementedException();
-        }
-
-       
-
-
     }
 }
