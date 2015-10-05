@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RestTest.Classes
+namespace RestTest
 {
     class Period
     {
-        Period(DateTime dateStart, DateTime dateEnd)
+        public Period(DateTime dateStart, DateTime dateEnd)
         {
             start = dateStart;
             end = dateEnd;

@@ -69,27 +69,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Types\Address.cs" />
-    <Compile Include="Classes\BundleResult.cs" />
-    <Compile Include="Classes\DiagnosticReport.cs" />
+    <Compile Include="Classes\Main Classes\BundleResult.cs" />
+    <Compile Include="Classes\Main Classes\DiagnosticReport.cs" />
     <Compile Include="Classes\Extension.cs" />
     <Compile Include="Classes\ExtensionWithReference.cs" />
     <Compile Include="Classes\Item.cs" />
     <Compile Include="Types\CodeableConcept.cs" />
     <Compile Include="Types\Coding.cs" />
     <Compile Include="Classes\Container.cs" />
-    <Compile Include="Classes\Coverage.cs" />
-    <Compile Include="Classes\DiagnosticOrder.cs" />
+    <Compile Include="Classes\Main Classes\Coverage.cs" />
+    <Compile Include="Classes\Main Classes\DiagnosticOrder.cs" />
     <Compile Include="Classes\Display.cs" />
     <Compile Include="Classes\ExtensionWithCode.cs" />
     <Compile Include="Types\HumanName.cs" />
     <Compile Include="Types\Identifier.cs" />
     <Compile Include="Classes\Link.cs" />
-    <Compile Include="Classes\Observation.cs" />
-    <Compile Include="Classes\Order.cs" />
-    <Compile Include="Classes\OrderResponse.cs" />
-    <Compile Include="Classes\Patient.cs" />
+    <Compile Include="Classes\Main Classes\Observation.cs" />
+    <Compile Include="Classes\Main Classes\Order.cs" />
+    <Compile Include="Classes\Main Classes\OrderResponse.cs" />
+    <Compile Include="Classes\Main Classes\Patient.cs" />
     <Compile Include="Types\Period.cs" />
-    <Compile Include="Classes\Practitioner.cs" />
+    <Compile Include="Classes\Main Classes\Practitioner.cs" />
     <Compile Include="Types\Attachment.cs" />
     <Compile Include="Dictionary.cs" />
     <Compile Include="Program.cs" />
@@ -99,7 +99,7 @@
     <Compile Include="Classes\ReferenceRange.cs" />
     <Compile Include="Classes\Resourse.cs" />
     <Compile Include="Classes\ResourseBase.cs" />
-    <Compile Include="Classes\Specimen.cs" />
+    <Compile Include="Classes\Main Classes\Specimen.cs" />
     <Compile Include="SetData.cs" />
     <Compile Include="Tests Method\Expand.cs" />
     <Compile Include="Tests Method\Get.cs" />

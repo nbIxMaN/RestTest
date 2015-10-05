@@ -44,7 +44,8 @@ namespace RestTest
                     {
                         system = "urn:oid:1.2.643.2.69.1.2.6",
                         value = "IdPatientMis" + new Random().Next(1000),
-                        assigner = new Reference() { reference = "Link/4bcbf113-f99c-41fa-a92d-43f5684fffc5" }
+                        assigner = new Reference() { reference = "Link/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
+                        //period  = new Period(Convert.ToDateTime("01.02.2012"), Convert.ToDateTime("01.02.2018")) для паспорта
                     }
                 },
                 birthDate = Convert.ToDateTime(RandomBirthDate()),
@@ -54,6 +55,14 @@ namespace RestTest
                     family = new string[] { RandomFIO()[0] },
                     given = new string[] { RandomFIO()[1], RandomFIO()[2] }
                 }
+            };
+        }
+
+        public Coverage SetCoverage()
+        {
+            return new Coverage
+            {
+
             };
         }
     }
