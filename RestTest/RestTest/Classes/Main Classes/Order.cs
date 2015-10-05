@@ -10,13 +10,13 @@ namespace RestTest
     class Order : ResourseBase
     {
         public const string resourceType = "Order";
-        public Identifier[] identifier;
+        public Identifier identifier;
         public DateTime date;
         public Link subject;
         public Link source;
         public Link target;
         public When when;
         public Link[] detail;
-        public string status;
+        //??  public string status; 
     }
 }

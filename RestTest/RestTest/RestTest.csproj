@@ -68,6 +68,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Main Classes\BundleOrder.cs" />
+    <Compile Include="Classes\Main Classes\Condidtion.cs" />
+    <Compile Include="Classes\Main Classes\Encounter.cs" />
     <Compile Include="Types\Address.cs" />
     <Compile Include="Classes\Main Classes\BundleResult.cs" />
     <Compile Include="Classes\Main Classes\DiagnosticReport.cs" />

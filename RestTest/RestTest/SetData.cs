@@ -58,12 +58,96 @@ namespace RestTest
             };
         }
 
-        public Coverage SetCoverage()
+        public Coverage SetCoverage(string patient)
         {
             return new Coverage
+            {
+                type = new Coding { system = Dictionary.TYPE_COVERAGE, code = "2", version = 1 },
+                subscriber = new Reference { reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
+                identifier = new Identifier
+                {
+                    system = "urn:oid:1.2.643.5.1.13.2.1.1.635.23607",//system = ...635.[код страховой компании]
+                    value = "1234567891011121",
+                    //period = new Period(Convert.ToDateTime("01.02.2012"), Convert.ToDateTime("01.02.2018"))
+                }
+            };
+        }
+
+        public BundleOrder SetBundleOrder(string patient)
+        {
+            return new BundleOrder
+            {
+                order = SetOrder(patient),
+                diagnosticOrder = new DiagnosticOrder[] { SetDiagnosticOrder() },
+                specimen = new Specimen[] { SetSpecimen() },
+                encounter = SetEncounter(),
+                condition = new Condidtion[] { SetCondition() },
+                observation = new Observation[] { SetObservation() },
+                practitioner = new Practitioner[] { SetPractitioner() },
+            };
+        }
+        private Order SetOrder(string patient)
+        {
+            return new Order
+            {
+                identifier = new Identifier
+                {
+                    system = "urn:oid:1.2.643.2.69.1.2.6",
+                    value = "IdOrderMis" + new Random().Next(1000)
+                },
+                date = Convert.ToDateTime("01.01.2012"),
+                subject = new Reference { reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
+                source = new Reference { reference = "519a08f4-c240-4e58-aa66-fe2a017b8d94" },
+                target = new Reference { reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
+                detail = new Reference[] { new Reference { reference = "143e62fc-eee7-4273-899c-23c60c72cb1a" } },
+                when = new When
+                {
+                    code = new CodeableConcept
+                    {
+                        coding = new Coding[]
+                        {
+                            new Coding { system = Dictionary.PRIORITY_EXECUTION, code = "Routine", version = 1 }
+                        }
+                    }
+                }
+            };
+        }
+
+        private DiagnosticOrder SetDiagnosticOrder()
+        {
+            return new DiagnosticOrder
             {
 
             };
         }
+
+        private Practitioner SetPractitioner()
+        {
+            throw new NotImplementedException();
+        }
+
+        private Observation SetObservation()
+        {
+            throw new NotImplementedException();
+        }
+
+        private Condidtion SetCondition()
+        {
+            throw new NotImplementedException();
+        }
+
+        private Encounter SetEncounter()
+        {
+            throw new NotImplementedException();
+        }
+
+        private Specimen SetSpecimen()
+        {
+            throw new NotImplementedException();
+        }
+
+       
+
+
     }
 }
