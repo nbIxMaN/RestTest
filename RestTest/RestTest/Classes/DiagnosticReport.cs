@@ -17,6 +17,6 @@ namespace RestTest
         public Link requestDetail; // Ссылка на DiagnosticOrder
         public Link[] result; // Ссылка на Observation
         public string conclusion; // Текст заключения по услуге
-        public PresentedForm presentedForm;
+        public Attachment presentedForm;
     }
 }

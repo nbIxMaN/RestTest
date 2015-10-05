@@ -34,9 +34,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.core, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.core.interfaces, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.core.interfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.util, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.util.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NUnit.VisualStudio.TestAdapter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=4cb40d35494691ac, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\NUnit.VisualStudio.TestAdapter.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
@@ -52,36 +68,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Address.cs" />
-    <Compile Include="BundleResult.cs" />
-    <Compile Include="DiagnosticReport.cs" />
-    <Compile Include="Extension.cs" />
-    <Compile Include="ExtensionWithReference.cs" />
-    <Compile Include="Item.cs" />
-    <Compile Include="CodeableConcept.cs" />
-    <Compile Include="Coding.cs" />
-    <Compile Include="Container.cs" />
-    <Compile Include="Coverage.cs" />
-    <Compile Include="DiagnosticOrder.cs" />
-    <Compile Include="Display.cs" />
-    <Compile Include="ExtensionWithCode.cs" />
-    <Compile Include="HumanName.cs" />
-    <Compile Include="Identifier.cs" />
-    <Compile Include="Link.cs" />
-    <Compile Include="Observation.cs" />
-    <Compile Include="Order.cs" />
-    <Compile Include="OrderResponse.cs" />
-    <Compile Include="Patient.cs" />
-    <Compile Include="Practitioner.cs" />
-    <Compile Include="PresentedForm.cs" />
+    <Compile Include="Types\Address.cs" />
+    <Compile Include="Classes\BundleResult.cs" />
+    <Compile Include="Classes\DiagnosticReport.cs" />
+    <Compile Include="Classes\Extension.cs" />
+    <Compile Include="Classes\ExtensionWithReference.cs" />
+    <Compile Include="Classes\Item.cs" />
+    <Compile Include="Types\CodeableConcept.cs" />
+    <Compile Include="Types\Coding.cs" />
+    <Compile Include="Classes\Container.cs" />
+    <Compile Include="Classes\Coverage.cs" />
+    <Compile Include="Classes\DiagnosticOrder.cs" />
+    <Compile Include="Classes\Display.cs" />
+    <Compile Include="Classes\ExtensionWithCode.cs" />
+    <Compile Include="Types\HumanName.cs" />
+    <Compile Include="Types\Identifier.cs" />
+    <Compile Include="Classes\Link.cs" />
+    <Compile Include="Classes\Observation.cs" />
+    <Compile Include="Classes\Order.cs" />
+    <Compile Include="Classes\OrderResponse.cs" />
+    <Compile Include="Classes\Patient.cs" />
+    <Compile Include="Types\Period.cs" />
+    <Compile Include="Classes\Practitioner.cs" />
+    <Compile Include="Types\Attachment.cs" />
+    <Compile Include="Dictionary.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Quantity.cs" />
-    <Compile Include="Reference.cs" />
-    <Compile Include="ReferenceRange.cs" />
-    <Compile Include="Resourse.cs" />
-    <Compile Include="ResourseBase.cs" />
-    <Compile Include="Specimen.cs" />
+    <Compile Include="Types\Quantity.cs" />
+    <Compile Include="Classes\Reference.cs" />
+    <Compile Include="Classes\ReferenceRange.cs" />
+    <Compile Include="Classes\Resourse.cs" />
+    <Compile Include="Classes\ResourseBase.cs" />
+    <Compile Include="Classes\Specimen.cs" />
+    <Compile Include="SetData.cs" />
     <Compile Include="Tests Method\Expand.cs" />
     <Compile Include="Tests Method\Get.cs" />
     <Compile Include="Tests Method\GetOrder.cs" />
@@ -95,7 +114,7 @@
     <Compile Include="Tests Method\PostPatient.cs" />
     <Compile Include="Tests Method\PutPatient.cs" />
     <Compile Include="Tests Method\ValidateCode.cs" />
-    <Compile Include="When.cs" />
+    <Compile Include="Classes\When.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

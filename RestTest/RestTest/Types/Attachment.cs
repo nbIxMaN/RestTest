@@ -6,9 +6,8 @@ using RestSharp;
 
 namespace RestTest
 {
-    class PresentedForm
+    class Attachment
     {
-        //public Attachment;
         //public base64Binary data;
     }
 }

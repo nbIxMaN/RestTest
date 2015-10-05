@@ -22,3 +22,5 @@ C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug
 C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\RestTest.pdb
 C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\RestSharp.dll
 C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\RestSharp.xml
+C:\Users\User\Desktop\RestTest\RestTest\RestTest\bin\Debug\nunit.framework.dll
+C:\Users\User\Desktop\RestTest\RestTest\RestTest\bin\Debug\nunit.framework.xml
