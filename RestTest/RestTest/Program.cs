@@ -141,13 +141,13 @@ namespace RestTest
             //    }
             //};
             Patient pa = (new SetData()).SetPatient();
-            pa.address = null;
-            pa.name = null;
-            pa.resourceType = null;
+            //pa.address = null;
+            //pa.name = null;
+            //pa.resourceType = null;
             var c = new RestClient();
             c.BaseUrl = new Uri("http://fhir.zdrav.netrika.ru/fhir/Patient");
             var request = new RestRequest(Method.POST);
-            request.JsonSerializer = new RestSharpJsonNetSerializer();
+            //request.JsonSerializer = new RestSharpJsonNetSerializer();
             var s = request.JsonSerializer.Serialize(pa);
             request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
             request.RequestFormat = DataFormat.Json;
