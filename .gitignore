@@ -229,3 +229,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.exe
+*.pdb
+RestTest/RestTest/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+*.exe
+RestTest/RestTest/obj/Debug/RestTest.pdb
