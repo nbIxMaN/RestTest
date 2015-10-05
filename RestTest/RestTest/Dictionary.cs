@@ -19,6 +19,8 @@ namespace RestTest
         public const string DIAGNOSIS = "urn:oid:1.2.643.2.69.1.1.1.2";
         public const string MENOPAUSE = "urn:oid:1.2.643.2.69.1.1.1.39";
         public const string TYPE_CONDITION = "urn:oid:1.2.643.2.69.1.1.1.36";
-             
+        public const string TYPE_OBSERVATION = "urn:oid:1.2.643.2.69.1.1.1.37";
+        public const string ROLE_PRACTITIONER = "urn:oid:1.2.643.5.1.13.2.1.1.607";
+        public const string SPECIALITY_PRACTITIONER = "urn:oid:1.2.643.5.1.13.2.1.1.181";
     }
 }

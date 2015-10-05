@@ -84,8 +84,9 @@ namespace RestTest
                 specimen = new Specimen[] { SetSpecimen(patient) },
                 encounter = SetEncounter(patient),
                 condition = new Condidtion[] { SetCondition(patient) },
-                observation = new Observation[] { SetObservation() },
+                observation = new Observation[] { SetObservation_BundleOrder() },
                 practitioner = new Practitioner[] { SetPractitioner() },
+                //coverage
             };
         }
         private Order SetOrder(string patient)
@@ -184,12 +185,12 @@ namespace RestTest
             {
                 identifier = new Identifier
                 {
-                    system = "1.2.643.2.69.1.1.1.61",
+                    system = "urn:oid:1.2.643.2.69.1.1.1.61",
                     value = "Стандарт первичной медико-санитарной помощи при хронической болезни почек 4 стадии"
                 },
                 subject = new Reference { reference = "Patient/" + patient },
                 dateAsserted = Convert.ToDateTime("01.02.2012"),
-                code =  new CodeableConcept
+                code = new CodeableConcept
                 {
                     coding = new Coding[] { new Coding { system = Dictionary.DIAGNOSIS, code = "N18.9", version = 1 } }
                 },
@@ -203,17 +204,43 @@ namespace RestTest
             };
         }
 
+        private Observation SetObservation_BundleOrder()
+        {
+            return new Observation
+            {
+                code = new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = Dictionary.TYPE_OBSERVATION, code = "2", version = 1 } }
+                },
+                status = "final",
+                // valueQuantity.value
+            };
+        }
+
         private Practitioner SetPractitioner()
         {
             return new Practitioner
             {
-
+                identifier = new Identifier
+                {
+                    system = "urn:oid:1.2.643.2.69.1.2.6",
+                    value = "IdDoctorMIS" + new Random().Next(100)
+                },
+                name = new HumanName()
+                {
+                    family = new string[] { RandomFIO()[0] },
+                    given = new string[] { RandomFIO()[1], RandomFIO()[2] }
+                },
+                organization = new Reference { reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
+                role = new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = Dictionary.ROLE_PRACTITIONER, code = "73", version = 1 } }
+                },
+                specialty = new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = Dictionary.SPECIALITY_PRACTITIONER, code = "27", version = 1 } }
+                },
             };
-        }
-
-        private Observation SetObservation()
-        {
-            throw new NotImplementedException();
         }
     }
 }
