@@ -213,7 +213,11 @@ namespace RestTest
                     coding = new Coding[] { new Coding { system = Dictionary.TYPE_OBSERVATION, code = "2", version = 1 } }
                 },
                 status = "final",
-                // valueQuantity.value
+                valueQuantity = new Quantity
+                {
+                    value = 2.2,
+                    units = "ммоль/л"
+                }
             };
         }
 
@@ -291,11 +295,44 @@ namespace RestTest
             };
         }
 
-        //!!
         private Observation SetObservation_BundleResult()
         {
             return new Observation
             {
+                code = new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = Dictionary.CODE_TEST, code = "17861-6", version = 1 } }
+                },
+                comments = "Комментарий к результату теста",
+                issued = Convert.ToDateTime("02.02.2012"),
+                status = "final",
+                method = new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = "urn:oid:1.2.643.2.69.1.2.2", code = "Химический", version = 1 } }
+                },
+                performer = new Reference { reference = "3e412c44-1058-40fb-a06f-b9bb9452b39a" },
+               
+                
+                // value[x]??
+                dataAbsentReason = new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = "urn:oid:1.2.643.2.69.1.1.1.38", code = "1", version = 1 } }
+                
+                }, // code?
+
+                referenceRange = new ReferenceRange
+                {
+                    low = new Quantity
+                    {
+                        value = 2.15,
+                        units = "ммоль/л"
+                    },
+                    high = new Quantity
+                    {
+                        value = 2.5,
+                        units = "ммоль/л"
+                    }
+                }
 
             };
         }

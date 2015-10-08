@@ -9,7 +9,7 @@ namespace RestTest
 {
     class Quantity
     {
-        double value;
-        string units;
+        public double value;
+        public string units;
     }
 }
