@@ -86,7 +86,7 @@ namespace RestTest
                 condition = new Condidtion[] { SetCondition(patient) },
                 observation = new Observation[] { SetObservation_BundleOrder() },
                 practitioner = new Practitioner[] { SetPractitioner() },
-                //coverage
+                coverage = new Coverage[] { SetCoverage(patient) }
             };
         }
         private Order SetOrder(string patient)
@@ -240,6 +240,63 @@ namespace RestTest
                 {
                     coding = new Coding[] { new Coding { system = Dictionary.SPECIALITY_PRACTITIONER, code = "27", version = 1 } }
                 },
+            };
+        }
+
+        public BundleResult SetBundleResult(string patient)
+        {
+            return new BundleResult
+            {
+                orderResponse = SetOrderResponse(),
+                diagnosticReport = new DiagnosticReport[] { SetDiagnosticReport() },
+                observation = new Observation[] { SetObservation_BundleResult() },
+                practitioner = new Practitioner[] { SetPractitioner() }
+            };
+        }
+
+        private OrderResponse SetOrderResponse()
+        {
+            return new OrderResponse
+            {
+                identifier = new Identifier
+                {
+                    system = "urn:oid:1.2.643.2.69.1.2.2",
+                    value = "IdOrderLis" + new Random().Next(100)
+                },
+                request = new Reference { reference = "Order/77f3bc81-fd3d-4d8a-8f64-4fe61989f34a" },
+                date = Convert.ToDateTime("02.01.2012"),
+                who = new Reference { reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
+                orderStatus = "completed",
+                description = "Комментарий к заказу",
+                fulfillment = new Reference[] { new Reference { reference = "4f6a30fb-cd3c-4ab6-8757-532101f72065" } }
+            };
+        }
+
+        private DiagnosticReport SetDiagnosticReport()
+        {
+            return new DiagnosticReport
+            {
+                name = new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = Dictionary.CODE_SERVICE, code = "B03.016.006", version = 1 } }
+                },
+                status = "final",
+                issued = Convert.ToDateTime("03.01.2012"),
+                subject = new Reference { reference = "Patient/106043a2-6600-4590-bedd-6e26c76a6fed" },
+                performer = new Reference { reference = "3e412c44-1058-40fb-a06f-b9bb9452b39a" },
+                requestDetail = new Reference { reference = "DiagnosticOrder/2c98670c-3494-4c63-bb29-71acd486da3d" },
+                result = new Reference[] { new Reference { reference = "651f0cdc-2e7f-4e3a-99b1-da68d2b196c6" } },
+                conclusion = "Текст заключения по услуге B03.016.006",
+                //presentedForm ?? 
+            };
+        }
+
+        //!!
+        private Observation SetObservation_BundleResult()
+        {
+            return new Observation
+            {
+
             };
         }
     }
