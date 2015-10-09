@@ -8,7 +8,7 @@ namespace RestTest
 {
     class Entry
     {
-        public IResource resource;
+        public Resource resource;
         public Transaction transaction;
     }
 }

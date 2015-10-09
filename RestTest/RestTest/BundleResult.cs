@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestTest
 {
-    class BundleResult: IResource
+    class BundleResult: Resource
     {
         public OrderResponse orderResponse;
         public DiagnosticReport[] diagnosticReport;

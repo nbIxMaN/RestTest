@@ -85,7 +85,6 @@
     <Compile Include="Types\Address.cs" />
     <Compile Include="Classes\Main Classes\DiagnosticReport.cs" />
     <Compile Include="Classes\Extension.cs" />
-    <Compile Include="Classes\ExtensionWithReference.cs" />
     <Compile Include="Classes\Item.cs" />
     <Compile Include="Types\CodeableConcept.cs" />
     <Compile Include="Types\Coding.cs" />
@@ -93,7 +92,6 @@
     <Compile Include="Classes\Main Classes\Coverage.cs" />
     <Compile Include="Classes\Main Classes\DiagnosticOrder.cs" />
     <Compile Include="Classes\Display.cs" />
-    <Compile Include="Classes\ExtensionWithCode.cs" />
     <Compile Include="Types\HumanName.cs" />
     <Compile Include="Types\Identifier.cs" />
     <Compile Include="Classes\Link.cs" />

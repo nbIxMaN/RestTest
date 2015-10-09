@@ -76,18 +76,32 @@ namespace RestTest
             };
         }
 
-        public BundleOrder SetBundleOrder(string patient)
+        public Bundle SetBundleOrder(string patient)
         {
-            return new BundleOrder
+            return new Bundle
             {
-                order = SetOrder(patient),
-                diagnosticOrder = new DiagnosticOrder[] { SetDiagnosticOrder(patient) },
-                specimen = new Specimen[] { SetSpecimen(patient) },
-                encounter = SetEncounter(patient),
-                condition = new Condition[] { SetCondition(patient) },
-                observation = new Observation[] { SetObservation_BundleOrder() },
-                practitioner = new Practitioner[] { SetPractitioner() },
-                coverage = new Coverage[] { SetCoverage(patient) }
+                meta = new Reference {profile = new string[] { "StructureDefinition/21f687dd-0b3b-4a7b-af8f-04be625c0201"}},
+                entry = new Entry[]
+                {
+                    new Entry
+                    {
+                        resource = new BundleOrder { order = SetOrder(patient)},
+                        transaction = new Transaction { method  = "POST", url  = "Order"}
+                    },
+                    new Entry
+                    {
+                        resource = new BundleOrder { diagnosticOrder = new DiagnosticOrder[] { SetDiagnosticOrder(patient) } },
+                        transaction = new Transaction { method  = "POST", url  = "DiagnosticOrder"}
+                    }
+                },
+                //order = SetOrder(patient),
+                //diagnosticOrder = new DiagnosticOrder[] { SetDiagnosticOrder(patient) },
+                //specimen = new Specimen[] { SetSpecimen(patient) },
+                //encounter = SetEncounter(patient),
+                //condition = new Condition[] { SetCondition(patient) },
+                //observation = new Observation[] { SetObservation_BundleOrder() },
+                //practitioner = new Practitioner[] { SetPractitioner() },
+                //coverage = new Coverage[] { SetCoverage(patient) }
             };
         }
         private Order SetOrder(string patient)
