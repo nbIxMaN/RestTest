@@ -15,6 +15,6 @@ namespace RestTest
         public CodeableConcept category;
         public string clinicalStatus;
         public string notes;
-      //  public Link dueTo.target ?
+        public DueTo dueTo; // Сопутствующее заболевание/осложнение 
     }
 }

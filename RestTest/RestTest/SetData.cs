@@ -165,7 +165,11 @@ namespace RestTest
                     coding = new Coding[] { new Coding { system = "1.2.643.2.69.1.1.1.33", code = "1", version = 1 } }
                 },
                 subject = new Reference { reference = "Patient/" + patient },
-                // collection ??
+                collection = new Collection
+                {
+                    comment = "Комментарий к биоматериалу",
+                    collectedDate = Convert.ToDateTime("03.01.2012")
+                },
                 container = new Container
                 {
                     identifier = new Identifier { system = "http://netrika.ru/container-type-identifier", value = "barcode111" }, // system?
@@ -220,7 +224,29 @@ namespace RestTest
                 },
                 clinicalStatus = "confirmed",
                 notes = "Уточнение",
-                //dueTo.target?
+                dueTo = new DueTo // Сопутствующее заболевание/осложнение 
+                {
+                    target = new Condidtion
+                    {
+                        identifier = new Identifier
+                        {
+                            system = "urn:oid:1.2.643.2.69.1.1.1.61",
+                            //value?
+                        },
+                        subject = new Reference { reference = "Patient/" + patient },
+                        dateAsserted = Convert.ToDateTime("01.02.2012"),
+                        code = new CodeableConcept
+                        {
+                            coding = new Coding[] { new Coding { system = Dictionary.DIAGNOSIS, code = "N18.9", version = 1 } }
+                        },
+                        category = new CodeableConcept
+                        {
+                            coding = new Coding[] { new Coding { system = Dictionary.TYPE_CONDITION, code = "diagnosis", version = 1 } }
+                        },
+                        clinicalStatus = "confirmed",
+                        notes = "Уточнение",
+                    }
+                }
             };
         }
 
