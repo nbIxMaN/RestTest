@@ -130,7 +130,27 @@ namespace RestTest
                 {
                     new Item
                     {
-                        //??
+                        code = new CodeableConcept
+                        {
+                            extension = new Extension[]
+                            {
+                                new Extension
+                                {
+                                    url = "urn:oid:1.2.643.2.69.1.100.1",
+                                    valueCodeableConcept = new CodeableConcept
+                                    {
+                                         coding = new Coding[]
+                                         {
+                                              new Coding { system = "urn:oid:1.2.643.2.69.1.1.1.32", code = "1", version = 1 }
+                                         }
+                                    }
+                                }
+                            },
+                            coding = new Coding[]
+                            {
+                               new Coding { system = "urn:oid:1.2.643.2.69.1.1.1.31", code = "B03.016.002", version = 1}
+                            }
+                        }
                     }
                 }
             };
@@ -311,13 +331,13 @@ namespace RestTest
                     coding = new Coding[] { new Coding { system = "urn:oid:1.2.643.2.69.1.2.2", code = "Химический", version = 1 } }
                 },
                 performer = new Reference { reference = "3e412c44-1058-40fb-a06f-b9bb9452b39a" },
-               
-                
+
+
                 // value[x]??
                 dataAbsentReason = new CodeableConcept
                 {
                     coding = new Coding[] { new Coding { system = "urn:oid:1.2.643.2.69.1.1.1.38", code = "1", version = 1 } }
-                
+
                 }, // code?
 
                 referenceRange = new ReferenceRange

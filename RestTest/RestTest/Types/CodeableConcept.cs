@@ -9,7 +9,7 @@ namespace RestTest
 {
     class CodeableConcept
     {
-        //public Extension[] extension;
+        public Extension[] extension;
         public Coding[] coding;
     }
 }
