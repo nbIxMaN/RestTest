@@ -64,6 +64,7 @@ namespace RestTest
         {
             return new Coverage
             {
+                // id
                 type = new Coding { system = Dictionary.TYPE_COVERAGE, code = "2", version = 1 },
                 subscriber = new Reference { reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
                 identifier = new Identifier
@@ -83,10 +84,10 @@ namespace RestTest
                 diagnosticOrder = new DiagnosticOrder[] { SetDiagnosticOrder(patient) },
                 specimen = new Specimen[] { SetSpecimen(patient) },
                 encounter = SetEncounter(patient),
-                condition = new Condidtion[] { SetCondition(patient) },
+                condition = new Condition[] { SetCondition(patient) },
                 observation = new Observation[] { SetObservation_BundleOrder() },
                 practitioner = new Practitioner[] { SetPractitioner() },
-                //coverage
+                coverage = new Coverage[] { SetCoverage(patient) }
             };
         }
         private Order SetOrder(string patient)
@@ -120,6 +121,7 @@ namespace RestTest
         {
             return new DiagnosticOrder
             {
+                // id?
                 subject = new Reference { reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
                 orderer = new Reference { reference = "923cad32-88e6-4ab0-a4cc-5052895b29d9" },
                 encounter = new Reference { reference = "f0ceca14-6847-4ea4-b128-7c86820da428" },
@@ -130,7 +132,27 @@ namespace RestTest
                 {
                     new Item
                     {
-                        //??
+                        code = new CodeableConcept
+                        {
+                            extension = new Extension[]
+                            {
+                                new Extension
+                                {
+                                    url = "urn:oid:1.2.643.2.69.1.100.1",
+                                    valueCodeableConcept = new CodeableConcept
+                                    {
+                                         coding = new Coding[]
+                                         {
+                                              new Coding { system = "urn:oid:1.2.643.2.69.1.1.1.32", code = "1", version = 1 }
+                                         }
+                                    }
+                                }
+                            },
+                            coding = new Coding[]
+                            {
+                               new Coding { system = "urn:oid:1.2.643.2.69.1.1.1.31", code = "B03.016.002", version = 1}
+                            }
+                        }
                     }
                 }
             };
@@ -140,12 +162,17 @@ namespace RestTest
         {
             return new Specimen
             {
+                // id?
                 type = new CodeableConcept
                 {
                     coding = new Coding[] { new Coding { system = "1.2.643.2.69.1.1.1.33", code = "1", version = 1 } }
                 },
                 subject = new Reference { reference = "Patient/" + patient },
-                // collection ??
+                collection = new Collection
+                {
+                    comment = "Комментарий к биоматериалу",
+                    collectedDate = Convert.ToDateTime("03.01.2012")
+                },
                 container = new Container
                 {
                     identifier = new Identifier { system = "http://netrika.ru/container-type-identifier", value = "barcode111" }, // system?
@@ -154,7 +181,6 @@ namespace RestTest
                         coding = new Coding[] { new Coding { system = Dictionary.TYPE_CONTAINER, code = "1", version = 1 } }
                     }
                 }
-
             };
         }
 
@@ -162,9 +188,10 @@ namespace RestTest
         {
             return new Encounter
             {
+                // id?
                 identifier = new Identifier { system = "urn:oid:1.2.643.2.69.1.2.6", value = "IdCaseMis" + new Random().Next(1000) },
                 status = "in-progress",
-                clas = "ambulatory",
+                clas = "ambulatory", // class
                 type = new CodeableConcept
                 {
                     coding = new Coding[] { new Coding { system = Dictionary.TYPE_CASE, code = "2", version = 1 } }
@@ -179,10 +206,11 @@ namespace RestTest
             };
         }
 
-        private Condidtion SetCondition(string patient)
+        private Condition SetCondition(string patient)
         {
-            return new Condidtion
+            return new Condition
             {
+                // id?
                 identifier = new Identifier
                 {
                     system = "urn:oid:1.2.643.2.69.1.1.1.61",
@@ -200,7 +228,29 @@ namespace RestTest
                 },
                 clinicalStatus = "confirmed",
                 notes = "Уточнение",
-                //dueTo.target?
+                dueTo = new DueTo // Сопутствующее заболевание/осложнение 
+                {
+                    target = new Condition
+                    {
+                        identifier = new Identifier
+                        {
+                            system = "urn:oid:1.2.643.2.69.1.1.1.61",
+                            //value?
+                        },
+                        subject = new Reference { reference = "Patient/" + patient },
+                        dateAsserted = Convert.ToDateTime("01.02.2012"),
+                        code = new CodeableConcept
+                        {
+                            coding = new Coding[] { new Coding { system = Dictionary.DIAGNOSIS, code = "N18.9", version = 1 } }
+                        },
+                        category = new CodeableConcept
+                        {
+                            coding = new Coding[] { new Coding { system = Dictionary.TYPE_CONDITION, code = "diagnosis", version = 1 } }
+                        },
+                        clinicalStatus = "confirmed",
+                        notes = "Уточнение",
+                    }
+                }
             };
         }
 
@@ -208,12 +258,17 @@ namespace RestTest
         {
             return new Observation
             {
+                // id??
                 code = new CodeableConcept
                 {
                     coding = new Coding[] { new Coding { system = Dictionary.TYPE_OBSERVATION, code = "2", version = 1 } }
                 },
                 status = "final",
-                // valueQuantity.value
+                valueQuantity = new Quantity
+                {
+                    value = 2.2,
+                    units = "ммоль/л"
+                }
             };
         }
 
@@ -231,15 +286,108 @@ namespace RestTest
                     family = new string[] { RandomFIO()[0] },
                     given = new string[] { RandomFIO()[1], RandomFIO()[2] }
                 },
-                organization = new Reference { reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
-                role = new CodeableConcept
+                practitionerRole = new PractitionerRole
                 {
-                    coding = new Coding[] { new Coding { system = Dictionary.ROLE_PRACTITIONER, code = "73", version = 1 } }
-                },
-                specialty = new CodeableConcept
+                    managingOrganization = new Reference { reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
+                    role = new CodeableConcept
+                    {
+                        coding = new Coding[] { new Coding { system = Dictionary.ROLE_PRACTITIONER, code = "73", version = 1 } }
+                    },
+                    specialty = new CodeableConcept
+                    {
+                        coding = new Coding[] { new Coding { system = Dictionary.SPECIALITY_PRACTITIONER, code = "27", version = 1 } }
+                    }
+                }
+            };
+        }
+
+        public BundleResult SetBundleResult(string patient)
+        {
+            return new BundleResult
+            {
+                orderResponse = SetOrderResponse(),
+                diagnosticReport = new DiagnosticReport[] { SetDiagnosticReport() },
+                observation = new Observation[] { SetObservation_BundleResult() },
+                practitioner = new Practitioner[] { SetPractitioner() }
+            };
+        }
+
+        private OrderResponse SetOrderResponse()
+        {
+            return new OrderResponse
+            {
+                identifier = new Identifier
                 {
-                    coding = new Coding[] { new Coding { system = Dictionary.SPECIALITY_PRACTITIONER, code = "27", version = 1 } }
+                    system = "urn:oid:1.2.643.2.69.1.2.2",
+                    value = "IdOrderLis" + new Random().Next(100)
                 },
+                request = new Reference { reference = "Order/77f3bc81-fd3d-4d8a-8f64-4fe61989f34a" },
+                date = Convert.ToDateTime("02.01.2012"),
+                who = new Reference { reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
+                orderStatus = "completed",
+                description = "Комментарий к заказу",
+                fulfillment = new Reference[] { new Reference { reference = "4f6a30fb-cd3c-4ab6-8757-532101f72065" } }
+            };
+        }
+
+        private DiagnosticReport SetDiagnosticReport()
+        {
+            return new DiagnosticReport
+            {
+                name = new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = Dictionary.CODE_SERVICE, code = "B03.016.006", version = 1 } }
+                },
+                status = "final",
+                issued = Convert.ToDateTime("03.01.2012"),
+                subject = new Reference { reference = "Patient/106043a2-6600-4590-bedd-6e26c76a6fed" },
+                performer = new Reference { reference = "3e412c44-1058-40fb-a06f-b9bb9452b39a" },
+                requestDetail = new Reference { reference = "DiagnosticOrder/2c98670c-3494-4c63-bb29-71acd486da3d" },
+                result = new Reference[] { new Reference { reference = "651f0cdc-2e7f-4e3a-99b1-da68d2b196c6" } },
+                conclusion = "Текст заключения по услуге B03.016.006",
+                //presentedForm ?? 
+            };
+        }
+
+        private Observation SetObservation_BundleResult()
+        {
+            return new Observation
+            {
+                code = new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = Dictionary.CODE_TEST, code = "17861-6", version = 1 } }
+                },
+                comments = "Комментарий к результату теста",
+                issued = Convert.ToDateTime("02.02.2012"),
+                status = "final",
+                method = new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = "urn:oid:1.2.643.2.69.1.2.2", code = "Химический", version = 1 } }
+                },
+                performer = new Reference { reference = "3e412c44-1058-40fb-a06f-b9bb9452b39a" },
+
+
+                // value[x]??
+                dataAbsentReason = new CodeableConcept
+                {
+                    coding = new Coding[] { new Coding { system = "urn:oid:1.2.643.2.69.1.1.1.38", code = "1", version = 1 } }
+
+                }, // code?
+
+                referenceRange = new ReferenceRange
+                {
+                    low = new Quantity
+                    {
+                        value = 2.15,
+                        units = "ммоль/л"
+                    },
+                    high = new Quantity
+                    {
+                        value = 2.5,
+                        units = "ммоль/л"
+                    }
+                }
+
             };
         }
     }

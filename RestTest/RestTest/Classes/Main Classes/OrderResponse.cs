@@ -9,7 +9,7 @@ namespace RestTest
 {
     class OrderResponse
     {
-        Identifier identifier; // Идентификатор заказа в ЛИС
+        public Identifier identifier; // Идентификатор заказа в ЛИС
         public Link request; // Cсылка на Order
         public DateTime date; //Дата-время результата
         public Link who; // Ссылка на Organisation

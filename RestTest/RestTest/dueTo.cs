@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RestSharp;
 
 namespace RestTest
 {
-    class Quantity
+    class DueTo
     {
-        public double value;
-        public string units;
+        // Сопутствующее заболевание/осложнение 
+        public Condition target;
     }
 }

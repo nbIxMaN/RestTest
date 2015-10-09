@@ -9,8 +9,8 @@ namespace RestTest
 {
     class BundleResult
     {
-        public OrderResponse orederResponse;
-        public DiagnosticReport[] diagnosticPeport;
+        public OrderResponse orderResponse;
+        public DiagnosticReport[] diagnosticReport;
         public Observation[] observation;
         public Practitioner[] practitioner;
     }

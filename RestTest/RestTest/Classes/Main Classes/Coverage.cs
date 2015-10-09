@@ -10,6 +10,7 @@ namespace RestTest
     class Coverage : ResourseBase
     {
         public const string resourseType = "Coverage";
+        public string id;
         public Coding type;
         public Identifier identifier;
         public Link subscriber;

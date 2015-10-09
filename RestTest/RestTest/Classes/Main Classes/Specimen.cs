@@ -13,7 +13,7 @@ namespace RestTest
         public string id;
         public CodeableConcept type;
         public Link subject;
-        public Link collection;
+        public Collection collection;
         public Container container;
     }
 }

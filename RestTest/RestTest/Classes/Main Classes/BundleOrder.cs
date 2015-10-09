@@ -14,7 +14,7 @@ namespace RestTest
         public DiagnosticOrder[] diagnosticOrder;
         public Specimen[] specimen;
         public Encounter encounter;
-        public Condidtion[] condition;
+        public Condition[] condition;
         public Observation[] observation;
         public Coverage[] coverage;
     }

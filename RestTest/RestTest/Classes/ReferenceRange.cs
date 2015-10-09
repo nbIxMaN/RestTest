@@ -9,10 +9,10 @@ namespace RestTest
 {
     class ReferenceRange
     {
-        Quantity low;
-        Quantity high;
-        Quantity meaning;
-        Quantity age;
-        Quantity text;
+        public Quantity low;
+        public Quantity high;
+        public Quantity meaning;
+        public Quantity age;
+        public Quantity text;
     }
 }
