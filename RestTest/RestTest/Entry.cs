@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace RestTest
 {
-    class ResourseBase
+    class Entry
     {
+        public IResource resource;
+        public Transaction transaction;
     }
 }

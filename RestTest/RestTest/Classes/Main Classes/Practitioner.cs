@@ -9,7 +9,7 @@ namespace RestTest
 {
     class Practitioner
     {
-        public const string resourseType = "Practitioner";
+        public const string resourсeType = "Practitioner";
         public string id;
         public Identifier identifier;
         public HumanName name;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestTest
 {
-    class BundleOrder
+    class BundleOrder: IResource
     {
         public Order order;
         public Patient patient;

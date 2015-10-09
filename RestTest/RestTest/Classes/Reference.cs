@@ -10,5 +10,6 @@ namespace RestTest
     class Reference : Link
     {
         public string reference;
+        public string profile;
     }
 }

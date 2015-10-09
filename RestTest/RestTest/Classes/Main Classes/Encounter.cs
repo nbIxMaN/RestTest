@@ -8,7 +8,7 @@ namespace RestTest
 {
     class Encounter
     {
-        public const string resourseType = "Encounter";
+        public const string resourсeType = "Encounter";
         public string id;
         public Identifier identifier;
         public string status;

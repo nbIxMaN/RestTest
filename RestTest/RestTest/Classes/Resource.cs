@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace RestTest
 {
-    class Resourse
+    interface IResource
     {
-        public ResourseBase resourse;
+      
     }
 }

@@ -9,8 +9,9 @@ namespace RestTest
 {
     class Specimen
     {
-        public const string resourseType = "Specimen";
+        public const string resourсeType = "Specimen";
         public string id;
+        
         public CodeableConcept type;
         public Link subject;
         public Collection collection;
