@@ -83,7 +83,7 @@ namespace RestTest
                 diagnosticOrder = new DiagnosticOrder[] { SetDiagnosticOrder(patient) },
                 specimen = new Specimen[] { SetSpecimen(patient) },
                 encounter = SetEncounter(patient),
-                condition = new Condidtion[] { SetCondition(patient) },
+                condition = new Condition[] { SetCondition(patient) },
                 observation = new Observation[] { SetObservation_BundleOrder() },
                 practitioner = new Practitioner[] { SetPractitioner() },
                 coverage = new Coverage[] { SetCoverage(patient) }
@@ -120,6 +120,7 @@ namespace RestTest
         {
             return new DiagnosticOrder
             {
+                // id?
                 subject = new Reference { reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
                 orderer = new Reference { reference = "923cad32-88e6-4ab0-a4cc-5052895b29d9" },
                 encounter = new Reference { reference = "f0ceca14-6847-4ea4-b128-7c86820da428" },
@@ -160,6 +161,7 @@ namespace RestTest
         {
             return new Specimen
             {
+                // id?
                 type = new CodeableConcept
                 {
                     coding = new Coding[] { new Coding { system = "1.2.643.2.69.1.1.1.33", code = "1", version = 1 } }
@@ -178,7 +180,6 @@ namespace RestTest
                         coding = new Coding[] { new Coding { system = Dictionary.TYPE_CONTAINER, code = "1", version = 1 } }
                     }
                 }
-
             };
         }
 
@@ -186,9 +187,10 @@ namespace RestTest
         {
             return new Encounter
             {
+                // id?
                 identifier = new Identifier { system = "urn:oid:1.2.643.2.69.1.2.6", value = "IdCaseMis" + new Random().Next(1000) },
                 status = "in-progress",
-                clas = "ambulatory",
+                clas = "ambulatory", // class
                 type = new CodeableConcept
                 {
                     coding = new Coding[] { new Coding { system = Dictionary.TYPE_CASE, code = "2", version = 1 } }
@@ -203,10 +205,11 @@ namespace RestTest
             };
         }
 
-        private Condidtion SetCondition(string patient)
+        private Condition SetCondition(string patient)
         {
-            return new Condidtion
+            return new Condition
             {
+                // id?
                 identifier = new Identifier
                 {
                     system = "urn:oid:1.2.643.2.69.1.1.1.61",
@@ -226,7 +229,7 @@ namespace RestTest
                 notes = "Уточнение",
                 dueTo = new DueTo // Сопутствующее заболевание/осложнение 
                 {
-                    target = new Condidtion
+                    target = new Condition
                     {
                         identifier = new Identifier
                         {

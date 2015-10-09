@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace RestTest
 {
-    class Condidtion
+    class Condition
     {
+        public const string resourseType = "Condition";
+        public string id;
         public Identifier identifier;
         public Link subject;
         public DateTime dateAsserted;

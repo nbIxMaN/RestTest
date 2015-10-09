@@ -9,6 +9,6 @@ namespace RestTest
     class DueTo
     {
         // Сопутствующее заболевание/осложнение 
-        public Condidtion target;
+        public Condition target;
     }
 }
