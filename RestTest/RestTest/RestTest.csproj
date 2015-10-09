@@ -77,6 +77,7 @@
     <Compile Include="Classes\Main Classes\Condition.cs" />
     <Compile Include="Classes\Main Classes\Encounter.cs" />
     <Compile Include="DueTo.cs" />
+    <Compile Include="PractitionerRole.cs" />
     <Compile Include="Types\Address.cs" />
     <Compile Include="Classes\Main Classes\BundleResult.cs" />
     <Compile Include="Classes\Main Classes\DiagnosticReport.cs" />

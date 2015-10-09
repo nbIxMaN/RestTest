@@ -64,6 +64,7 @@ namespace RestTest
         {
             return new Coverage
             {
+                // id
                 type = new Coding { system = Dictionary.TYPE_COVERAGE, code = "2", version = 1 },
                 subscriber = new Reference { reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
                 identifier = new Identifier
@@ -257,6 +258,7 @@ namespace RestTest
         {
             return new Observation
             {
+                // id??
                 code = new CodeableConcept
                 {
                     coding = new Coding[] { new Coding { system = Dictionary.TYPE_OBSERVATION, code = "2", version = 1 } }
@@ -284,15 +286,18 @@ namespace RestTest
                     family = new string[] { RandomFIO()[0] },
                     given = new string[] { RandomFIO()[1], RandomFIO()[2] }
                 },
-                organization = new Reference { reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
-                role = new CodeableConcept
+                practitionerRole = new PractitionerRole
                 {
-                    coding = new Coding[] { new Coding { system = Dictionary.ROLE_PRACTITIONER, code = "73", version = 1 } }
-                },
-                specialty = new CodeableConcept
-                {
-                    coding = new Coding[] { new Coding { system = Dictionary.SPECIALITY_PRACTITIONER, code = "27", version = 1 } }
-                },
+                    managingOrganization = new Reference { reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
+                    role = new CodeableConcept
+                    {
+                        coding = new Coding[] { new Coding { system = Dictionary.ROLE_PRACTITIONER, code = "73", version = 1 } }
+                    },
+                    specialty = new CodeableConcept
+                    {
+                        coding = new Coding[] { new Coding { system = Dictionary.SPECIALITY_PRACTITIONER, code = "27", version = 1 } }
+                    }
+                }
             };
         }
 
