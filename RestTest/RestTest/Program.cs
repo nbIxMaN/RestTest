@@ -144,16 +144,21 @@ namespace RestTest
             //pa.address = null;
             //pa.name = null;
             //pa.resourceType = null;
-            var c = new RestClient();
-            c.BaseUrl = new Uri("http://fhir.zdrav.netrika.ru/fhir/Patient");
+           // Coverage co = (new SetData()).SetCoverage("106043a2-6600-4590-bedd-6e26c76a6fed");
+
+            Bundle b = (new SetData()).SetBundleOrder("106043a2-6600-4590-bedd-6e26c76a6fed");
+           
+            var client = new RestClient();
+            client.BaseUrl = new Uri("http://fhir.zdrav.netrika.ru/fhir");
             var request = new RestRequest(Method.POST);
-            request.JsonSerializer = new RestSharpJsonNetSerializer();
-            var s = request.JsonSerializer.Serialize(pa);
-            request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
             request.RequestFormat = DataFormat.Json;
-            request.AddBody(pa);
+            request.JsonSerializer = new RestSharpJsonNetSerializer();
+            var s = request.JsonSerializer.Serialize(b);
+            request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
+            
+            request.AddBody(b);
             //request.AddParameter("application/json", s, RestSharp.ParameterType.RequestBody);
-            var r = c.Execute(request);
+            var r = client.Execute(request);
         }
     }
 }

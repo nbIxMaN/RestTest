@@ -78,21 +78,62 @@ namespace RestTest
 
         public Bundle SetBundleOrder(string patient)
         {
+            //BundleOrder b = new BundleOrder(SetOrder(patient), new Practitioner[] { SetPractitioner() },  new DiagnosticOrder[] { SetDiagnosticOrder(patient) },
+            //   new Specimen[] { SetSpecimen(patient) }, SetEncounter(patient), new Condition[] { SetCondition(patient) },
+            //     new Observation[] { SetObservation_BundleOrder() }, new Coverage[] { SetCoverage(patient) });
             return new Bundle
             {
-                meta = new Reference {profile = new string[] { "StructureDefinition/21f687dd-0b3b-4a7b-af8f-04be625c0201"}},
+                meta = new Reference { profile = new string[] { "StructureDefinition/21f687dd-0b3b-4a7b-af8f-04be625c0201" } },
                 entry = new Entry[]
                 {
                     new Entry
                     {
-                        resource = new BundleOrder { order = SetOrder(patient)},
+                        resource = SetOrder(patient),
+                        //new BundleOrder{ order =  SetOrder(patient) },
                         transaction = new Transaction { method  = "POST", url  = "Order"}
                     },
-                    new Entry
+                    //new Entry
+                    //{
+                    //    resource =  SetDiagnosticOrder(patient),
+                    //    //new BundleOrder { diagnosticOrder = new DiagnosticOrder[] { SetDiagnosticOrder(patient) } },
+                    //    transaction = new Transaction { method  = "POST", url  = "DiagnosticOrder"}
+                    //},
+                    //new Entry
+                    //{
+                    //    resource = SetSpecimen(patient),
+                    //    //new BundleOrder { specimen = new Specimen[] { SetSpecimen(patient) } },
+                    //    transaction = new Transaction { method  = "POST", url  = "Specimen"}
+                    //},
+                    new Entry 
                     {
-                        resource = new BundleOrder { diagnosticOrder = new DiagnosticOrder[] { SetDiagnosticOrder(patient) } },
-                        transaction = new Transaction { method  = "POST", url  = "DiagnosticOrder"}
-                    }
+                        resource = SetEncounter(patient),
+                        //new BundleOrder { encounter =  SetEncounter(patient) },
+                        transaction = new Transaction { method  = "POST", url  = "Encounter"}
+                    },
+                    //new Entry
+                    //{
+                    //    resource = SetCondition(patient),
+                    //    //new BundleOrder { condition = new Condition[] { SetCondition(patient) } },
+                    //    transaction = new Transaction { method  = "POST", url  = "Condition"}
+                    //},
+                    //new Entry
+                    //{
+                    //    resource = SetObservation_BundleOrder(),
+                    //    //new BundleOrder { observation = new Observation[] { SetObservation_BundleOrder() } },
+                    //    transaction = new Transaction { method  = "POST", url  = "Observation"}
+                    //},
+                    //new Entry
+                    //{
+                    //    resource = SetPractitioner(),
+                    //    //new BundleOrder { practitioner = new Practitioner[] { SetPractitioner() } },
+                    //    transaction = new Transaction { method  = "POST", url  = "Practitioner"}
+                    //},
+               //     new Entry
+               //     {
+               //         resource = SetCoverage(patient),
+               ////         new BundleOrder { coverage = new Coverage[] { SetCoverage(patient)} },
+               //         transaction = new Transaction { method  = "POST", url  = "Coverage"}
+               //     },
                 },
                 //order = SetOrder(patient),
                 //diagnosticOrder = new DiagnosticOrder[] { SetDiagnosticOrder(patient) },
@@ -108,10 +149,13 @@ namespace RestTest
         {
             return new Order
             {
-                identifier = new Identifier
+                identifier = new Identifier[]
                 {
-                    system = "urn:oid:1.2.643.2.69.1.2.6",
-                    value = "IdOrderMis" + new Random().Next(1000)
+                    new Identifier
+                    {
+                        system = "urn:oid:1.2.643.2.69.1.2.6",
+                        value = "IdOrderMis" + new Random().Next(1000)
+                    }
                 },
                 date = Convert.ToDateTime("01.01.2012"),
                 subject = new Reference { reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
@@ -136,6 +180,7 @@ namespace RestTest
             return new DiagnosticOrder
             {
                 // id?
+                id = "143e62fc-eee7-4273-899c-23c60c72cb1a",
                 subject = new Reference { reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
                 orderer = new Reference { reference = "923cad32-88e6-4ab0-a4cc-5052895b29d9" },
                 encounter = new Reference { reference = "f0ceca14-6847-4ea4-b128-7c86820da428" },
@@ -203,17 +248,21 @@ namespace RestTest
             return new Encounter
             {
                 // id?
-                identifier = new Identifier { system = "urn:oid:1.2.643.2.69.1.2.6", value = "IdCaseMis" + new Random().Next(1000) },
+                id = "f0ceca14-6847-4ea4-b128-7c86820da428",
+                identifier = new Identifier[] { new Identifier{ system = "urn:oid:1.2.643.2.69.1.2.6", value = "IdCaseMis"}},
                 status = "in-progress",
-                clas = "ambulatory", // class
+                iHateThisNameclas = "ambulatory", // class
                 type = new CodeableConcept
                 {
                     coding = new Coding[] { new Coding { system = Dictionary.TYPE_CASE, code = "2", version = 1 } }
                 },
                 patient = new Reference { reference = "Patient/" + patient },
-                reason = new CodeableConcept
+                reason = new CodeableConcept[]
                 {
+                    new CodeableConcept
+                    {
                     coding = new Coding[] { new Coding { system = Dictionary.REASON, code = "1", version = 1 } }
+                    }
                 },
                 indication = new Reference[] { new Reference { reference = "71cf33b8-2eae-432d-88d5-747ef8147d0b" } },
                 serviceProvider = new Reference { reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" }
@@ -225,10 +274,14 @@ namespace RestTest
             return new Condition
             {
                 // id?
-                identifier = new Identifier
+                id = "64d57862-f2c2-41ef-a5cf-27f2d53569eb",
+                identifier = new Identifier[]
                 {
+                    new Identifier
+                    {
                     system = "urn:oid:1.2.643.2.69.1.1.1.61",
                     value = "Стандарт первичной медико-санитарной помощи при хронической болезни почек 4 стадии"
+                    }
                 },
                 subject = new Reference { reference = "Patient/" + patient },
                 dateAsserted = Convert.ToDateTime("01.02.2012"),
@@ -242,29 +295,30 @@ namespace RestTest
                 },
                 clinicalStatus = "confirmed",
                 notes = "Уточнение",
-                dueTo = new DueTo // Сопутствующее заболевание/осложнение 
-                {
-                    target = new Condition
-                    {
-                        identifier = new Identifier
-                        {
-                            system = "urn:oid:1.2.643.2.69.1.1.1.61",
-                            //value?
-                        },
-                        subject = new Reference { reference = "Patient/" + patient },
-                        dateAsserted = Convert.ToDateTime("01.02.2012"),
-                        code = new CodeableConcept
-                        {
-                            coding = new Coding[] { new Coding { system = Dictionary.DIAGNOSIS, code = "N18.9", version = 1 } }
-                        },
-                        category = new CodeableConcept
-                        {
-                            coding = new Coding[] { new Coding { system = Dictionary.TYPE_CONDITION, code = "diagnosis", version = 1 } }
-                        },
-                        clinicalStatus = "confirmed",
-                        notes = "Уточнение",
-                    }
-                }
+                //dueTo = new DueTo // Сопутствующее заболевание/осложнение 
+                //{
+                //    target = new Condition
+                //    {
+                //        identifier = new Identifier[]
+                //        {
+                //            new Identifier{
+                //            system = "urn:oid:1.2.643.2.69.1.1.1.61",}
+                //            //value?
+                //        },
+                //        subject = new Reference { reference = "Patient/" + patient },
+                //        dateAsserted = Convert.ToDateTime("01.02.2012"),
+                //        code = new CodeableConcept
+                //        {
+                //            coding = new Coding[] { new Coding { system = Dictionary.DIAGNOSIS, code = "N18.9", version = 1 } }
+                //        },
+                //        category = new CodeableConcept
+                //        {
+                //            coding = new Coding[] { new Coding { system = Dictionary.TYPE_CONDITION, code = "diagnosis", version = 1 } }
+                //        },
+                //        clinicalStatus = "confirmed",
+                //        notes = "Уточнение",
+                //    }
+                //}
             };
         }
 
