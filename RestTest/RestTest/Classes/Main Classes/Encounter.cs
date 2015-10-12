@@ -16,7 +16,7 @@ namespace RestTest
         public string status;
 
         [SerializeAs(Name = "class")]
-        public string iHateThisNameclas { get; set; }// class
+        public string iHateThisNameClas { get; set; }// class
 
         public CodeableConcept type;
         public Link patient;

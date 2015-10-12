@@ -251,7 +251,7 @@ namespace RestTest
                 id = "f0ceca14-6847-4ea4-b128-7c86820da428",
                 identifier = new Identifier[] { new Identifier{ system = "urn:oid:1.2.643.2.69.1.2.6", value = "IdCaseMis"}},
                 status = "in-progress",
-                iHateThisNameclas = "ambulatory", // class
+                iHateThisNameClas = "ambulatory", // class
                 type = new CodeableConcept
                 {
                     coding = new Coding[] { new Coding { system = Dictionary.TYPE_CASE, code = "2", version = 1 } }

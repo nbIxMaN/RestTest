@@ -81,6 +81,8 @@
     <Compile Include="Classes\DueTo.cs" />
     <Compile Include="Classes\PractitionerRole.cs" />
     <Compile Include="Entry.cs" />
+    <Compile Include="GetRequest.cs" />
+    <Compile Include="Parameter.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="Types\Address.cs" />
     <Compile Include="Classes\Main Classes\DiagnosticReport.cs" />

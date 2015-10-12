@@ -146,17 +146,37 @@ namespace RestTest
             //pa.resourceType = null;
            // Coverage co = (new SetData()).SetCoverage("106043a2-6600-4590-bedd-6e26c76a6fed");
 
-            Bundle b = (new SetData()).SetBundleOrder("106043a2-6600-4590-bedd-6e26c76a6fed");
-           
+
+            GetRequest g = new GetRequest
+            {
+                parameter = new Parameter[]
+                {
+                    new Parameter
+                    {
+                        name = "TargetCode",
+                        valueString = "123.456.789"
+                    },
+                    new Parameter
+                    {
+                        name = "Barcode",
+                        valueString ="barcode"
+                    }
+                }
+            };
+
+
+
+
             var client = new RestClient();
-            client.BaseUrl = new Uri("http://fhir.zdrav.netrika.ru/fhir");
+            client.BaseUrl = new Uri("http://fhir.zdrav.netrika.ru/fhir/$getorder?_format=json");
             var request = new RestRequest(Method.POST);
             request.RequestFormat = DataFormat.Json;
             request.JsonSerializer = new RestSharpJsonNetSerializer();
-            var s = request.JsonSerializer.Serialize(b);
+
+            Bundle b = (new SetData()).SetBundleOrder("106043a2-6600-4590-bedd-6e26c76a6fed");
+           // var s = request.JsonSerializer.Serialize(b);
             request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
-            
-            request.AddBody(b);
+            request.AddBody(g);
             //request.AddParameter("application/json", s, RestSharp.ParameterType.RequestBody);
             var r = client.Execute(request);
         }
