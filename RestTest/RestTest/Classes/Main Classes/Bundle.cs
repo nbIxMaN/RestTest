@@ -8,8 +8,8 @@ namespace RestTest
 {
     class Bundle
     {
-        public const string resourseType = "Bundle";
-        public const string type = "transaction";
+        public readonly string resourceType = "Bundle";
+        public readonly string type = "transaction";
         public Link meta; // profile
         public Entry[] entry;
     }

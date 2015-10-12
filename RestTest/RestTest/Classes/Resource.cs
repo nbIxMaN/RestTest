@@ -8,6 +8,5 @@ namespace RestTest
 {
     class Resource
     {
-      
     }
 }

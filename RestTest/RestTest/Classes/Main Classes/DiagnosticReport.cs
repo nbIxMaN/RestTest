@@ -9,7 +9,7 @@ namespace RestTest
 {
     class DiagnosticReport
     {
-        public const string resourсeType = "DiagnosticReport";
+        public readonly string resourсeType = "DiagnosticReport";
         public string id;
         public CodeableConcept name; //Код услуги результата (1.2.643.2.69.1.1.1.31)
         public string status; // В сервисе предполагается получать только утвержденные результаты по услуге (1.2.643.2.69.1.1.1.46)

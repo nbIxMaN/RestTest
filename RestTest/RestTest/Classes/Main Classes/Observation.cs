@@ -7,9 +7,9 @@ using RestSharp;
 
 namespace RestTest
 {
-    class Observation
+    class Observation : Resource
     {
-        public const string resourсeType = "Observation";
+        public readonly string resourсeType = "Observation";
         public string id;
         
         public CodeableConcept code; //Код теста, для которого передается результат в Observation (1.2.643.2.69.1.1.1.1)

@@ -9,7 +9,7 @@ namespace RestTest
 {
     class Patient
     {
-        public string resourceType = "Patient";
+        public readonly string resourceType = "Patient";
         public Identifier[] identifier;
         public HumanName name;
         public string gender;

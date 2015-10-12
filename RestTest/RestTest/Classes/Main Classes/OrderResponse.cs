@@ -9,7 +9,7 @@ namespace RestTest
 {
     class OrderResponse
     {
-        public const string resourсeType = "OrderResponse";
+        public readonly string resourсeType = "OrderResponse";
         public Identifier identifier; // Идентификатор заказа в ЛИС
         public Link request; // Cсылка на Order
         public DateTime date; //Дата-время результата

@@ -7,9 +7,9 @@ using RestSharp;
 
 namespace RestTest
 {
-    class Practitioner
+    class Practitioner : Resource
     {
-        public const string resourсeType = "Practitioner";
+        public readonly string resourсeType = "Practitioner";
         public string id;
         public Identifier identifier;
         public HumanName name;

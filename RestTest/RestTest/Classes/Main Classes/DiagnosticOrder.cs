@@ -7,9 +7,9 @@ using RestSharp;
 
 namespace RestTest
 {
-    class DiagnosticOrder
+    class DiagnosticOrder : Resource
     {
-        public const string resourceType = "DiagnosticOrder";
+        public readonly string resourceType = "DiagnosticOrder";
         public string id;
         public Link subject;
         public Link orderer;

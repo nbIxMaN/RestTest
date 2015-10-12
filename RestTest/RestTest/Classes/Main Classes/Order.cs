@@ -7,10 +7,10 @@ using RestSharp;
 
 namespace RestTest
 {
-    class Order
+    class Order: Resource
     {
-        public const string resourceType = "Order";
-        public Identifier identifier;
+        public readonly string resourceType = "Order";
+        public Identifier[] identifier;
         public DateTime date;
         public Link subject;
         public Link source;

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace RestTest
 {
-    class Condition
+    class Condition : Resource
     {
-        public const string resourseType = "Condition";
+        public readonly string resourceType = "Condition";
         public string id;
-        public Identifier identifier;
+        public Identifier[] identifier;
         public Link subject;
         public DateTime dateAsserted;
         public CodeableConcept code;

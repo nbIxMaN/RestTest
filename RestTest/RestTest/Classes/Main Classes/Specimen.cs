@@ -7,9 +7,9 @@ using RestSharp;
 
 namespace RestTest
 {
-    class Specimen
+    class Specimen : Resource
     {
-        public const string resourсeType = "Specimen";
+        public readonly string resourсeType = "Specimen";
         public string id;
         
         public CodeableConcept type;
