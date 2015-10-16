@@ -84,7 +84,7 @@ namespace RestTest
 
 
             var client = new RestClient();
-            client.BaseUrl = new Uri("http://fhir.zdrav.netrika.ru/fhir/$getorder?_format=json");
+            client.BaseUrl = new Uri("http://192.168.8.93:2223/fhir?_format=json");
             var request = new RestRequest(Method.POST);
             request.RequestFormat = DataFormat.Json;
             //var s = new Encounter
@@ -92,7 +92,9 @@ namespace RestTest
             //    iHateThisNameClas = "sdfsdf"
             //};
          //   var x = request.JsonSerializer.Serialize(s);
-            Bundle b = (new SetData()).SetBundleOrder("106043a2-6600-4590-bedd-6e26c76a6fed");
+            //106043a2-6600-4590-bedd-6e26c76a6fed
+            //Bundle b = (new SetData()).SetBundleOrder("02255d1f-548c-4b04-9ac2-7c97d3efad1a");
+            Bundle b = (new SetData()).SetBundleResult("02255d1f-548c-4b04-9ac2-7c97d3efad1a");
            // var s = request.JsonSerializer.Serialize(b);
             request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
             var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);

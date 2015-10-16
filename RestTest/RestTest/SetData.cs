@@ -87,26 +87,21 @@ namespace RestTest
 
         public Bundle SetBundleOrder(string patient)
         {
-            //BundleOrder b = new BundleOrder(SetOrder(patient), new Practitioner[] { SetPractitioner() },  new DiagnosticOrder[] { SetDiagnosticOrder(patient) },
-            //   new Specimen[] { SetSpecimen(patient) }, SetEncounter(patient), new Condition[] { SetCondition(patient) },
-            //     new Observation[] { SetObservation_BundleOrder() }, new Coverage[] { SetCoverage(patient) });
             return new Bundle
             {
-                Meta = new Meta() { Profile = new string[] { "StructureDefinition/21f687dd-0b3b-4a7b-af8f-04be625c0201" } },
+                Meta = new Meta() { Profile = new string[] { "StructureDefinition/cd45a667-bde0-490f-b602-8d780acf4aa2" } },
                 Entry = new List<Bundle.BundleEntryComponent>()
                 {
                     new Bundle.BundleEntryComponent()
                     {
                         Resource = SetOrder(patient),
-                        //new BundleOrder{ order =  SetOrder(patient) },
                         Transaction = new Bundle.BundleEntryTransactionComponent { Method  = Bundle.HTTPVerb.POST, Url  = "Order"}
                     },
-                    //new Entry
-                    //{
-                    //    resource =  SetDiagnosticOrder(patient),
-                    //    //new BundleOrder { diagnosticOrder = new DiagnosticOrder[] { SetDiagnosticOrder(patient) } },
-                    //    transaction = new Transaction { method  = "POST", url  = "DiagnosticOrder"}
-                    //},
+                    new Bundle.BundleEntryComponent()
+                    {
+                        Resource =  SetDiagnosticOrder(patient),
+                        Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url  = "DiagnosticOrder"}
+                    },
                     //new Entry
                     //{
                     //    resource = SetSpecimen(patient),
@@ -116,15 +111,13 @@ namespace RestTest
                     new Bundle.BundleEntryComponent() 
                     {
                         Resource = SetEncounter(patient),
-                        //new BundleOrder { encounter =  SetEncounter(patient) },
                         Transaction = new Bundle.BundleEntryTransactionComponent() { Method  = Bundle.HTTPVerb.POST, Url  = "Encounter"}
                     },
-                    //new Entry
-                    //{
-                    //    resource = SetCondition(patient),
-                    //    //new BundleOrder { condition = new Condition[] { SetCondition(patient) } },
-                    //    transaction = new Transaction { method  = "POST", url  = "Condition"}
-                    //},
+                    new Bundle.BundleEntryComponent()
+                    {
+                        Resource = SetCondition(patient),
+                        Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url   = "Condition"}
+                    },
                     //new Entry
                     //{
                     //    resource = SetObservation_BundleOrder(),
@@ -169,7 +162,7 @@ namespace RestTest
                 Date = "01.01.2012",
                 Subject = new ResourceReference { Reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
                 Source = new ResourceReference { Reference = "519a08f4-c240-4e58-aa66-fe2a017b8d94" },
-                Target = new ResourceReference { Reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
+                Target = new ResourceReference { Reference = "Organization/4a94e705-ee3e-46fc-bba0-0298e0fd5bd2" },
                 Detail = new List<ResourceReference> { new ResourceReference { Reference = "143e62fc-eee7-4273-899c-23c60c72cb1a" } },
                 When = new Order.OrderWhenComponent
                 {
@@ -280,7 +273,7 @@ namespace RestTest
                     }
                 },
                 Indication = new List<ResourceReference> { new ResourceReference { Reference = "71cf33b8-2eae-432d-88d5-747ef8147d0b" } },
-                ServiceProvider = new ResourceReference { Reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" }
+                ServiceProvider = new ResourceReference { Reference = "Organization/4a94e705-ee3e-46fc-bba0-0298e0fd5bd2" }
             };
         }
 
@@ -358,7 +351,7 @@ namespace RestTest
         private Practitioner SetPractitioner()
         {
             return new Practitioner
-            {
+            { Id = "3e412c44-1058-40fb-a06f-b9bb9452b39a",
                 Identifier = new List<Identifier>
                 {
                     new Identifier
@@ -376,7 +369,7 @@ namespace RestTest
                 {
                     new Practitioner.PractitionerPractitionerRoleComponent
                     {
-                        ManagingOrganization = new ResourceReference { Reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
+                        ManagingOrganization = new ResourceReference { Reference = "Organization/4a94e705-ee3e-46fc-bba0-0298e0fd5bd2" },
                         Role = new CodeableConcept
                         {
                             Coding = new List<Coding>() { new Coding { System = Dictionary.ROLE_PRACTITIONER, Code = "73", Version = "1" } }
@@ -394,16 +387,45 @@ namespace RestTest
             };
         }
 
-        //public BundleResult SetBundleResult(string patient)
-        //{
-        //    return new BundleResult
-        //    {
-        //        orderResponse = SetOrderResponse(),
-        //        diagnosticReport = new DiagnosticReport[] { SetDiagnosticReport() },
-        //        observation = new Observation[] { SetObservation_BundleResult() },
-        //        practitioner = new Practitioner[] { SetPractitioner() }
-        //    };
-        //}
+        public Bundle SetBundleResult(string patient)
+        {
+            return new Bundle
+            {
+                Meta = new Meta() { Profile = new string[] { "StructureDefinition/21f687dd-0b3b-4a7b-af8f-04be625c0201" } },
+                Entry = new List<Bundle.BundleEntryComponent>()
+                {
+                    new Bundle.BundleEntryComponent()
+                    {
+                        Resource = SetOrderResponse(),
+                        Transaction = new Bundle.BundleEntryTransactionComponent { Method  = Bundle.HTTPVerb.POST, Url  = "OrderResponse"}
+                    },
+                    new Bundle.BundleEntryComponent()
+                    {
+                        Resource =  SetDiagnosticReport(),
+                        Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url  = "DiagnosticReport"}
+                    },
+
+                    new Bundle.BundleEntryComponent() 
+                    {
+                        Resource = SetObservation_BundleResult(),
+                        Transaction = new Bundle.BundleEntryTransactionComponent() { Method  = Bundle.HTTPVerb.POST, Url  = "Observation"}
+                    },
+                    new Bundle.BundleEntryComponent()
+                    {
+                        Resource =  SetPractitioner(),
+                        Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url   = "Practitioner"}
+                    },
+
+                },
+
+            };
+
+                //orderResponse = SetOrderResponse(),
+                //diagnosticReport = new DiagnosticReport[] { SetDiagnosticReport() },
+                //observation = new Observation[] { SetObservation_BundleResult() },
+                //practitioner = new Practitioner[] { SetPractitioner() }
+
+        }
 
         private OrderResponse SetOrderResponse()
         {
@@ -419,7 +441,7 @@ namespace RestTest
                 },
                 Request = new ResourceReference { Reference = "Order/77f3bc81-fd3d-4d8a-8f64-4fe61989f34a" },
                 Date = "02.01.2012",
-                Who = new ResourceReference { Reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
+                Who = new ResourceReference { Reference = "Organization/4a94e705-ee3e-46fc-bba0-0298e0fd5bd2" },
                 OrderStatus_ = OrderResponse.OrderStatus.Completed,
                 Description = "Комментарий к заказу",
                 Fulfillment = new List<ResourceReference>() { new ResourceReference { Reference = "4f6a30fb-cd3c-4ab6-8757-532101f72065" } }
@@ -428,8 +450,16 @@ namespace RestTest
 
         private DiagnosticReport SetDiagnosticReport()
         {
+            var s = new PresentedForm();
+            s.data = "dasdsda";
+            s.hash = Convert.ToBase64String(new byte[]{1,2});
+            s.public_key = Convert.ToBase64String(new byte[] { 1, 2 });
+            s.sign = Convert.ToBase64String(new byte[] { 1, 2 });
+            var qwer = (new RestSharp.Serializers.JsonSerializer()).Serialize(s);
+
             return new DiagnosticReport
             {
+                Id = "4f6a30fb-cd3c-4ab6-8757-532101f72065",
                 Name = new CodeableConcept
                 {
                     Coding = new List<Coding>() { new Coding { System = Dictionary.CODE_SERVICE, Code = "B03.016.006", Version = "1" } }
@@ -441,6 +471,13 @@ namespace RestTest
                 RequestDetail = new List<ResourceReference> { new ResourceReference() {Reference = "DiagnosticOrder/2c98670c-3494-4c63-bb29-71acd486da3d" }},
                 Result = new List<ResourceReference>() { new ResourceReference { Reference = "651f0cdc-2e7f-4e3a-99b1-da68d2b196c6" } },
                 Conclusion = "Текст заключения по услуге B03.016.006",
+                PresentedForm = new List<Attachment>
+                {
+                    new Attachment
+                    {
+                         Data = Encoding.UTF8.GetBytes(Convert.ToBase64String(Encoding.UTF8.GetBytes(qwer)))
+                    }
+                }
                 //presentedForm ?? 
             };
         }
@@ -449,6 +486,7 @@ namespace RestTest
         {
             return new Observation
             {
+                Id = "651f0cdc-2e7f-4e3a-99b1-da68d2b196c6",
                 Code = new CodeableConcept
                 {
                     Coding = new List<Coding> { new Coding { System = Dictionary.CODE_TEST, Code = "17861-6", Version = "1" } }
