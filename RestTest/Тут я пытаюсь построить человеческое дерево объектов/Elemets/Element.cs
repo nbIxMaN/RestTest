@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RestSharp;
 
-namespace RestTest
+namespace Тут_я_пытаюсь_построить_человеческое_дерево_объектов.Elemets
 {
-    class Quantity
+    class Element
     {
-        public double value;
-        public string units;
     }
 }

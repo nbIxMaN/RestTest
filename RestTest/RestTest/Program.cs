@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RestSharp;
-using Newtonsoft.Json;
 using RestSharp.Serializers;
 using System.IO;
+using Hl7.Fhir.Model;
 
 namespace RestTest
 {
@@ -14,90 +13,6 @@ namespace RestTest
         /// Default JSON serializer for request bodies
         /// Doesn't currently use the SerializeAs attribute, defers to Newtonsoft's attributes
         /// </summary>
-    public class RestSharpJsonNetSerializer : ISerializer
-    {
-        private readonly Newtonsoft.Json.JsonSerializer _serializer;
-
-        /// <summary>
-        /// Default serializer
-        /// </summary>
-        public RestSharpJsonNetSerializer()
-        {
-            ContentType = "application/json";
-            _serializer = new Newtonsoft.Json.JsonSerializer
-            {
-                MissingMemberHandling = MissingMemberHandling.Ignore,
-                NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore
-            };
-        }
-
-        /// <summary>
-        /// Default serializer with overload for allowing custom Json.NET settings
-        /// </summary>
-        public RestSharpJsonNetSerializer(Newtonsoft.Json.JsonSerializer serializer)
-        {
-            ContentType = "application/json";
-            _serializer = serializer;
-        }
-
-        /// <summary>
-        /// Serialize the object as JSON
-        /// </summary>
-        /// <param name="obj">Object to serialize
-        /// <returns>JSON as String</returns>
-        public string Serialize(object obj)
-        {
-            using (var stringWriter = new StringWriter())
-            {
-                using (var jsonTextWriter = new JsonTextWriter(stringWriter))
-                {
-                    jsonTextWriter.Formatting = Formatting.Indented;
-                    jsonTextWriter.QuoteChar = '"';
-
-                    _serializer.Serialize(jsonTextWriter, obj);
-
-                    var result = stringWriter.ToString();
-                    return result;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Unused for JSON Serialization
-        /// </summary>
-        public string DateFormat { get; set; }
-        /// <summary>
-        /// Unused for JSON Serialization
-        /// </summary>
-        public string RootElement { get; set; }
-        /// <summary>
-        /// Unused for JSON Serialization
-        /// </summary>
-        public string Namespace { get; set; }
-        /// <summary>
-        /// Content type for serialized content
-        /// </summary>
-        public string ContentType { get; set; }
-    }
-
-
-    //class URLandCODEABLE : Extension
-    //{
-    //    public string url;
-    //    public Code valueCodeableConcept;
-    //}
-
-    //class URLandVALUE : Extension
-    //{
-    //    public string url;
-    //    public Link valueReference;
-    //}
-    //class Item
-    //{
-    //    public Extension[] extension;
-    //    public Coding[] coding;
-    //}
 
     class Program
     {
@@ -171,12 +86,16 @@ namespace RestTest
             client.BaseUrl = new Uri("http://fhir.zdrav.netrika.ru/fhir/$getorder?_format=json");
             var request = new RestRequest(Method.POST);
             request.RequestFormat = DataFormat.Json;
-            request.JsonSerializer = new RestSharpJsonNetSerializer();
-
+            //var s = new Encounter
+            //{
+            //    iHateThisNameClas = "sdfsdf"
+            //};
+         //   var x = request.JsonSerializer.Serialize(s);
             Bundle b = (new SetData()).SetBundleOrder("106043a2-6600-4590-bedd-6e26c76a6fed");
            // var s = request.JsonSerializer.Serialize(b);
             request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
-            request.AddBody(g);
+            var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
+            request.AddParameter("application/json; charset=utf-8", s, ParameterType.RequestBody);
             //request.AddParameter("application/json", s, RestSharp.ParameterType.RequestBody);
             var r = client.Execute(request);
         }

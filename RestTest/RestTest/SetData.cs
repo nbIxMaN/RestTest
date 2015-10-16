@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Hl7.Fhir.Model;
 
 namespace RestTest
 {
@@ -36,26 +39,29 @@ namespace RestTest
         {
             return new Patient
             {
-                address = new Address[]
+                Address = new List<Address>
                 {
-                    new Address() { Use = "home", text = RandomAddress() }
+                    new Address() { Use = Address.AddressUse.Home, Text = RandomAddress() }
                 },
-                identifier = new Identifier[]
+                Identifier = new List<Identifier>
                 {
                     new Identifier()
                     {
-                        system = "urn:oid:1.2.643.2.69.1.2.6",
-                        value = "IdPatientMis" + new Random().Next(1000),
-                        assigner = new Reference() { reference = "Link/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
+                        System = "urn:oid:1.2.643.2.69.1.2.6",
+                        Value = "IdPatientMis" + new Random().Next(1000),
+                        Assigner = new ResourceReference() { Reference = "Link/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
                         //period  = new Period(Convert.ToDateTime("01.02.2012"), Convert.ToDateTime("01.02.2018")) для паспорта
                     }
                 },
-                birthDate = Convert.ToDateTime(RandomBirthDate()),
-                gender = "male",
-                name = new HumanName()
+                BirthDate = RandomBirthDate(), //???????
+                Gender = AdministrativeGender.Male,
+                Name = new List<HumanName>
                 {
-                    family = new string[] { RandomFIO()[0] },
-                    given = new string[] { RandomFIO()[1], RandomFIO()[2] }
+                    new HumanName
+                    {
+                        Family = new List<string> { RandomFIO()[0] },
+                        Given = new List<string> { RandomFIO()[1], RandomFIO()[2] }
+                    }
                 }
             };
         }
@@ -65,13 +71,16 @@ namespace RestTest
             return new Coverage
             {
                 // id
-                type = new Coding { system = Dictionary.TYPE_COVERAGE, code = "2", version = 1 },
-                subscriber = new Reference { reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
-                identifier = new Identifier
+                Type = new Coding { System = Dictionary.TYPE_COVERAGE, Code = "2", Version = "1" },
+                Subscriber = new ResourceReference { Reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
+                Identifier = new List<Identifier>
                 {
-                    system = "urn:oid:1.2.643.5.1.13.2.1.1.635.23607",//system = ...635.[код страховой компании]
-                    value = "1234567891011121",
-                    //period = new Period(Convert.ToDateTime("01.02.2012"), Convert.ToDateTime("01.02.2018"))
+                    new Identifier
+                    {
+                        System = "urn:oid:1.2.643.5.1.13.2.1.1.635.23607",//System = ...635.[код страховой компании]
+                        Value = "1234567891011121",
+                        //period = new Period(Convert.ToDateTime("01.02.2012"), Convert.ToDateTime("01.02.2018"))
+                    }
                 }
             };
         }
@@ -83,14 +92,14 @@ namespace RestTest
             //     new Observation[] { SetObservation_BundleOrder() }, new Coverage[] { SetCoverage(patient) });
             return new Bundle
             {
-                meta = new Reference { profile = new string[] { "StructureDefinition/21f687dd-0b3b-4a7b-af8f-04be625c0201" } },
-                entry = new Entry[]
+                Meta = new Meta() { Profile = new string[] { "StructureDefinition/21f687dd-0b3b-4a7b-af8f-04be625c0201" } },
+                Entry = new List<Bundle.BundleEntryComponent>()
                 {
-                    new Entry
+                    new Bundle.BundleEntryComponent()
                     {
-                        resource = SetOrder(patient),
+                        Resource = SetOrder(patient),
                         //new BundleOrder{ order =  SetOrder(patient) },
-                        transaction = new Transaction { method  = "POST", url  = "Order"}
+                        Transaction = new Bundle.BundleEntryTransactionComponent { Method  = Bundle.HTTPVerb.POST, Url  = "Order"}
                     },
                     //new Entry
                     //{
@@ -104,11 +113,11 @@ namespace RestTest
                     //    //new BundleOrder { specimen = new Specimen[] { SetSpecimen(patient) } },
                     //    transaction = new Transaction { method  = "POST", url  = "Specimen"}
                     //},
-                    new Entry 
+                    new Bundle.BundleEntryComponent() 
                     {
-                        resource = SetEncounter(patient),
+                        Resource = SetEncounter(patient),
                         //new BundleOrder { encounter =  SetEncounter(patient) },
-                        transaction = new Transaction { method  = "POST", url  = "Encounter"}
+                        Transaction = new Bundle.BundleEntryTransactionComponent() { Method  = Bundle.HTTPVerb.POST, Url  = "Encounter"}
                     },
                     //new Entry
                     //{
@@ -149,26 +158,26 @@ namespace RestTest
         {
             return new Order
             {
-                identifier = new Identifier[]
+                Identifier = new List<Identifier>
                 {
                     new Identifier
                     {
-                        system = "urn:oid:1.2.643.2.69.1.2.6",
-                        value = "IdOrderMis" + new Random().Next(1000)
+                        System = "urn:oid:1.2.643.2.69.1.2.6",
+                        Value = "IdOrderMis" + new Random().Next(1000)
                     }
                 },
-                date = Convert.ToDateTime("01.01.2012"),
-                subject = new Reference { reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
-                source = new Reference { reference = "519a08f4-c240-4e58-aa66-fe2a017b8d94" },
-                target = new Reference { reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
-                detail = new Reference[] { new Reference { reference = "143e62fc-eee7-4273-899c-23c60c72cb1a" } },
-                when = new When
+                Date = "01.01.2012",
+                Subject = new ResourceReference { Reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
+                Source = new ResourceReference { Reference = "519a08f4-c240-4e58-aa66-fe2a017b8d94" },
+                Target = new ResourceReference { Reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
+                Detail = new List<ResourceReference> { new ResourceReference { Reference = "143e62fc-eee7-4273-899c-23c60c72cb1a" } },
+                When = new Order.OrderWhenComponent
                 {
-                    code = new CodeableConcept
+                    Code = new CodeableConcept
                     {
-                        coding = new Coding[]
+                        Coding = new List<Coding>
                         {
-                            new Coding { system = Dictionary.PRIORITY_EXECUTION, code = "Routine", version = 1 }
+                            new Coding { System = Dictionary.PRIORITY_EXECUTION, Code = "Routine", Version = "1" }
                         }
                     }
                 }
@@ -180,36 +189,36 @@ namespace RestTest
             return new DiagnosticOrder
             {
                 // id?
-                id = "143e62fc-eee7-4273-899c-23c60c72cb1a",
-                subject = new Reference { reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
-                orderer = new Reference { reference = "923cad32-88e6-4ab0-a4cc-5052895b29d9" },
-                encounter = new Reference { reference = "f0ceca14-6847-4ea4-b128-7c86820da428" },
-                supportingInformation = new Reference[] { new Reference { reference = "56350c6f-7333-4002-a622-96968b85381e" } },
-                specimen = new Reference[] { new Reference { reference = "f8cd600f-f5b5-4b18-9662-18212c1935f9" } },
-                status = "requested",
-                item = new Item[]
+                Id = "143e62fc-eee7-4273-899c-23c60c72cb1a",
+                Subject = new ResourceReference { Reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
+                Orderer = new ResourceReference { Reference = "923cad32-88e6-4ab0-a4cc-5052895b29d9" },
+                Encounter = new ResourceReference { Reference = "f0ceca14-6847-4ea4-b128-7c86820da428" },
+                SupportingInformation = new List<ResourceReference> { new ResourceReference { Reference = "56350c6f-7333-4002-a622-96968b85381e" } },
+                Specimen = new List<ResourceReference> { new ResourceReference { Reference = "f8cd600f-f5b5-4b18-9662-18212c1935f9" } },
+                Status = DiagnosticOrder.DiagnosticOrderStatus.Requested,
+                Item = new List<DiagnosticOrder.DiagnosticOrderItemComponent>
                 {
-                    new Item
+                    new DiagnosticOrder.DiagnosticOrderItemComponent
                     {
-                        code = new CodeableConcept
+                        Code = new CodeableConcept
                         {
-                            extension = new Extension[]
+                            Extension = new List<Extension>
                             {
                                 new Extension
                                 {
-                                    url = "urn:oid:1.2.643.2.69.1.100.1",
-                                    valueCodeableConcept = new CodeableConcept
+                                    Url = "urn:oid:1.2.643.2.69.1.100.1",
+                                    Value = new CodeableConcept
                                     {
-                                         coding = new Coding[]
+                                         Coding = new List<Coding>
                                          {
-                                              new Coding { system = "urn:oid:1.2.643.2.69.1.1.1.32", code = "1", version = 1 }
+                                              new Coding { System = "urn:oid:1.2.643.2.69.1.1.1.32", Code = "1", Version = "1" }
                                          }
                                     }
                                 }
                             },
-                            coding = new Coding[]
+                            Coding = new List<Coding>
                             {
-                               new Coding { system = "urn:oid:1.2.643.2.69.1.1.1.31", code = "B03.016.002", version = 1}
+                               new Coding { System = "urn:oid:1.2.643.2.69.1.1.1.31", Code = "B03.016.002", Version = "1"}
                             }
                         }
                     }
@@ -222,22 +231,25 @@ namespace RestTest
             return new Specimen
             {
                 // id?
-                type = new CodeableConcept
+                Type = new CodeableConcept
                 {
-                    coding = new Coding[] { new Coding { system = "1.2.643.2.69.1.1.1.33", code = "1", version = 1 } }
+                    Coding = new List<Coding> { new Coding { System = "1.2.643.2.69.1.1.1.33", Code = "1", Version = "1" } }
                 },
-                subject = new Reference { reference = "Patient/" + patient },
-                collection = new Collection
+                Subject = new ResourceReference { Reference = "Patient/" + patient },
+                Collection = new Specimen.SpecimenCollectionComponent
                 {
-                    comment = "Комментарий к биоматериалу",
-                    collectedDate = Convert.ToDateTime("03.01.2012")
+                    Comment = new List<string> {"Комментарий к биоматериалу"},
+                    //Collected = new Element {Date = "03.01.2012"}
                 },
-                container = new Container
+                Container = new List<Specimen.SpecimenContainerComponent>
                 {
-                    identifier = new Identifier { system = "http://netrika.ru/container-type-identifier", value = "barcode111" }, // system?
-                    type = new CodeableConcept
+                    new Specimen.SpecimenContainerComponent
                     {
-                        coding = new Coding[] { new Coding { system = Dictionary.TYPE_CONTAINER, code = "1", version = 1 } }
+                        Identifier = new List<Identifier>() { new Identifier { System = "http://netrika.ru/container-type-identifier", Value = "barCode111" }}, // System?
+                        Type = new CodeableConcept
+                        {
+                            Coding = new List<Coding>() { new Coding { System = Dictionary.TYPE_CONTAINER, Code = "1", Version = "1" } }
+                        }
                     }
                 }
             };
@@ -248,24 +260,27 @@ namespace RestTest
             return new Encounter
             {
                 // id?
-                id = "f0ceca14-6847-4ea4-b128-7c86820da428",
-                identifier = new Identifier[] { new Identifier{ system = "urn:oid:1.2.643.2.69.1.2.6", value = "IdCaseMis"}},
-                status = "in-progress",
-                iHateThisNameClas = "ambulatory", // class
-                type = new CodeableConcept
-                {
-                    coding = new Coding[] { new Coding { system = Dictionary.TYPE_CASE, code = "2", version = 1 } }
-                },
-                patient = new Reference { reference = "Patient/" + patient },
-                reason = new CodeableConcept[]
+                Id = "f0ceca14-6847-4ea4-b128-7c86820da428",
+                Identifier = new List<Identifier> { new Identifier{ System = "urn:oid:1.2.643.2.69.1.2.6", Value = "IdCaseMis"}},
+                Status = Encounter.EncounterState.InProgress,
+                Class = Encounter.EncounterClass.Ambulatory, // class
+                Type = new List<CodeableConcept>
                 {
                     new CodeableConcept
                     {
-                    coding = new Coding[] { new Coding { system = Dictionary.REASON, code = "1", version = 1 } }
+                       Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_CASE, Code = "2", Version = "1" } }
                     }
                 },
-                indication = new Reference[] { new Reference { reference = "71cf33b8-2eae-432d-88d5-747ef8147d0b" } },
-                serviceProvider = new Reference { reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" }
+                Patient = new ResourceReference { Reference = "Patient/" + patient },
+                Reason = new List<CodeableConcept>()
+                {
+                    new CodeableConcept
+                    {
+                    Coding = new List<Coding> { new Coding { System = Dictionary.REASON, Code = "1", Version = "1" } }
+                    }
+                },
+                Indication = new List<ResourceReference> { new ResourceReference { Reference = "71cf33b8-2eae-432d-88d5-747ef8147d0b" } },
+                ServiceProvider = new ResourceReference { Reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" }
             };
         }
 
@@ -274,27 +289,27 @@ namespace RestTest
             return new Condition
             {
                 // id?
-                id = "64d57862-f2c2-41ef-a5cf-27f2d53569eb",
-                identifier = new Identifier[]
+                Id = "64d57862-f2c2-41ef-a5cf-27f2d53569eb",
+                Identifier = new List<Identifier>()
                 {
                     new Identifier
                     {
-                    system = "urn:oid:1.2.643.2.69.1.1.1.61",
-                    value = "Стандарт первичной медико-санитарной помощи при хронической болезни почек 4 стадии"
+                    System = "urn:oid:1.2.643.2.69.1.1.1.61",
+                    Value = "Стандарт первичной медико-санитарной помощи при хронической болезни почек 4 стадии"
                     }
                 },
-                subject = new Reference { reference = "Patient/" + patient },
-                dateAsserted = Convert.ToDateTime("01.02.2012"),
-                code = new CodeableConcept
+                Patient = new ResourceReference { Reference = "Patient/" + patient },
+                DateAsserted = "01.02.2012",
+                Code = new CodeableConcept
                 {
-                    coding = new Coding[] { new Coding { system = Dictionary.DIAGNOSIS, code = "N18.9", version = 1 } }
+                    Coding = new List<Coding> { new Coding { System = Dictionary.DIAGNOSIS, Code = "N18.9", Version = "1" } }
                 },
-                category = new CodeableConcept
+                Category = new CodeableConcept
                 {
-                    coding = new Coding[] { new Coding { system = Dictionary.TYPE_CONDITION, code = "diagnosis", version = 1 } }
+                    Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_CONDITION, Code = "diagnosis", Version = "1" } }
                 },
-                clinicalStatus = "confirmed",
-                notes = "Уточнение",
+                ClinicalStatus = Condition.ConditionClinicalStatus.Confirmed,
+                Notes = "Уточнение",
                 //dueTo = new DueTo // Сопутствующее заболевание/осложнение 
                 //{
                 //    target = new Condition
@@ -302,18 +317,18 @@ namespace RestTest
                 //        identifier = new Identifier[]
                 //        {
                 //            new Identifier{
-                //            system = "urn:oid:1.2.643.2.69.1.1.1.61",}
+                //            System = "urn:oid:1.2.643.2.69.1.1.1.61",}
                 //            //value?
                 //        },
-                //        subject = new Reference { reference = "Patient/" + patient },
+                //        subject = new ResourceReference { reference = "Patient/" + patient },
                 //        dateAsserted = Convert.ToDateTime("01.02.2012"),
-                //        code = new CodeableConcept
+                //        Code = new CodeableConcept
                 //        {
-                //            coding = new Coding[] { new Coding { system = Dictionary.DIAGNOSIS, code = "N18.9", version = 1 } }
+                //            coding = new Coding[] { new Coding { System = Dictionary.DIAGNOSIS, Code = "N18.9", Version = 1 } }
                 //        },
                 //        category = new CodeableConcept
                 //        {
-                //            coding = new Coding[] { new Coding { system = Dictionary.TYPE_CONDITION, code = "diagnosis", version = 1 } }
+                //            coding = new Coding[] { new Coding { System = Dictionary.TYPE_CONDITION, Code = "diagnosis", Version = 1 } }
                 //        },
                 //        clinicalStatus = "confirmed",
                 //        notes = "Уточнение",
@@ -327,15 +342,15 @@ namespace RestTest
             return new Observation
             {
                 // id??
-                code = new CodeableConcept
+                Code = new CodeableConcept
                 {
-                    coding = new Coding[] { new Coding { system = Dictionary.TYPE_OBSERVATION, code = "2", version = 1 } }
+                    Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_OBSERVATION, Code = "2", Version = "1" } }
                 },
-                status = "final",
-                valueQuantity = new Quantity
+                Status = Observation.ObservationStatus.Final,
+                Value = new Quantity
                 {
-                    value = 2.2,
-                    units = "ммоль/л"
+                    Value = 2.2m,
+                    Units = "ммоль/л"
                 }
             };
         }
@@ -344,57 +359,70 @@ namespace RestTest
         {
             return new Practitioner
             {
-                identifier = new Identifier
+                Identifier = new List<Identifier>
                 {
-                    system = "urn:oid:1.2.643.2.69.1.2.6",
-                    value = "IdDoctorMIS" + new Random().Next(100)
-                },
-                name = new HumanName()
-                {
-                    family = new string[] { RandomFIO()[0] },
-                    given = new string[] { RandomFIO()[1], RandomFIO()[2] }
-                },
-                practitionerRole = new PractitionerRole
-                {
-                    managingOrganization = new Reference { reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
-                    role = new CodeableConcept
+                    new Identifier
                     {
-                        coding = new Coding[] { new Coding { system = Dictionary.ROLE_PRACTITIONER, code = "73", version = 1 } }
-                    },
-                    specialty = new CodeableConcept
+                        System = "urn:oid:1.2.643.2.69.1.2.6",
+                        Value = "IdDoctorMIS" + new Random().Next(100)
+                    }
+                },
+                Name = new HumanName()
+                {
+                    Family = new List<string> { RandomFIO()[0] },
+                    Given = new List<string> { RandomFIO()[1], RandomFIO()[2] }
+                },
+                PractitionerRole = new List<Practitioner.PractitionerPractitionerRoleComponent>()
+                {
+                    new Practitioner.PractitionerPractitionerRoleComponent
                     {
-                        coding = new Coding[] { new Coding { system = Dictionary.SPECIALITY_PRACTITIONER, code = "27", version = 1 } }
+                        ManagingOrganization = new ResourceReference { Reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
+                        Role = new CodeableConcept
+                        {
+                            Coding = new List<Coding>() { new Coding { System = Dictionary.ROLE_PRACTITIONER, Code = "73", Version = "1" } }
+                        },
+                        Specialty = new List<CodeableConcept>()
+                        {
+                            new CodeableConcept()
+                            {
+                            Coding = new List<Coding>() { new Coding { System = Dictionary.SPECIALITY_PRACTITIONER, Code = "27", Version = "1" } }
+
+                            }
+                        }
                     }
                 }
             };
         }
 
-        public BundleResult SetBundleResult(string patient)
-        {
-            return new BundleResult
-            {
-                orderResponse = SetOrderResponse(),
-                diagnosticReport = new DiagnosticReport[] { SetDiagnosticReport() },
-                observation = new Observation[] { SetObservation_BundleResult() },
-                practitioner = new Practitioner[] { SetPractitioner() }
-            };
-        }
+        //public BundleResult SetBundleResult(string patient)
+        //{
+        //    return new BundleResult
+        //    {
+        //        orderResponse = SetOrderResponse(),
+        //        diagnosticReport = new DiagnosticReport[] { SetDiagnosticReport() },
+        //        observation = new Observation[] { SetObservation_BundleResult() },
+        //        practitioner = new Practitioner[] { SetPractitioner() }
+        //    };
+        //}
 
         private OrderResponse SetOrderResponse()
         {
             return new OrderResponse
             {
-                identifier = new Identifier
+                Identifier = new List<Identifier>
                 {
-                    system = "urn:oid:1.2.643.2.69.1.2.2",
-                    value = "IdOrderLis" + new Random().Next(100)
+                    new Identifier
+                    {
+                        System = "urn:oid:1.2.643.2.69.1.2.2",
+                        Value = "IdOrderLis" + new Random().Next(100)
+                    }
                 },
-                request = new Reference { reference = "Order/77f3bc81-fd3d-4d8a-8f64-4fe61989f34a" },
-                date = Convert.ToDateTime("02.01.2012"),
-                who = new Reference { reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
-                orderStatus = "completed",
-                description = "Комментарий к заказу",
-                fulfillment = new Reference[] { new Reference { reference = "4f6a30fb-cd3c-4ab6-8757-532101f72065" } }
+                Request = new ResourceReference { Reference = "Order/77f3bc81-fd3d-4d8a-8f64-4fe61989f34a" },
+                Date = "02.01.2012",
+                Who = new ResourceReference { Reference = "Organization/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
+                OrderStatus_ = OrderResponse.OrderStatus.Completed,
+                Description = "Комментарий к заказу",
+                Fulfillment = new List<ResourceReference>() { new ResourceReference { Reference = "4f6a30fb-cd3c-4ab6-8757-532101f72065" } }
             };
         }
 
@@ -402,17 +430,17 @@ namespace RestTest
         {
             return new DiagnosticReport
             {
-                name = new CodeableConcept
+                Name = new CodeableConcept
                 {
-                    coding = new Coding[] { new Coding { system = Dictionary.CODE_SERVICE, code = "B03.016.006", version = 1 } }
+                    Coding = new List<Coding>() { new Coding { System = Dictionary.CODE_SERVICE, Code = "B03.016.006", Version = "1" } }
                 },
-                status = "final",
-                issued = Convert.ToDateTime("03.01.2012"),
-                subject = new Reference { reference = "Patient/106043a2-6600-4590-bedd-6e26c76a6fed" },
-                performer = new Reference { reference = "3e412c44-1058-40fb-a06f-b9bb9452b39a" },
-                requestDetail = new Reference { reference = "DiagnosticOrder/2c98670c-3494-4c63-bb29-71acd486da3d" },
-                result = new Reference[] { new Reference { reference = "651f0cdc-2e7f-4e3a-99b1-da68d2b196c6" } },
-                conclusion = "Текст заключения по услуге B03.016.006",
+                Status = DiagnosticReport.DiagnosticReportStatus.Final,
+                Issued = "03.01.2012",
+                Subject = new ResourceReference { Reference = "Patient/106043a2-6600-4590-bedd-6e26c76a6fed" },
+                Performer = new ResourceReference { Reference = "3e412c44-1058-40fb-a06f-b9bb9452b39a" },
+                RequestDetail = new List<ResourceReference> { new ResourceReference() {Reference = "DiagnosticOrder/2c98670c-3494-4c63-bb29-71acd486da3d" }},
+                Result = new List<ResourceReference>() { new ResourceReference { Reference = "651f0cdc-2e7f-4e3a-99b1-da68d2b196c6" } },
+                Conclusion = "Текст заключения по услуге B03.016.006",
                 //presentedForm ?? 
             };
         }
@@ -421,38 +449,41 @@ namespace RestTest
         {
             return new Observation
             {
-                code = new CodeableConcept
+                Code = new CodeableConcept
                 {
-                    coding = new Coding[] { new Coding { system = Dictionary.CODE_TEST, code = "17861-6", version = 1 } }
+                    Coding = new List<Coding> { new Coding { System = Dictionary.CODE_TEST, Code = "17861-6", Version = "1" } }
                 },
-                comments = "Комментарий к результату теста",
-                issued = Convert.ToDateTime("02.02.2012"),
-                status = "final",
-                method = new CodeableConcept
+                Comments = "Комментарий к результату теста",
+                Issued = Convert.ToDateTime("02.02.2012"),
+                Status = Observation.ObservationStatus.Final,
+                Method = new CodeableConcept
                 {
-                    coding = new Coding[] { new Coding { system = "urn:oid:1.2.643.2.69.1.2.2", code = "Химический", version = 1 } }
+                    Coding = new List<Coding> { new Coding { System = "urn:oid:1.2.643.2.69.1.2.2", Code = "Химический", Version = "1" } }
                 },
-                performer = new Reference { reference = "3e412c44-1058-40fb-a06f-b9bb9452b39a" },
+                Performer = new List<ResourceReference>() { new ResourceReference() {Reference = "3e412c44-1058-40fb-a06f-b9bb9452b39a" }},
 
 
                 // или value[x]
-                dataAbsentReason = new CodeableConcept
+                DataAbsentReason = new CodeableConcept
                 {
-                    coding = new Coding[] { new Coding { system = "urn:oid:1.2.643.2.69.1.1.1.38", code = "1", version = 1 } }
+                    Coding = new List<Coding>() { new Coding { System = "urn:oid:1.2.643.2.69.1.1.1.38", Code = "1", Version = "1" } }
 
-                }, // code?
+                }, // Code?
 
-                referenceRange = new ReferenceRange
+                ReferenceRange = new List<Observation.ObservationReferenceRangeComponent>()
                 {
-                    low = new Quantity
+                    new Observation.ObservationReferenceRangeComponent()
                     {
-                        value = 2.15,
-                        units = "ммоль/л"
-                    },
-                    high = new Quantity
-                    {
-                        value = 2.5,
-                        units = "ммоль/л"
+                        Low = new Quantity
+                        {
+                            Value = 2.15m,
+                            Units = "ммоль/л"
+                        },
+                        High = new Quantity
+                        {
+                            Value = 2.5m,
+                            Units = "ммоль/л"
+                        }
                     }
                 }
 

@@ -24,7 +24,8 @@ C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug
 C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\RestSharp.xml
 C:\Users\User\Desktop\RestTest\RestTest\RestTest\bin\Debug\nunit.framework.dll
 C:\Users\User\Desktop\RestTest\RestTest\RestTest\bin\Debug\nunit.framework.xml
-C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\nunit.framework.dll
-C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\nunit.framework.xml
+C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\Hl7.Fhir.Core.dll
+C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\Hl7.Fhir.Core.pdb
+C:\Users\Александр\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\Hl7.Fhir.Core.xml
