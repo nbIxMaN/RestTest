@@ -239,7 +239,7 @@ namespace RestTest
                 Collection = new Specimen.SpecimenCollectionComponent
                 {
                     Comment = new List<string> {"Комментарий к биоматериалу"},
-                    //Collected = new Element {Date = "03.01.2012"}
+                    Collected = new Hl7.Fhir.Model.FhirDateTime(1998)
                 },
                 Container = new List<Specimen.SpecimenContainerComponent>
                 {
