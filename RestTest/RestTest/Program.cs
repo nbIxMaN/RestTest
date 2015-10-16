@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using RestSharp.Serializers;
 using System.IO;
 using Hl7.Fhir.Model;
+using RestSharp;
 
 namespace RestTest
 {
