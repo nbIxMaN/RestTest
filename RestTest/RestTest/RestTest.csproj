@@ -78,6 +78,19 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetData.cs" />
+    <Compile Include="Tests Method\Expand.cs" />
+    <Compile Include="Tests Method\Get.cs" />
+    <Compile Include="Tests Method\GetOrder.cs" />
+    <Compile Include="Tests Method\GetResult.cs" />
+    <Compile Include="Tests Method\GetResultS.cs" />
+    <Compile Include="Tests Method\GetStatus.cs" />
+    <Compile Include="Tests Method\LookUp.cs" />
+    <Compile Include="Tests Method\PostBundleOrder.cs" />
+    <Compile Include="Tests Method\PostBundleResult.cs" />
+    <Compile Include="Tests Method\PostCoverage.cs" />
+    <Compile Include="Tests Method\PostPatient.cs" />
+    <Compile Include="Tests Method\PutPatient.cs" />
+    <Compile Include="Tests Method\ValidateCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
