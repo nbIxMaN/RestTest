@@ -16,6 +16,11 @@ namespace RestTest
         private static string[] MiddleNames = { "Максимович", "Андреевич", "Сергеевич", "Сидорович", "Иванович", "Петрович", "Абрамович", "Евгеньевич", "Архипович", "Антонович", "Дмитриевич", "Леонидович", "Денисович", "Тарасович", "Владимирович", "Константинович", "Николаевич", "Романович", "Константинович", "Артёмович", "Филиппович", "Викторович", "Васильевич", "Прохорович", "Алексеевич", "Михайлович", "Афанасьевич", "Харитонович" };
         private static string[] Streets = { "Невский пр.", "ул.Оптиков", "ул.Фрунзе", "ул.Дыбенко", "Пискарёвский пр.", "ул. Таллинская", "ул. Казанская", "наб. канала Грибоедова", "пл. Труда" };
 
+
+        public string refDiagnosticReport = "143e62fc-eee7-4273-899c-23c60c72cb1a";
+        public string organization = "4a94e705-ee3e-46fc-bba0-0298e0fd5bd2";
+
+
         static Random R = new Random((int)DateTime.Now.Ticks);
         private static string[] RandomFIO()
         {
@@ -47,10 +52,14 @@ namespace RestTest
                 {
                     new Identifier()
                     {
-                        System = "urn:oid:1.2.643.2.69.1.2.6",
+                        System = "urn:oid:1.2.643.5.1.34",
                         Value = "IdPatientMis" + new Random().Next(1000),
-                        Assigner = new ResourceReference() { Reference = "Link/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
-                        //Period  = new Period(Convert.ToDateTime("01.02.2012"), Convert.ToDateTime("01.02.2018")) для паспорта
+                        Assigner = new ResourceReference() { Reference = "Link/" + organization },
+                        Period = new Period
+                        {
+                             StartElement = new FhirDateTime("01.02.2012"),
+                             EndElement = new FhirDateTime("01.02.2018")
+                        } //для паспорта
                     }
                 },
                 BirthDate = RandomBirthDate(),
@@ -72,14 +81,18 @@ namespace RestTest
             {
                 // id
                 Type = new Coding { System = Dictionary.TYPE_COVERAGE, Code = "2", Version = "1" },
-                Subscriber = new ResourceReference { Reference = "Patient/" + patient }, 
+                Subscriber = new ResourceReference { Reference = "Patient/" + patient },
                 Identifier = new List<Identifier>
                 {
                     new Identifier
                     {
                         System = "urn:oid:1.2.643.5.1.13.2.1.1.635.23607",//System = ...635.[код страховой компании]
                         Value = "1234567891011121",
-                        //period = new Period(Convert.ToDateTime("01.02.2012"), Convert.ToDateTime("01.02.2018"))
+                        //Period = new Period
+                        //{
+                        //     StartElement = new FhirDateTime("01.02.2012"),
+                        //     EndElement = new FhirDateTime("01.02.2018")
+                        //}
                     }
                 }
             };
@@ -94,7 +107,7 @@ namespace RestTest
                 {
                     new Bundle.BundleEntryComponent()
                     {
-                        Resource = SetOrder(patient),
+                        Resource = SetOrder(patient, "Practitioner/131d7d5d-0f21-451d-86ec-27fa3e069e1a"),
                         Transaction = new Bundle.BundleEntryTransactionComponent { Method  = Bundle.HTTPVerb.POST, Url  = "Order"}
                     },
                     new Bundle.BundleEntryComponent()
@@ -135,7 +148,9 @@ namespace RestTest
                 },
             };
         }
-        private Order SetOrder(string patient)
+        //Practitioner/131d7d5d-0f21-451d-86ec-27fa3e069e1a
+        //519a08f4-c240-4e58-aa66-fe2a017b8d94
+        private Order SetOrder(string patient, string practitioner)
         {
             return new Order
             {
@@ -148,10 +163,10 @@ namespace RestTest
                     }
                 },
                 Date = "01.01.2012",
-                Subject = new ResourceReference { Reference = "Patient/" + patient }, 
-                Source = new ResourceReference { Reference = "519a08f4-c240-4e58-aa66-fe2a017b8d94" },
-                Target = new ResourceReference { Reference = "Organization/4a94e705-ee3e-46fc-bba0-0298e0fd5bd2" },
-                Detail = new List<ResourceReference> { new ResourceReference { Reference = "143e62fc-eee7-4273-899c-23c60c72cb1a" } },
+                Subject = new ResourceReference { Reference = "Patient/" + patient },
+                Source = new ResourceReference { Reference = practitioner },
+                Target = new ResourceReference { Reference = "Organization/" + organization },
+                Detail = new List<ResourceReference> { new ResourceReference { Reference = refDiagnosticReport } },
                 When = new Order.OrderWhenComponent
                 {
                     Code = new CodeableConcept
@@ -169,7 +184,7 @@ namespace RestTest
         {
             return new DiagnosticOrder
             {
-                Id = "143e62fc-eee7-4273-899c-23c60c72cb1a",
+                Id = refDiagnosticReport,
                 Subject = new ResourceReference { Reference = "Patient/" + patient },
                 Orderer = new ResourceReference { Reference = "923cad32-88e6-4ab0-a4cc-5052895b29d9" },
                 Encounter = new ResourceReference { Reference = "f0ceca14-6847-4ea4-b128-7c86820da428" },
@@ -255,11 +270,11 @@ namespace RestTest
                 {
                     new CodeableConcept
                     {
-                    Coding = new List<Coding> { new Coding { System = Dictionary.REASON, Code = "1", Version = "1" } }
+                        Coding = new List<Coding> { new Coding { System = Dictionary.REASON, Code = "1", Version = "1" } }
                     }
                 },
                 Indication = new List<ResourceReference> { new ResourceReference { Reference = "71cf33b8-2eae-432d-88d5-747ef8147d0b" } },
-                ServiceProvider = new ResourceReference { Reference = "Organization/4a94e705-ee3e-46fc-bba0-0298e0fd5bd2" }
+                ServiceProvider = new ResourceReference { Reference = "Organization/" + organization }
             };
         }
 
@@ -272,8 +287,8 @@ namespace RestTest
                 {
                     new Identifier
                     {
-                    System = "urn:oid:1.2.643.2.69.1.1.1.61",
-                    Value = "Стандарт первичной медико-санитарной помощи при хронической болезни почек 4 стадии"
+                        System = "urn:oid:1.2.643.2.69.1.1.1.61",
+                        Value = "Стандарт первичной медико-санитарной помощи при хронической болезни почек 4 стадии"
                     }
                 },
                 Patient = new ResourceReference { Reference = "Patient/" + patient },
@@ -337,7 +352,7 @@ namespace RestTest
         {
             return new Practitioner
             {
-                Id = "3e412c44-1058-40fb-a06f-b9bb9452b39a",
+                Id = "519a08f4-c240-4e58-aa66-fe2a017b8d94",
                 Identifier = new List<Identifier>
                 {
                     new Identifier
@@ -355,7 +370,7 @@ namespace RestTest
                 {
                     new Practitioner.PractitionerPractitionerRoleComponent
                     {
-                        ManagingOrganization = new ResourceReference { Reference = "Organization/4a94e705-ee3e-46fc-bba0-0298e0fd5bd2" },
+                        ManagingOrganization = new ResourceReference { Reference = "Organization/" + organization },
                         Role = new CodeableConcept
                         {
                             Coding = new List<Coding>() { new Coding { System = Dictionary.ROLE_PRACTITIONER, Code = "73", Version = "1" } }
@@ -387,7 +402,7 @@ namespace RestTest
                     },
                     new Bundle.BundleEntryComponent()
                     {
-                        Resource =  SetDiagnosticReport(),
+                        Resource =  SetDiagnosticReport(patient),
                         Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url  = "DiagnosticReport"}
                     },
 
@@ -421,14 +436,14 @@ namespace RestTest
                 },
                 Request = new ResourceReference { Reference = "Order/77f3bc81-fd3d-4d8a-8f64-4fe61989f34a" },
                 Date = "02.01.2012",
-                Who = new ResourceReference { Reference = "Organization/4a94e705-ee3e-46fc-bba0-0298e0fd5bd2" },
+                Who = new ResourceReference { Reference = "Organization/" + organization },
                 OrderStatus_ = OrderResponse.OrderStatus.Completed,
                 Description = "Комментарий к заказу",
                 Fulfillment = new List<ResourceReference>() { new ResourceReference { Reference = "4f6a30fb-cd3c-4ab6-8757-532101f72065" } }
             };
         }
 
-        private DiagnosticReport SetDiagnosticReport()
+        private DiagnosticReport SetDiagnosticReport(string patient)
         {
             var s = new PresentedForm();
             s.data = "dasdsda";
@@ -446,7 +461,7 @@ namespace RestTest
                 },
                 Status = DiagnosticReport.DiagnosticReportStatus.Final,
                 Issued = "03.01.2012",
-                Subject = new ResourceReference { Reference = "Patient/106043a2-6600-4590-bedd-6e26c76a6fed" },
+                Subject = new ResourceReference { Reference = "Patient/" + patient },
                 Performer = new ResourceReference { Reference = "3e412c44-1058-40fb-a06f-b9bb9452b39a" },
                 RequestDetail = new List<ResourceReference> { new ResourceReference() { Reference = "DiagnosticOrder/2c98670c-3494-4c63-bb29-71acd486da3d" } },
                 Result = new List<ResourceReference>() { new ResourceReference { Reference = "651f0cdc-2e7f-4e3a-99b1-da68d2b196c6" } },

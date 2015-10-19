@@ -81,8 +81,8 @@ namespace RestTest
             // var x = request.JsonSerializer.Serialize(s);
             
             //106043a2-6600-4590-bedd-6e26c76a6fed
-            //Bundle b = (new SetData()).SetBundleOrder("02255d1f-548c-4b04-9ac2-7c97d3efad1a");
-            Bundle b = (new SetData()).SetBundleResult("02255d1f-548c-4b04-9ac2-7c97d3efad1a");
+            Bundle b = (new SetData()).SetBundleOrder("02255d1f-548c-4b04-9ac2-7c97d3efad1a");
+            //Bundle b = (new SetData()).SetBundleResult("02255d1f-548c-4b04-9ac2-7c97d3efad1a");
             request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
             var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             request.AddParameter("application/json; charset=utf-8", s, ParameterType.RequestBody);
