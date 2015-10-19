@@ -10,11 +10,6 @@ using RestSharp;
 
 namespace RestTest
 {
-        /// <summary>
-        /// Default JSON serializer for request bodies
-        /// Doesn't currently use the SerializeAs attribute, defers to Newtonsoft's attributes
-        /// </summary>
-
     class Program
     {
         static void Main(string[] args)
@@ -56,50 +51,41 @@ namespace RestTest
             //        }
             //    }
             //};
+
             Patient pa = (new SetData()).SetPatient();
-            //pa.address = null;
-            //pa.name = null;
-            //pa.resourceType = null;
-           // Coverage co = (new SetData()).SetCoverage("106043a2-6600-4590-bedd-6e26c76a6fed");
+            
+            // Coverage co = (new SetData()).SetCoverage("106043a2-6600-4590-bedd-6e26c76a6fed");
 
-
-            GetRequest g = new GetRequest
-            {
-                parameter = new Parameter[]
-                {
-                    new Parameter
-                    {
-                        name = "TargetCode",
-                        valueString = "123.456.789"
-                    },
-                    new Parameter
-                    {
-                        name = "Barcode",
-                        valueString ="barcode"
-                    }
-                }
-            };
-
-
-
+            //GetRequest g = new GetRequest
+            //{
+            //    parameter = new Parameter[]
+            //    {
+            //        new Parameter
+            //        {
+            //            name = "TargetCode",
+            //            valueString = "123.456.789"
+            //        },
+            //        new Parameter
+            //        {
+            //            name = "Barcode",
+            //            valueString ="barcode"
+            //        }
+            //    }
+            //};
 
             var client = new RestClient();
             client.BaseUrl = new Uri("http://192.168.8.93:2223/fhir?_format=json");
             var request = new RestRequest(Method.POST);
             request.RequestFormat = DataFormat.Json;
-            //var s = new Encounter
-            //{
-            //    iHateThisNameClas = "sdfsdf"
-            //};
-         //   var x = request.JsonSerializer.Serialize(s);
+           
+            // var x = request.JsonSerializer.Serialize(s);
+            
             //106043a2-6600-4590-bedd-6e26c76a6fed
             //Bundle b = (new SetData()).SetBundleOrder("02255d1f-548c-4b04-9ac2-7c97d3efad1a");
             Bundle b = (new SetData()).SetBundleResult("02255d1f-548c-4b04-9ac2-7c97d3efad1a");
-           // var s = request.JsonSerializer.Serialize(b);
             request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
             var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             request.AddParameter("application/json; charset=utf-8", s, ParameterType.RequestBody);
-            //request.AddParameter("application/json", s, RestSharp.ParameterType.RequestBody);
             var r = client.Execute(request);
         }
     }

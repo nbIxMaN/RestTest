@@ -50,10 +50,10 @@ namespace RestTest
                         System = "urn:oid:1.2.643.2.69.1.2.6",
                         Value = "IdPatientMis" + new Random().Next(1000),
                         Assigner = new ResourceReference() { Reference = "Link/4bcbf113-f99c-41fa-a92d-43f5684fffc5" },
-                        //period  = new Period(Convert.ToDateTime("01.02.2012"), Convert.ToDateTime("01.02.2018")) для паспорта
+                        //Period  = new Period(Convert.ToDateTime("01.02.2012"), Convert.ToDateTime("01.02.2018")) для паспорта
                     }
                 },
-                BirthDate = RandomBirthDate(), //???????
+                BirthDate = RandomBirthDate(),
                 Gender = AdministrativeGender.Male,
                 Name = new List<HumanName>
                 {
@@ -72,7 +72,7 @@ namespace RestTest
             {
                 // id
                 Type = new Coding { System = Dictionary.TYPE_COVERAGE, Code = "2", Version = "1" },
-                Subscriber = new ResourceReference { Reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
+                Subscriber = new ResourceReference { Reference = "Patient/" + patient }, 
                 Identifier = new List<Identifier>
                 {
                     new Identifier
@@ -100,13 +100,12 @@ namespace RestTest
                     new Bundle.BundleEntryComponent()
                     {
                         Resource =  SetDiagnosticOrder(patient),
-                        Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url  = "DiagnosticOrder"}
+                        Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url = "DiagnosticOrder"}
                     },
-                    //new Entry
+                    //new Bundle.BundleEntryComponent()
                     //{
-                    //    resource = SetSpecimen(patient),
-                    //    //new BundleOrder { specimen = new Specimen[] { SetSpecimen(patient) } },
-                    //    transaction = new Transaction { method  = "POST", url  = "Specimen"}
+                    //    Resource = SetSpecimen(patient),
+                    //    Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url = "Specimen"}
                     //},
                     new Bundle.BundleEntryComponent() 
                     {
@@ -116,35 +115,24 @@ namespace RestTest
                     new Bundle.BundleEntryComponent()
                     {
                         Resource = SetCondition(patient),
-                        Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url   = "Condition"}
+                        Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url = "Condition"}
                     },
-                    //new Entry
+                    //new Bundle.BundleEntryComponent()
                     //{
-                    //    resource = SetObservation_BundleOrder(),
-                    //    //new BundleOrder { observation = new Observation[] { SetObservation_BundleOrder() } },
-                    //    transaction = new Transaction { method  = "POST", url  = "Observation"}
+                    //    Resource = SetObservation_BundleOrder(),
+                    //    Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url = "Observation"}
                     //},
-                    //new Entry
+                    //new Bundle.BundleEntryComponent()
                     //{
-                    //    resource = SetPractitioner(),
-                    //    //new BundleOrder { practitioner = new Practitioner[] { SetPractitioner() } },
-                    //    transaction = new Transaction { method  = "POST", url  = "Practitioner"}
+                    //    Resource = SetPractitioner(),
+                    //    Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url = "Practitioner"}
                     //},
-               //     new Entry
-               //     {
-               //         resource = SetCoverage(patient),
-               ////         new BundleOrder { coverage = new Coverage[] { SetCoverage(patient)} },
-               //         transaction = new Transaction { method  = "POST", url  = "Coverage"}
-               //     },
+                    //new Bundle.BundleEntryComponent()
+                    //{
+                    //    Resource = SetCoverage(patient),
+                    //    Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url = "Coverage"}
+                    //},
                 },
-                //order = SetOrder(patient),
-                //diagnosticOrder = new DiagnosticOrder[] { SetDiagnosticOrder(patient) },
-                //specimen = new Specimen[] { SetSpecimen(patient) },
-                //encounter = SetEncounter(patient),
-                //condition = new Condition[] { SetCondition(patient) },
-                //observation = new Observation[] { SetObservation_BundleOrder() },
-                //practitioner = new Practitioner[] { SetPractitioner() },
-                //coverage = new Coverage[] { SetCoverage(patient) }
             };
         }
         private Order SetOrder(string patient)
@@ -160,7 +148,7 @@ namespace RestTest
                     }
                 },
                 Date = "01.01.2012",
-                Subject = new ResourceReference { Reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
+                Subject = new ResourceReference { Reference = "Patient/" + patient }, 
                 Source = new ResourceReference { Reference = "519a08f4-c240-4e58-aa66-fe2a017b8d94" },
                 Target = new ResourceReference { Reference = "Organization/4a94e705-ee3e-46fc-bba0-0298e0fd5bd2" },
                 Detail = new List<ResourceReference> { new ResourceReference { Reference = "143e62fc-eee7-4273-899c-23c60c72cb1a" } },
@@ -181,9 +169,8 @@ namespace RestTest
         {
             return new DiagnosticOrder
             {
-                // id?
                 Id = "143e62fc-eee7-4273-899c-23c60c72cb1a",
-                Subject = new ResourceReference { Reference = "Patient/" + patient }, // для примера patient = 106043a2-6600-4590-bedd-6e26c76a6fed
+                Subject = new ResourceReference { Reference = "Patient/" + patient },
                 Orderer = new ResourceReference { Reference = "923cad32-88e6-4ab0-a4cc-5052895b29d9" },
                 Encounter = new ResourceReference { Reference = "f0ceca14-6847-4ea4-b128-7c86820da428" },
                 SupportingInformation = new List<ResourceReference> { new ResourceReference { Reference = "56350c6f-7333-4002-a622-96968b85381e" } },
@@ -231,7 +218,7 @@ namespace RestTest
                 Subject = new ResourceReference { Reference = "Patient/" + patient },
                 Collection = new Specimen.SpecimenCollectionComponent
                 {
-                    Comment = new List<string> {"Комментарий к биоматериалу"},
+                    Comment = new List<string> { "Комментарий к биоматериалу" },
                     Collected = new Hl7.Fhir.Model.FhirDateTime(1998)
                 },
                 Container = new List<Specimen.SpecimenContainerComponent>
@@ -252,11 +239,10 @@ namespace RestTest
         {
             return new Encounter
             {
-                // id?
                 Id = "f0ceca14-6847-4ea4-b128-7c86820da428",
-                Identifier = new List<Identifier> { new Identifier{ System = "urn:oid:1.2.643.2.69.1.2.6", Value = "IdCaseMis"}},
+                Identifier = new List<Identifier> { new Identifier { System = "urn:oid:1.2.643.2.69.1.2.6", Value = "IdCaseMis" } },
                 Status = Encounter.EncounterState.InProgress,
-                Class = Encounter.EncounterClass.Ambulatory, // class
+                Class = Encounter.EncounterClass.Ambulatory,
                 Type = new List<CodeableConcept>
                 {
                     new CodeableConcept
@@ -281,7 +267,6 @@ namespace RestTest
         {
             return new Condition
             {
-                // id?
                 Id = "64d57862-f2c2-41ef-a5cf-27f2d53569eb",
                 Identifier = new List<Identifier>()
                 {
@@ -351,7 +336,8 @@ namespace RestTest
         private Practitioner SetPractitioner()
         {
             return new Practitioner
-            { Id = "3e412c44-1058-40fb-a06f-b9bb9452b39a",
+            {
+                Id = "3e412c44-1058-40fb-a06f-b9bb9452b39a",
                 Identifier = new List<Identifier>
                 {
                     new Identifier
@@ -419,12 +405,6 @@ namespace RestTest
                 },
 
             };
-
-                //orderResponse = SetOrderResponse(),
-                //diagnosticReport = new DiagnosticReport[] { SetDiagnosticReport() },
-                //observation = new Observation[] { SetObservation_BundleResult() },
-                //practitioner = new Practitioner[] { SetPractitioner() }
-
         }
 
         private OrderResponse SetOrderResponse()
@@ -452,7 +432,7 @@ namespace RestTest
         {
             var s = new PresentedForm();
             s.data = "dasdsda";
-            s.hash = Convert.ToBase64String(new byte[]{1,2});
+            s.hash = Convert.ToBase64String(new byte[] { 1, 2 });
             s.public_key = Convert.ToBase64String(new byte[] { 1, 2 });
             s.sign = Convert.ToBase64String(new byte[] { 1, 2 });
             var qwer = (new RestSharp.Serializers.JsonSerializer()).Serialize(s);
@@ -468,7 +448,7 @@ namespace RestTest
                 Issued = "03.01.2012",
                 Subject = new ResourceReference { Reference = "Patient/106043a2-6600-4590-bedd-6e26c76a6fed" },
                 Performer = new ResourceReference { Reference = "3e412c44-1058-40fb-a06f-b9bb9452b39a" },
-                RequestDetail = new List<ResourceReference> { new ResourceReference() {Reference = "DiagnosticOrder/2c98670c-3494-4c63-bb29-71acd486da3d" }},
+                RequestDetail = new List<ResourceReference> { new ResourceReference() { Reference = "DiagnosticOrder/2c98670c-3494-4c63-bb29-71acd486da3d" } },
                 Result = new List<ResourceReference>() { new ResourceReference { Reference = "651f0cdc-2e7f-4e3a-99b1-da68d2b196c6" } },
                 Conclusion = "Текст заключения по услуге B03.016.006",
                 PresentedForm = new List<Attachment>
@@ -498,7 +478,7 @@ namespace RestTest
                 {
                     Coding = new List<Coding> { new Coding { System = "urn:oid:1.2.643.2.69.1.2.2", Code = "Химический", Version = "1" } }
                 },
-                Performer = new List<ResourceReference>() { new ResourceReference() {Reference = "3e412c44-1058-40fb-a06f-b9bb9452b39a" }},
+                Performer = new List<ResourceReference>() { new ResourceReference() { Reference = "3e412c44-1058-40fb-a06f-b9bb9452b39a" } },
 
 
                 // или value[x]

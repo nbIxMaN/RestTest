@@ -15,18 +15,33 @@ namespace RestTest.Tests_Method
     class PostPatient
     {
         [Test]
-        public void Test()
+        public void PostPatient_Test()
         {
             Patient p = (new SetData()).SetPatient();
-            var c = new RestClient();
-            c.BaseUrl = new Uri("http://fhir.zdrav.netrika.ru/fhir/Patient");
+            
+            var client = new RestClient();
+            client.BaseUrl = new Uri("http://192.168.8.93:2223/fhir/Patient");
             var request = new RestRequest(Method.POST);
-
-            var s = request.JsonSerializer.Serialize(p);
-            request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
             request.RequestFormat = DataFormat.Json;
-            request.AddBody(p);
-            var r = c.Execute(request);
+            request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
+            var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(p);
+            request.AddParameter("application/json; charset=utf-8", s, ParameterType.RequestBody);
+            var r = client.Execute(request);
+        }
+
+        [Test]
+        public void PutPatient_Test()
+        {
+            Patient p = (new SetData()).SetPatient();
+
+            var client = new RestClient();
+            client.BaseUrl = new Uri("http://192.168.8.93:2223/fhir/Patient");
+            var request = new RestRequest(Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
+            var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(p);
+            request.AddParameter("application/json; charset=utf-8", s, ParameterType.RequestBody);
+            var r = client.Execute(request);
         }
     }
 }
