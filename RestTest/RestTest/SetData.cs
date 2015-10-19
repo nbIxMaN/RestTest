@@ -11,15 +11,16 @@ namespace RestTest
 {
     class SetData
     {
+        private const string MetaBundleOrder = "StructureDefinition/cd45a667-bde0-490f-b602-8d780acf4aa2";
+        private const string MetaBundleResult = "StructureDefinition/21f687dd-0b3b-4a7b-af8f-04be625c0201";
+        private string refDiagnosticReport = "143e62fc-eee7-4273-899c-23c60c72cb1a";
+        private string organization = "4a94e705-ee3e-46fc-bba0-0298e0fd5bd2";
+
+
         private static string[] FamilyNames = { "Максимов", "Андреев", "Сергеев", "Сидоров", "Иванов", "Петров", "Абрамов", "Евгеньев", "Архипов", "Антонов", "Дмитриев", "Леонидов", "Денисов", "Тарасов", "Владимиров", "Константинов", "Николаев", "Романов", "Константинов", "Артемьев", "Филиппов", "Викторов", "Васильев", "Прохоров", "Алексеев", "Михайлов", "Афанасьев", "Харитонов" };
         private static string[] GivenNames = { "Максим", "Андрей", "Сергей", "Сидор", "Иван", "Пётр", "Абрам", "Евгений", "Архип", "Антон", "Дмитрий", "Леонид", "Денис", "Тарас", "Владимир", "Константин", "Николай", "Роман", "Константин", "Артём", "Филипп", "Виктор", "Василий", "Прохор", "Алексей", "Михаил", "Афанасий", "Харитон" };
         private static string[] MiddleNames = { "Максимович", "Андреевич", "Сергеевич", "Сидорович", "Иванович", "Петрович", "Абрамович", "Евгеньевич", "Архипович", "Антонович", "Дмитриевич", "Леонидович", "Денисович", "Тарасович", "Владимирович", "Константинович", "Николаевич", "Романович", "Константинович", "Артёмович", "Филиппович", "Викторович", "Васильевич", "Прохорович", "Алексеевич", "Михайлович", "Афанасьевич", "Харитонович" };
         private static string[] Streets = { "Невский пр.", "ул.Оптиков", "ул.Фрунзе", "ул.Дыбенко", "Пискарёвский пр.", "ул. Таллинская", "ул. Казанская", "наб. канала Грибоедова", "пл. Труда" };
-
-
-        public string refDiagnosticReport = "143e62fc-eee7-4273-899c-23c60c72cb1a";
-        public string organization = "4a94e705-ee3e-46fc-bba0-0298e0fd5bd2";
-
 
         static Random R = new Random((int)DateTime.Now.Ticks);
         private static string[] RandomFIO()
@@ -37,8 +38,6 @@ namespace RestTest
         {
             return Streets[R.Next(Streets.Length)] + ", д." + R.Next(30).ToString() + ", кв." + R.Next(150).ToString();
         }
-
-        //продумать ссылки!!
 
         public Patient SetPatient()
         {
@@ -98,59 +97,100 @@ namespace RestTest
             };
         }
 
-        public Bundle SetBundleOrder(string patient)
+        public Bundle SetBundleOrder(Order order, DiagnosticOrder diagnosticOrder,
+                                     Specimen specimen, Encounter encounter, Condition condition,
+                                     Observation observation, Practitioner practitioner, Coverage coverage)
         {
-            return new Bundle
+            Bundle bundle = new Bundle();
+            bundle.Meta = new Meta() { Profile = new string[] { MetaBundleOrder } };
+            bundle.Entry = new List<Bundle.BundleEntryComponent>();
+
+            if (order != null)
             {
-                Meta = new Meta() { Profile = new string[] { "StructureDefinition/cd45a667-bde0-490f-b602-8d780acf4aa2" } },
-                Entry = new List<Bundle.BundleEntryComponent>()
+                Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
                 {
-                    new Bundle.BundleEntryComponent()
-                    {
-                        Resource = SetOrder(patient, "Practitioner/131d7d5d-0f21-451d-86ec-27fa3e069e1a"),
-                        Transaction = new Bundle.BundleEntryTransactionComponent { Method  = Bundle.HTTPVerb.POST, Url  = "Order"}
-                    },
-                    new Bundle.BundleEntryComponent()
-                    {
-                        Resource =  SetDiagnosticOrder(patient),
-                        Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url = "DiagnosticOrder"}
-                    },
-                    //new Bundle.BundleEntryComponent()
-                    //{
-                    //    Resource = SetSpecimen(patient),
-                    //    Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url = "Specimen"}
-                    //},
-                    new Bundle.BundleEntryComponent() 
-                    {
-                        Resource = SetEncounter(patient),
-                        Transaction = new Bundle.BundleEntryTransactionComponent() { Method  = Bundle.HTTPVerb.POST, Url  = "Encounter"}
-                    },
-                    new Bundle.BundleEntryComponent()
-                    {
-                        Resource = SetCondition(patient),
-                        Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url = "Condition"}
-                    },
-                    //new Bundle.BundleEntryComponent()
-                    //{
-                    //    Resource = SetObservation_BundleOrder(),
-                    //    Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url = "Observation"}
-                    //},
-                    //new Bundle.BundleEntryComponent()
-                    //{
-                    //    Resource = SetPractitioner(),
-                    //    Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url = "Practitioner"}
-                    //},
-                    //new Bundle.BundleEntryComponent()
-                    //{
-                    //    Resource = SetCoverage(patient),
-                    //    Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url = "Coverage"}
-                    //},
-                },
-            };
+                    Resource = order,
+                    Transaction = new Bundle.BundleEntryTransactionComponent { Method = Bundle.HTTPVerb.POST, Url = "Order" }
+                };
+                bundle.Entry.Add(component);
+            }
+
+            if (diagnosticOrder != null)
+            {
+                Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
+                {
+                    Resource = diagnosticOrder,
+                    Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.POST, Url = "DiagnosticOrder" }
+                };
+                bundle.Entry.Add(component);
+            }
+
+            if (specimen != null)
+            {
+                Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
+                {
+                    Resource = specimen,
+                    Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.POST, Url = "Specimen" }
+                };
+                bundle.Entry.Add(component);
+            }
+
+            if (encounter != null)
+            {
+                Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
+                {
+                    Resource = encounter,
+                    Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.POST, Url = "Encounter" }
+                };
+                bundle.Entry.Add(component);
+            }
+
+            if (condition != null)
+            {
+                Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
+                {
+                    Resource = condition,
+                    Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.POST, Url = "Condition" }
+                };
+                bundle.Entry.Add(component);
+            }
+
+            if (observation != null)
+            {
+                Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
+                {
+                    Resource = observation,
+                    Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.POST, Url = "Observation" }
+                };
+                bundle.Entry.Add(component);
+            }
+
+            if (practitioner != null)
+            {
+                Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
+                {
+                    Resource = practitioner,
+                    Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.POST, Url = "Practitioner" }
+                };
+                bundle.Entry.Add(component);
+            }
+            if (coverage != null)
+            {
+                Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
+                {
+                    Resource = coverage,
+                    Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.POST, Url = "Coverage" }
+                };
+                bundle.Entry.Add(component);
+            }
+            return bundle;
         }
+
+        //продумать ссылки!!
+
         //Practitioner/131d7d5d-0f21-451d-86ec-27fa3e069e1a
         //519a08f4-c240-4e58-aa66-fe2a017b8d94
-        private Order SetOrder(string patient, string practitioner)
+        public Order SetOrder(string patient, string practitioner)
         {
             return new Order
             {
@@ -180,7 +220,7 @@ namespace RestTest
             };
         }
 
-        private DiagnosticOrder SetDiagnosticOrder(string patient)
+        public DiagnosticOrder SetDiagnosticOrder(string patient)
         {
             return new DiagnosticOrder
             {
@@ -221,7 +261,7 @@ namespace RestTest
             };
         }
 
-        private Specimen SetSpecimen(string patient)
+        public Specimen SetSpecimen(string patient)
         {
             return new Specimen
             {
@@ -250,7 +290,7 @@ namespace RestTest
             };
         }
 
-        private Encounter SetEncounter(string patient)
+        public Encounter SetEncounter(string patient)
         {
             return new Encounter
             {
@@ -278,7 +318,7 @@ namespace RestTest
             };
         }
 
-        private Condition SetCondition(string patient)
+        public Condition SetCondition(string patient)
         {
             return new Condition
             {
@@ -330,7 +370,7 @@ namespace RestTest
             };
         }
 
-        private Observation SetObservation_BundleOrder()
+        public Observation SetObservation_BundleOrder()
         {
             return new Observation
             {
@@ -348,7 +388,7 @@ namespace RestTest
             };
         }
 
-        private Practitioner SetPractitioner()
+        public Practitioner SetPractitioner()
         {
             return new Practitioner
             {
@@ -392,7 +432,7 @@ namespace RestTest
         {
             return new Bundle
             {
-                Meta = new Meta() { Profile = new string[] { "StructureDefinition/21f687dd-0b3b-4a7b-af8f-04be625c0201" } },
+                Meta = new Meta() { Profile = new string[] { MetaBundleResult } },
                 Entry = new List<Bundle.BundleEntryComponent>()
                 {
                     new Bundle.BundleEntryComponent()
