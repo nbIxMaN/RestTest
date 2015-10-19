@@ -13,7 +13,10 @@ namespace RestTest
     {
         private const string MetaBundleOrder = "StructureDefinition/cd45a667-bde0-490f-b602-8d780acf4aa2";
         private const string MetaBundleResult = "StructureDefinition/21f687dd-0b3b-4a7b-af8f-04be625c0201";
+
         private string refDiagnosticReport = "143e62fc-eee7-4273-899c-23c60c72cb1a";
+        private string refEncounter = "f0ceca14-6847-4ea4-b128-7c86820da428";
+
         private string organization = "4a94e705-ee3e-46fc-bba0-0298e0fd5bd2";
 
 
@@ -189,7 +192,7 @@ namespace RestTest
         //продумать ссылки!!
 
         //Practitioner/131d7d5d-0f21-451d-86ec-27fa3e069e1a
-        //519a08f4-c240-4e58-aa66-fe2a017b8d94
+        //519a08f4-c240-4e58-aa66-fe2a017b8d94 
         public Order SetOrder(string patient, string practitioner)
         {
             return new Order
@@ -220,16 +223,16 @@ namespace RestTest
             };
         }
 
-        public DiagnosticOrder SetDiagnosticOrder(string patient)
+        public DiagnosticOrder SetDiagnosticOrder(string patient, string practitioner, string specimen, string supportInfo)
         {
             return new DiagnosticOrder
             {
                 Id = refDiagnosticReport,
                 Subject = new ResourceReference { Reference = "Patient/" + patient },
-                Orderer = new ResourceReference { Reference = "923cad32-88e6-4ab0-a4cc-5052895b29d9" },
-                Encounter = new ResourceReference { Reference = "f0ceca14-6847-4ea4-b128-7c86820da428" },
-                SupportingInformation = new List<ResourceReference> { new ResourceReference { Reference = "56350c6f-7333-4002-a622-96968b85381e" } },
-                Specimen = new List<ResourceReference> { new ResourceReference { Reference = "f8cd600f-f5b5-4b18-9662-18212c1935f9" } },
+                Orderer = new ResourceReference { Reference = practitioner },
+                Encounter = new ResourceReference { Reference = refEncounter },
+                SupportingInformation = new List<ResourceReference> { new ResourceReference { Reference = supportInfo } },
+                Specimen = new List<ResourceReference> { new ResourceReference { Reference = specimen } },
                 Status = DiagnosticOrder.DiagnosticOrderStatus.Requested,
                 Item = new List<DiagnosticOrder.DiagnosticOrderItemComponent>
                 {
@@ -241,19 +244,19 @@ namespace RestTest
                             {
                                 new Extension
                                 {
-                                    Url = "urn:oid:1.2.643.2.69.1.100.1",
+                                    Url = Dictionary.EXTENSION,
                                     Value = new CodeableConcept
                                     {
                                          Coding = new List<Coding>
                                          {
-                                              new Coding { System = "urn:oid:1.2.643.2.69.1.1.1.32", Code = "1", Version = "1" }
+                                              new Coding { System = Dictionary.EXTENSION_FINANCE, Code = "1", Version = "1" }
                                          }
                                     }
                                 }
                             },
                             Coding = new List<Coding>
                             {
-                               new Coding { System = "urn:oid:1.2.643.2.69.1.1.1.31", Code = "B03.016.002", Version = "1"}
+                               new Coding { System = Dictionary.CODE_SERVICE, Code = "B03.016.002", Version = "1"}
                             }
                         }
                     }
@@ -268,7 +271,7 @@ namespace RestTest
                 // id?
                 Type = new CodeableConcept
                 {
-                    Coding = new List<Coding> { new Coding { System = "1.2.643.2.69.1.1.1.33", Code = "1", Version = "1" } }
+                    Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_SPECIMEN, Code = "1", Version = "1" } }
                 },
                 Subject = new ResourceReference { Reference = "Patient/" + patient },
                 Collection = new Specimen.SpecimenCollectionComponent
@@ -290,11 +293,11 @@ namespace RestTest
             };
         }
 
-        public Encounter SetEncounter(string patient)
+        public Encounter SetEncounter(string patient, string[] condition)
         {
             return new Encounter
             {
-                Id = "f0ceca14-6847-4ea4-b128-7c86820da428",
+                Id = refEncounter,
                 Identifier = new List<Identifier> { new Identifier { System = "urn:oid:1.2.643.2.69.1.2.6", Value = "IdCaseMis" } },
                 Status = Encounter.EncounterState.InProgress,
                 Class = Encounter.EncounterClass.Ambulatory,
@@ -313,7 +316,7 @@ namespace RestTest
                         Coding = new List<Coding> { new Coding { System = Dictionary.REASON, Code = "1", Version = "1" } }
                     }
                 },
-                Indication = new List<ResourceReference> { new ResourceReference { Reference = "71cf33b8-2eae-432d-88d5-747ef8147d0b" } },
+                Indication = new List<ResourceReference> { new ResourceReference { Reference = condition[0] } },
                 ServiceProvider = new ResourceReference { Reference = "Organization/" + organization }
             };
         }

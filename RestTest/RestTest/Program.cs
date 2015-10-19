@@ -15,11 +15,10 @@ namespace RestTest
         public void RequestExec(RestSharp.Method e, string url, string s)
         {
             var client = new RestClient();
-            client.BaseUrl = new Uri("http://192.168.8.93:2223/fhir?_format=json");
+            client.BaseUrl = new Uri(url);
             var request = new RestRequest(e);
             request.RequestFormat = DataFormat.Json;
             request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
-            //var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(o);
             request.AddParameter("application/json; charset=utf-8", s, ParameterType.RequestBody);
             var r = client.Execute(request);
         }
