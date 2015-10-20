@@ -89,12 +89,12 @@ namespace RestTest
             request.RequestFormat = DataFormat.Json;
 
             // var x = request.JsonSerializer.Serialize(s);
-            string patient = "02255d1f-548c-4b04-9ac2-7c97d3efad1a";
+            //string patient = "02255d1f-548c-4b04-9ac2-7c97d3efad1a";
 
-            Order order = (new SetData()).SetOrder(patient, "Practitioner/131d7d5d-0f21-451d-86ec-27fa3e069e1a");
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient);
-            Encounter enc = (new SetData()).SetEncounter(patient);
-            Condition con = (new SetData()).SetCondition(patient);
+            //Order order = (new SetData()).SetOrder(patient, "Practitioner/131d7d5d-0f21-451d-86ec-27fa3e069e1a");
+            //DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient);
+            //Encounter enc = (new SetData()).SetEncounter(patient);
+            //Condition con = (new SetData()).SetCondition(patient);
 
                  
              //SetDiagnosticOrder(patient),
@@ -106,12 +106,12 @@ namespace RestTest
              //SetCoverage(patient),
 
             //106043a2-6600-4590-bedd-6e26c76a6fed
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder,null, enc, con, null, null, null);
+          //  Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder,null, enc, con, null, null, null);
             //Bundle b = (new SetData()).SetBundleResult("02255d1f-548c-4b04-9ac2-7c97d3efad1a");
-            request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
-            var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
-            request.AddParameter("application/json; charset=utf-8", s, ParameterType.RequestBody);
-            var r = client.Execute(request);
+            //request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
+            //var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
+            //request.AddParameter("application/json; charset=utf-8", s, ParameterType.RequestBody);
+            //var r = client.Execute(request);
         }
     }
 }
