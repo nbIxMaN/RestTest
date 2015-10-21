@@ -18,10 +18,15 @@ namespace RestTest.Tests_Method
         [Test]
         public void BundleOrderMin()
         {
-            string patient = "02255d1f-548c-4b04-9ac2-7c97d3efad1a";
-            string pract = "Practitioner/131d7d5d-0f21-451d-86ec-27fa3e069e1a";
-            string specimenRef = "f8cd600f-f5b5-4b18-9662-18212c1935f9";
-            string supportInfo = "56350c6f-7333-4002-a622-96968b85381e"; // Observation/ Condition
+            //string patient = "02255d1f-548c-4b04-9ac2-7c97d3efad1a";
+            //string pract = "Practitioner/131d7d5d-0f21-451d-86ec-27fa3e069e1a";
+            //string specimenRef = "f8cd600f-f5b5-4b18-9662-18212c1935f9";
+            //string supportInfo = "56350c6f-7333-4002-a622-96968b85381e"; // Observation/ Condition
+
+            string patient = Ids.patient;
+            string pract = "Practitioner/" + Ids.partitioner;
+            string specimenRef = Ids.specimen;
+            string supportInfo = Ids.condition; // Observation/ Condition
 
             string indicat = "71cf33b8-2eae-432d-88d5-747ef8147d0b";//Condition
 

@@ -77,12 +77,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GetRequest.cs" />
+    <Compile Include="Ids.cs" />
     <Compile Include="Parameter.cs" />
     <Compile Include="Dictionary.cs" />
     <Compile Include="PresentedForm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetData.cs" />
+    <Compile Include="Tests Method\ALL.cs" />
     <Compile Include="Tests Method\Expand.cs" />
     <Compile Include="Tests Method\Get.cs" />
     <Compile Include="Tests Method\GetOrder.cs" />

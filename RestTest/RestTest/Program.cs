@@ -12,7 +12,7 @@ namespace RestTest
 {
     class Program
     {
-        public void RequestExec(RestSharp.Method e, string url, string s)
+        public IRestResponse RequestExec(RestSharp.Method e, string url, string s)
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(url);
@@ -21,6 +21,7 @@ namespace RestTest
             request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
             request.AddParameter("application/json; charset=utf-8", s, ParameterType.RequestBody);
             var r = client.Execute(request);
+            return r;
         }
         static void Main(string[] args)
         {
