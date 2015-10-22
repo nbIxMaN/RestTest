@@ -234,6 +234,12 @@ namespace RestTest.Tests_Method
 
             //задаём Bundle 
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, observation, practitioner, coverage);
+            Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
+            {
+                Resource = p,
+                Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.POST, Url = "Patient" }
+            };
+            b.Entry.Add(component);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
