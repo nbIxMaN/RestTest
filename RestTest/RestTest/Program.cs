@@ -12,17 +12,15 @@ namespace RestTest
 {
     class Program
     {
-        public IRestResponse RequestExec(RestSharp.Method e, string url, string s)
+        public IRestResponse RequestExec(RestSharp.Method method, string url, string s)
         {
-            var client = new RestClient();
-            client.BaseUrl = new Uri(url);
-            var request = new RestRequest(e);
-            request.RequestFormat = DataFormat.Json;
+            var client = new RestClient() { BaseUrl = new Uri(url) };
+            var request = new RestRequest(method) { RequestFormat = DataFormat.Json };
             request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
             request.AddParameter("application/json; charset=utf-8", s, ParameterType.RequestBody);
-            var r = client.Execute(request);
-            return r;
+            return client.Execute(request);
         }
+
         static void Main(string[] args)
         {
             //Patient p = new Patient()
@@ -97,17 +95,17 @@ namespace RestTest
             //Encounter enc = (new SetData()).SetEncounter(patient);
             //Condition con = (new SetData()).SetCondition(patient);
 
-                 
-             //SetDiagnosticOrder(patient),
-             //SetSpecimen(patient),
-             //SetEncounter(patient),
-             //SetCondition(patient),
-             //SetObservation_BundleOrder(),
-             //SetPractitioner(),
-             //SetCoverage(patient),
+
+            //SetDiagnosticOrder(patient),
+            //SetSpecimen(patient),
+            //SetEncounter(patient),
+            //SetCondition(patient),
+            //SetObservation_BundleOrder(),
+            //SetPractitioner(),
+            //SetCoverage(patient),
 
             //106043a2-6600-4590-bedd-6e26c76a6fed
-          //  Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder,null, enc, con, null, null, null);
+            //  Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder,null, enc, con, null, null, null);
             //Bundle b = (new SetData()).SetBundleResult("02255d1f-548c-4b04-9ac2-7c97d3efad1a");
             //request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
             //var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);

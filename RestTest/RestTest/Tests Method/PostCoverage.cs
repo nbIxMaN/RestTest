@@ -17,7 +17,7 @@ namespace RestTest.Tests_Method
         [Test]
         public void Test()
         {
-            Coverage cov = (new SetData()).SetCoverage("b68a2114-2df7-4e72-827f-560e5d5efea1");
+            Coverage cov = (new SetData()).SetCoverage(References.patient);
 
             var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(cov);
             string url = "http://192.168.8.93:2223/fhir/Coverage?_format=json";

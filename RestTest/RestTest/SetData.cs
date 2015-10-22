@@ -56,7 +56,7 @@ namespace RestTest
                     {
                         System = "urn:oid:1.2.643.5.1.34",
                         Value = "IdPatientMis" + DateTime.Now,
-                        Assigner = new ResourceReference() { Reference = "Link/" + Ids.organization },
+                        Assigner = new ResourceReference() { Reference = References.organization_Patient },
                         Period = new Period
                         {
                              StartElement = new FhirDateTime("01.02.2012"),
@@ -83,7 +83,7 @@ namespace RestTest
             {
                 Id = Ids.coverage,
                 Type = new Coding { System = Dictionary.TYPE_COVERAGE, Code = "2", Version = "1" },
-                Subscriber = new ResourceReference { Reference = "Patient/" + patient },
+                Subscriber = new ResourceReference { Reference = patient },
                 Identifier = new List<Identifier>
                 {
                     new Identifier
@@ -189,11 +189,7 @@ namespace RestTest
             return bundle;
         }
 
-        //продумать ссылки!!
-
-        //Practitioner/131d7d5d-0f21-451d-86ec-27fa3e069e1a
-        //519a08f4-c240-4e58-aa66-fe2a017b8d94 
-        public Order SetOrder(string patient, string practitioner)
+        public Order SetOrder(string patient, string practitioner, string organization)
         {
             return new Order
             {
@@ -202,13 +198,14 @@ namespace RestTest
                     new Identifier
                     {
                         System = "urn:oid:1.2.643.2.69.1.2.6",
-                        Value = "IdOrderMis" + new Random().Next(1000)
+                        Value = "IdOrderMis" + DateTime.Now
                     }
                 },
                 Date = "01.01.2012",
-                Subject = new ResourceReference { Reference = "Patient/" + patient },
+                Subject = new ResourceReference { Reference = patient },
                 Source = new ResourceReference { Reference = practitioner },
-                Target = new ResourceReference { Reference = "Organization/" + Ids.organization },
+                Target = new ResourceReference { Reference = organization },
+                //тут всегда передаётся Ids.diagnosticReport (по постановке)
                 Detail = new List<ResourceReference> { new ResourceReference { Reference = Ids.diagnosticReport } },
                 When = new Order.OrderWhenComponent
                 {
@@ -223,42 +220,16 @@ namespace RestTest
             };
         }
 
-        private OrderResponse SetOrderResponse()
+        public DiagnosticOrder SetDiagnosticOrder(string patient, string practitioner, string encounter, string specimen, string[] supportInfo)
         {
-            return new OrderResponse
+            DiagnosticOrder d = new DiagnosticOrder
             {
-                Identifier = new List<Identifier>
-                {
-                    new Identifier
-                    {
-                        System = "urn:oid:1.2.643.2.69.1.2.2",
-                        Value = "IdOrderLis" + new Random().Next(100)
-                    }
-                },
-                Request = new ResourceReference { Reference = "Order/" + Ids.order },
-                Date = "02.01.2012",
-                Who = new ResourceReference { Reference = "Organization/" + Ids.organization },
-                OrderStatus_ = OrderResponse.OrderStatus.Completed,
-                Description = "Комментарий к заказу",
-                Fulfillment = new List<ResourceReference>() { new ResourceReference { Reference = Ids.diagnosticReport } }
-            };
-        }
-
-        public DiagnosticOrder SetDiagnosticOrder(string patient, string practitioner, string specimen, string supportInfo)
-        {
-            return new DiagnosticOrder
-            {
-                //Id самого Ордера
                 Id = Ids.diagnosticReport,
-                //Id пациента, генерится при добавлении поциента, иначе пеняй на себя
-                Subject = new ResourceReference { Reference = "Patient/" + patient },
+                //Id пациента, генерится при добавлении пациента, иначе пеняй на себя
+                Subject = new ResourceReference { Reference = patient },
                 //Id доктора, доктор добавляется в бандле Id из Ids
                 Orderer = new ResourceReference { Reference = practitioner },
-                //Id Encounter, он тоже в бандле
-                Encounter = new ResourceReference { Reference = Ids.encounter },
-                //Пока тут Id Condition
-                SupportingInformation = new List<ResourceReference> { new ResourceReference { Reference = supportInfo } },
-                Specimen = new List<ResourceReference> { new ResourceReference { Reference = specimen } },
+                Encounter = new ResourceReference { Reference = encounter },
                 Status = DiagnosticOrder.DiagnosticOrderStatus.Requested,
                 Item = new List<DiagnosticOrder.DiagnosticOrderItemComponent>
                 {
@@ -288,9 +259,23 @@ namespace RestTest
                     }
                 }
             };
+
+            //необязательные параметры
+            if (specimen != null)
+                d.Specimen = new List<ResourceReference> { new ResourceReference { Reference = specimen } };
+            // Condition/Observation всегда из Ids
+            // когда передаём condition_MIN то ссылка на codition_min, в другом случае codition
+            if (supportInfo != null)
+            {
+                d.SupportingInformation = new List<ResourceReference>();
+                foreach (string s in supportInfo)
+                    d.SupportingInformation.Add(new ResourceReference { Reference = s });
+            }
+
+            return d;
         }
 
-        public Specimen SetSpecimen(string patient)
+        public Specimen SetSpecimen_Full(string patient)
         {
             return new Specimen
             {
@@ -299,7 +284,7 @@ namespace RestTest
                 {
                     Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_SPECIMEN, Code = "1", Version = "1" } }
                 },
-                Subject = new ResourceReference { Reference = "Patient/" + patient },
+                Subject = new ResourceReference { Reference = patient },
                 Collection = new Specimen.SpecimenCollectionComponent
                 {
                     Comment = new List<string> { "Комментарий к биоматериалу" },
@@ -319,7 +304,22 @@ namespace RestTest
             };
         }
 
-        public Encounter SetEncounter(string patient, string[] condition)
+        public Specimen SetSpecimen_Min(string patient)
+        {
+            return new Specimen
+            {
+                Id = Ids.specimen,
+                Type = new CodeableConcept
+                {
+                    Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_SPECIMEN, Code = "1", Version = "1" } }
+                },
+                Subject = new ResourceReference { Reference = patient },
+                Collection = new Specimen.SpecimenCollectionComponent { Collected = new Hl7.Fhir.Model.FhirDateTime(1998) },
+            };
+        }
+
+        //пока что condition берётся только первый в массиве
+        public Encounter SetEncounter(string patient, string[] condition, string organization)
         {
             return new Encounter
             {
@@ -334,8 +334,8 @@ namespace RestTest
                        Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_CASE, Code = "2", Version = "1" } }
                     }
                 },
-                Patient = new ResourceReference { Reference = "Patient/" + patient },
-                Reason = new List<CodeableConcept>()
+                Patient = new ResourceReference { Reference = patient },
+                Reason = new List<CodeableConcept>() //необязательный параметр
                 {
                     new CodeableConcept
                     {
@@ -343,11 +343,11 @@ namespace RestTest
                     }
                 },
                 Indication = new List<ResourceReference> { new ResourceReference { Reference = condition[0] } },
-                ServiceProvider = new ResourceReference { Reference = "Organization/" + Ids.organization }
+                ServiceProvider = new ResourceReference { Reference = organization }
             };
         }
 
-        public Condition SetCondition(string patient)
+        public Condition SetCondition_Full(string patient)
         {
             return new Condition
             {
@@ -361,7 +361,7 @@ namespace RestTest
                     }
                 },
                 //Генерится при создании
-                Patient = new ResourceReference { Reference = "Patient/" + patient },
+                Patient = new ResourceReference { Reference = patient },
                 DateAsserted = "01.02.2012",
                 Code = new CodeableConcept
                 {
@@ -373,30 +373,33 @@ namespace RestTest
                 },
                 ClinicalStatus = Condition.ConditionClinicalStatus.Confirmed,
                 Notes = "Уточнение",
-                //dueTo = new DueTo // Сопутствующее заболевание/осложнение 
-                //{
-                //    target = new Condition
-                //    {
-                //        identifier = new Identifier[]
-                //        {
-                //            new Identifier{
-                //            System = "urn:oid:1.2.643.2.69.1.1.1.61",}
-                //            //value?
-                //        },
-                //        subject = new ResourceReference { reference = "Patient/" + patient },
-                //        dateAsserted = Convert.ToDateTime("01.02.2012"),
-                //        Code = new CodeableConcept
-                //        {
-                //            coding = new Coding[] { new Coding { System = Dictionary.DIAGNOSIS, Code = "N18.9", Version = 1 } }
-                //        },
-                //        category = new CodeableConcept
-                //        {
-                //            coding = new Coding[] { new Coding { System = Dictionary.TYPE_CONDITION, Code = "diagnosis", Version = 1 } }
-                //        },
-                //        clinicalStatus = "confirmed",
-                //        notes = "Уточнение",
-                //    }
-                //}
+                DueTo = new List<Condition.ConditionDueToComponent> // Сопутствующее заболевание/осложнение 
+                {   
+                    new  Condition.ConditionDueToComponent
+                    {
+                          Target = new ResourceReference {Reference = Ids.condition_min}
+                    }
+                  
+                }
+            };
+        }
+
+        public Condition SetCondition_Min(string patient)
+        {
+            return new Condition
+            {
+                Id = Ids.condition_min,
+                //Генерится при создании
+                Patient = new ResourceReference { Reference = patient },
+                Code = new CodeableConcept
+                {
+                    Coding = new List<Coding> { new Coding { System = Dictionary.DIAGNOSIS, Code = "N18.9", Version = "1" } }
+                },
+                Category = new CodeableConcept
+                {
+                    Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_CONDITION, Code = "diagnosis", Version = "1" } }
+                },
+                ClinicalStatus = Condition.ConditionClinicalStatus.Confirmed,
             };
         }
 
@@ -440,7 +443,8 @@ namespace RestTest
                 {
                     new Practitioner.PractitionerPractitionerRoleComponent
                     {
-                        ManagingOrganization = new ResourceReference { Reference = "Organization/" + Ids.organization },
+                        //вряд ли будем писать тесты c другим organization
+                        ManagingOrganization = new ResourceReference { Reference = References.organization },
                         Role = new CodeableConcept
                         {
                             Coding = new List<Coding>() { new Coding { System = Dictionary.ROLE_PRACTITIONER, Code = "73", Version = "1" } }
@@ -489,6 +493,27 @@ namespace RestTest
 
                 },
 
+            };
+        }
+
+        private OrderResponse SetOrderResponse()
+        {
+            return new OrderResponse
+            {
+                Identifier = new List<Identifier>
+                {
+                    new Identifier
+                    {
+                        System = "urn:oid:1.2.643.2.69.1.2.2",
+                        Value = "IdOrderLis" + new Random().Next(100)
+                    }
+                },
+                Request = new ResourceReference { Reference = "Order/" + Ids.order },
+                Date = "02.01.2012",
+                Who = new ResourceReference { Reference = References.organization },
+                OrderStatus_ = OrderResponse.OrderStatus.Completed,
+                Description = "Комментарий к заказу",
+                Fulfillment = new List<ResourceReference>() { new ResourceReference { Reference = Ids.diagnosticReport } }
             };
         }
 

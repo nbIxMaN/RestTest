@@ -15,54 +15,229 @@ namespace RestTest.Tests_Method
     [TestFixture]
     class PostBundleOrder
     {
+        /// <summary>
+        /// Order, DiagnosticOrder(минус ссылка на Specimen), Condition
+        /// </summary>
         [Test]
-        public void BundleOrderMin()
+        public void BundleOrder_Min()
         {
-            //string patient = "02255d1f-548c-4b04-9ac2-7c97d3efad1a";
-            //string pract = "Practitioner/131d7d5d-0f21-451d-86ec-27fa3e069e1a";
-            //string specimenRef = "f8cd600f-f5b5-4b18-9662-18212c1935f9";
-            //string supportInfo = "56350c6f-7333-4002-a622-96968b85381e"; // Observation/ Condition
+            //задаём ссылки
+            string patient = References.patient;
+            string pract = References.partitioner;
 
-            string patient = Ids.patient;
-            string pract = "Practitioner/" + Ids.partitioner;
-            string specimenRef = Ids.specimen;
-            string supportInfo = Ids.condition; // Observation/ Condition
+            //задаём ресурсы
+            Order order = (new SetData()).SetOrder(patient, pract, References.organization);
+            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter, 
+                                                                 null, new string[] { Ids.condition_min });
+            Condition condition = (new SetData()).SetCondition_Min(patient);
 
-            string indicat = "71cf33b8-2eae-432d-88d5-747ef8147d0b";//Condition
-
-            Order order = (new SetData()).SetOrder(patient, pract);
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, specimenRef, supportInfo);
-            Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { indicat });
-            Condition condition = (new SetData()).SetCondition(patient);
-
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, encounter, condition, null, null, null);
-
+            //задаём Bundle 
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, condition, null, null, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
         }
 
+        /// <summary>
+        /// Order, DiagnosticOrder, Condition, Specimen
+        /// </summary>
+        [Test]
+        public void BundleOrder_Specimen()
+        {
+            //задаём ссылки
+            string patient = References.patient;
+            string pract = References.partitioner;
 
-        ////не проверена связность ссылок!
-        //[Test]
-        //public void BundleOrderMax()
-        //{
-        //    string patient = "02255d1f-548c-4b04-9ac2-7c97d3efad1a";
+            //задаём ресурсы
+            Order order = (new SetData()).SetOrder(patient, pract, References.organization);
+            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter,
+                                                                 Ids.specimen, new string[] { Ids.condition_min });
+            Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
+            Condition condition = (new SetData()).SetCondition_Min(patient);
 
-        //    Order order = (new SetData()).SetOrder(patient, "Practitioner/131d7d5d-0f21-451d-86ec-27fa3e069e1a");
-        //    DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient);
-        //    Encounter encounter = (new SetData()).SetEncounter(patient);
-        //    Condition condition = (new SetData()).SetCondition(patient);
-        //    Specimen specimen = (new SetData()).SetSpecimen(patient);
-        //    Observation observation = (new SetData()).SetObservation_BundleOrder();
-        //    Practitioner practitioner = (new SetData()).SetPractitioner();
-        //    Coverage coverage = (new SetData()).SetCoverage(patient);
+            //задаём Bundle 
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, null, condition, null, null, null);
 
-        //    Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter,
-        //        condition, observation, practitioner, coverage);
+            string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
+            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+        }
 
-        //    string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
-        //    (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
-        //}
+        /// <summary>
+        /// Order, DiagnosticOrder (ids encounter), Condition, Specimen, Encounter
+        /// </summary>
+        [Test]
+        public void BundleOrder_SpecimenEncounter()
+        {
+            //задаём ссылки
+            string patient = References.patient;
+            string pract = References.partitioner;
+
+            //задаём ресурсы
+            Order order = (new SetData()).SetOrder(patient, pract, References.organization);
+            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
+                                                                 Ids.specimen, new string[] { Ids.condition_min });
+            Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
+            Condition condition = (new SetData()).SetCondition_Min(patient);
+            Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
+
+            //задаём Bundle 
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, null, null, null);
+
+            string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
+            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+        }
+
+        /// <summary>
+        /// Order, DiagnosticOrder (ids encounter, observation), Condition, Specimen, Encounter, Observation
+        /// </summary>
+        [Test]
+        public void BundleOrder_SpecimenEncounterObservation()
+        {
+            //задаём ссылки
+            string patient = References.patient;
+            string pract = References.partitioner;
+
+            //задаём ресурсы
+            Order order = (new SetData()).SetOrder(patient, pract, References.organization);
+            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
+                                                                Ids.specimen, new string[] { Ids.condition_min, Ids.observation });
+            Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
+            Condition condition = (new SetData()).SetCondition_Min(patient);
+            Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
+            Observation observation = (new SetData()).SetObservation_BundleOrder();
+
+            //задаём Bundle 
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, observation, null, null);
+
+            string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
+            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+        }
+
+        /// <summary>
+        /// Order, DiagnosticOrder (ids encounter), Condition, Specimen, Encounter, Practitioner
+        /// ids practitioner
+        /// </summary>
+        [Test]
+        public void BundleOrder_SpecimenEncounterPractitioner()
+        {
+            //задаём ссылки
+            string patient = References.patient;
+            string pract = Ids.partitioner;
+
+            //задаём ресурсы
+            Order order = (new SetData()).SetOrder(patient, pract, References.organization);
+            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
+                                                                Ids.specimen, new string[] { Ids.condition_min});
+            Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
+            Condition condition = (new SetData()).SetCondition_Min(patient);
+            Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
+            Practitioner practitioner = (new SetData()).SetPractitioner();
+
+            //задаём Bundle 
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, null, practitioner, null);
+
+            string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
+            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+        }
+
+        /// <summary>
+        /// Order, DiagnosticOrder (ids encounter), Condition, Specimen, Encounter, Coverage
+        /// </summary>
+        [Test]
+        public void BundleOrder_SpecimenEncounterCoverage()
+        {
+            //задаём ссылки
+            string patient = References.patient;
+            string pract = References.partitioner;
+
+            //задаём ресурсы
+            Order order = (new SetData()).SetOrder(patient, pract, References.organization);
+            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
+                                                                Ids.specimen, new string[] { Ids.condition_min });
+            Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
+            Condition condition = (new SetData()).SetCondition_Min(patient);
+            Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
+            Coverage coverage = (new SetData()).SetCoverage(patient);
+            //задаём Bundle 
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, null, null, coverage);
+
+            string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
+            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+        }
+
+        /// <summary>
+        /// Order, DiagnosticOrder, Condition, Specimen, Encounter, Coverage, Practitioner, Observation
+        /// </summary>
+        [Test]
+        public void BundleOrder_Max()
+        {
+            //задаём ссылки
+            string patient = References.patient;
+            string pract = Ids.partitioner;
+
+            //задаём ресурсы
+            Order order = (new SetData()).SetOrder(patient, pract, References.organization);
+            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
+                                                                Ids.specimen, new string[] { Ids.condition_min, Ids.observation});
+            Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
+            Condition condition = (new SetData()).SetCondition_Min(patient);
+            Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
+            Coverage coverage = (new SetData()).SetCoverage(patient);
+            Practitioner practitioner = (new SetData()).SetPractitioner();
+            Observation observation = (new SetData()).SetObservation_BundleOrder();
+
+            //задаём Bundle 
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, observation, practitioner, coverage);
+
+            string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
+            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+        }
+
+        /// <summary>
+        /// Order, DiagnosticOrder, Condition, Specimen, Encounter, Coverage, Practitioner, Observation
+        /// Patient
+        /// </summary>
+        [Test]
+        public void BundleOrder_MaxPatient()
+        {
+            //добавляем пациента
+            Patient p = (new SetData()).SetPatient();
+
+            var s1 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(p);
+            string url = "http://192.168.8.93:2223/fhir/Patient?_format=json";
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, url, s1);
+
+            dynamic patient = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content);
+
+            //задаём ссылки
+            patient = patient.id;
+            string pract = Ids.partitioner;
+
+            //задаём ресурсы
+            Order order = (new SetData()).SetOrder(patient, pract, References.organization);
+            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
+                                                                Ids.specimen, new string[] { Ids.condition_min, Ids.observation });
+            Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
+            Condition condition = (new SetData()).SetCondition_Min(patient);
+            Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
+            Coverage coverage = (new SetData()).SetCoverage(patient);
+            Practitioner practitioner = (new SetData()).SetPractitioner();
+            Observation observation = (new SetData()).SetObservation_BundleOrder();
+
+            //задаём Bundle 
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, observation, practitioner, coverage);
+
+            string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
+            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+        }
+
     }
 }
