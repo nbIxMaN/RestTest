@@ -23,7 +23,7 @@ namespace RestTest.Tests_Method
         {
             //задаём ссылки
             string patient = References.patient;
-            string pract = References.partitioner;
+            string pract = References.practitioner;
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
@@ -47,7 +47,7 @@ namespace RestTest.Tests_Method
         {
             //задаём ссылки
             string patient = References.patient;
-            string pract = References.partitioner;
+            string pract = References.practitioner;
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
@@ -72,7 +72,7 @@ namespace RestTest.Tests_Method
         {
             //задаём ссылки
             string patient = References.patient;
-            string pract = References.partitioner;
+            string pract = References.practitioner;
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
@@ -98,7 +98,7 @@ namespace RestTest.Tests_Method
         {
             //задаём ссылки
             string patient = References.patient;
-            string pract = References.partitioner;
+            string pract = References.practitioner;
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
@@ -126,7 +126,7 @@ namespace RestTest.Tests_Method
         {
             //задаём ссылки
             string patient = References.patient;
-            string pract = Ids.partitioner;
+            string pract = Ids.practitioner;
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
@@ -153,7 +153,7 @@ namespace RestTest.Tests_Method
         {
             //задаём ссылки
             string patient = References.patient;
-            string pract = References.partitioner;
+            string pract = References.practitioner;
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
@@ -179,7 +179,7 @@ namespace RestTest.Tests_Method
         {
             //задаём ссылки
             string patient = References.patient;
-            string pract = Ids.partitioner;
+            string pract = Ids.practitioner;
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
@@ -218,7 +218,7 @@ namespace RestTest.Tests_Method
 
             //задаём ссылки
             patient = patient.id;
-            string pract = Ids.partitioner;
+            string pract = Ids.practitioner;
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);

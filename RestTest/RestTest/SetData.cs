@@ -425,7 +425,7 @@ namespace RestTest
         {
             return new Practitioner
             {
-                Id = Ids.partitioner,
+                Id = Ids.practitioner,
                 Identifier = new List<Identifier>
                 {
                     new Identifier
@@ -462,41 +462,45 @@ namespace RestTest
             };
         }
 
-        public Bundle SetBundleResult(string patient)
+        public Bundle SetBundleResult(OrderResponse orderResp, DiagnosticReport diagReport, Observation observ, Practitioner pract)
         {
-            return new Bundle
+            Bundle bundle = new Bundle();
+            bundle.Meta = new Meta() { Profile = new string[] { MetaBundleResult } };
+            bundle.Entry = new List<Bundle.BundleEntryComponent>()
             {
-                Meta = new Meta() { Profile = new string[] { MetaBundleResult } },
-                Entry = new List<Bundle.BundleEntryComponent>()
-                {
-                    new Bundle.BundleEntryComponent()
+                 new Bundle.BundleEntryComponent()
                     {
-                        Resource = SetOrderResponse(),
+                        Resource = orderResp,
                         Transaction = new Bundle.BundleEntryTransactionComponent { Method  = Bundle.HTTPVerb.POST, Url  = "OrderResponse"}
                     },
                     new Bundle.BundleEntryComponent()
                     {
-                        Resource =  SetDiagnosticReport(patient),
+                        Resource =  diagReport,
                         Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url  = "DiagnosticReport"}
                     },
 
                     new Bundle.BundleEntryComponent() 
                     {
-                        Resource = SetObservation_BundleResult(),
+                        Resource = observ,
                         Transaction = new Bundle.BundleEntryTransactionComponent() { Method  = Bundle.HTTPVerb.POST, Url  = "Observation"}
-                    },
-                    new Bundle.BundleEntryComponent()
-                    {
-                        Resource =  SetPractitioner(),
-                        Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url   = "Practitioner"}
-                    },
-
-                },
-
+                    }
             };
+
+            //необязательный параметр
+            if (pract != null)
+            {
+                Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
+                {
+                    Resource = pract,
+                    Transaction = new Bundle.BundleEntryTransactionComponent { Method = Bundle.HTTPVerb.POST, Url = "Practitioner" }
+                };
+                bundle.Entry.Add(component);
+            }
+
+            return bundle;
         }
 
-        private OrderResponse SetOrderResponse()
+        public OrderResponse SetOrderResponse(string order, string organization)
         {
             return new OrderResponse
             {
@@ -505,19 +509,19 @@ namespace RestTest
                     new Identifier
                     {
                         System = "urn:oid:1.2.643.2.69.1.2.2",
-                        Value = "IdOrderLis" + new Random().Next(100)
+                        Value = "IdOrderLis" + DateTime.Now
                     }
                 },
-                Request = new ResourceReference { Reference = "Order/" + Ids.order },
+                Request = new ResourceReference { Reference = order},
                 Date = "02.01.2012",
-                Who = new ResourceReference { Reference = References.organization },
+                Who = new ResourceReference { Reference = organization },
                 OrderStatus_ = OrderResponse.OrderStatus.Completed,
-                Description = "Комментарий к заказу",
+                Description = "Комментарий к заказу", //необязательный
                 Fulfillment = new List<ResourceReference>() { new ResourceReference { Reference = Ids.diagnosticReport } }
             };
         }
 
-        private DiagnosticReport SetDiagnosticReport(string patient)
+        public DiagnosticReport SetDiagnosticReport(string patient, string pract, string diagOrder)
         {
             var s = new PresentedForm();
             s.data = "<Envelope xmlns=\"http://hl7.org/fhir\"><presentedForm>Hello world</presentedForm></Envelope>";
@@ -535,10 +539,10 @@ namespace RestTest
                 },
                 Status = DiagnosticReport.DiagnosticReportStatus.Final,
                 Issued = "03.01.2012",
-                Subject = new ResourceReference { Reference = "Patient/" + patient },
-                Performer = new ResourceReference { Reference = Ids.partitioner },
-                RequestDetail = new List<ResourceReference> { new ResourceReference() { Reference = "DiagnosticOrder/" + Ids.diagnosticOrder } },
-                Result = new List<ResourceReference>() { new ResourceReference { Reference = Ids.observation } },
+                Subject = new ResourceReference { Reference = patient }, //только существующий пациент
+                Performer = new ResourceReference { Reference = pract },
+                RequestDetail = new List<ResourceReference> { new ResourceReference() { Reference = diagOrder} },
+                Result = new List<ResourceReference>() { new ResourceReference { Reference = Ids.observation_res } },
                 Conclusion = "Текст заключения по услуге B03.016.006",
                 PresentedForm = new List<Attachment>
                 {
@@ -547,27 +551,26 @@ namespace RestTest
                          Data = Encoding.UTF8.GetBytes(Convert.ToBase64String(Encoding.UTF8.GetBytes(qwer)))
                     }
                 }
-                //presentedForm ?? 
             };
         }
 
-        private Observation SetObservation_BundleResult()
+        public Observation SetObservation_BundleResult_Reason(string practitioner)
         {
             return new Observation
             {
-                Id = Ids.observation,
+                Id = Ids.observation_res,
                 Code = new CodeableConcept
                 {
                     Coding = new List<Coding> { new Coding { System = Dictionary.CODE_TEST, Code = "17861-6", Version = "1" } }
                 },
-                Comments = "Комментарий к результату теста",
+                Comments = "Комментарий к результату теста",//необязательный
                 Issued = Convert.ToDateTime("02.02.2012"),
                 Status = Observation.ObservationStatus.Final,
-                Method = new CodeableConcept
+                Method = new CodeableConcept //необязательный
                 {
                     Coding = new List<Coding> { new Coding { System = "urn:oid:1.2.643.2.69.1.2.2", Code = "Химический", Version = "1" } }
                 },
-                Performer = new List<ResourceReference>() { new ResourceReference() { Reference = Ids.partitioner } },
+                Performer = new List<ResourceReference>() { new ResourceReference() { Reference = practitioner } },
 
 
                 // или value[x]
@@ -576,6 +579,48 @@ namespace RestTest
                     Coding = new List<Coding>() { new Coding { System = "urn:oid:1.2.643.2.69.1.1.1.38", Code = "1", Version = "1" } }
 
                 }, // Code?
+
+                ReferenceRange = new List<Observation.ObservationReferenceRangeComponent>()
+                {
+                    new Observation.ObservationReferenceRangeComponent()
+                    {
+                        Low = new Quantity
+                        {
+                            Value = 2.15m,
+                            Units = "ммоль/л"
+                        },
+                        High = new Quantity
+                        {
+                            Value = 2.5m,
+                            Units = "ммоль/л"
+                        }
+                    }
+                }
+
+            };
+        }
+
+        public Observation SetObservation_BundleResult_Value(string practitioner)
+        {
+            return new Observation
+            {
+                Id = Ids.observation_res,
+                Code = new CodeableConcept
+                {
+                    Coding = new List<Coding> { new Coding { System = Dictionary.CODE_TEST, Code = "17861-6", Version = "1" } }
+                },
+                Comments = "Комментарий к результату теста",//необязательный
+                Issued = Convert.ToDateTime("02.02.2012"),
+                Status = Observation.ObservationStatus.Final,
+                Method = new CodeableConcept //необязательный
+                {
+                    Coding = new List<Coding> { new Coding { System = "urn:oid:1.2.643.2.69.1.2.2", Code = "Химический", Version = "1" } }
+                },
+                Performer = new List<ResourceReference>() { new ResourceReference() { Reference = practitioner } },
+
+
+                // как задать Value?
+
 
                 ReferenceRange = new List<Observation.ObservationReferenceRangeComponent>()
                 {

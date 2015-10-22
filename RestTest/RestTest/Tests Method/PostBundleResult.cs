@@ -11,14 +11,26 @@ namespace RestTest.Tests_Method
 {
     class PostBundleResult
     {
+        /// <summary>
+        /// OrderResponse, DiagnosticReport, Observation
+        /// </summary>
         [Test]
         public void BundleResultMin()
         {
-            string patient = "02255d1f-548c-4b04-9ac2-7c97d3efad1a";
-            var s = new SetData();
-            Bundle bundleResult = s.SetBundleResult(patient);
-            string ex = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bundleResult);
-            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", ex);
+            //задаём ссылки
+            string patient = References.patient;
+            string pract = References.practitioner;
+
+            //задаём ресурсы
+            OrderResponse orderResp = (new SetData()).SetOrderResponse(patient, References.organization);
+            DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, References.diagnosticOrder);
+            Observation observ = (new SetData()).SetObservation_BundleResult_Reason(pract);
+
+            //задаём Bundle 
+            Bundle bRes = (new SetData()).SetBundleResult(orderResp, diagRep, observ, null);
+
+            string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
+            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
         }
     }
 }
