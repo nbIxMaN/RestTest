@@ -20,6 +20,7 @@ namespace RestTest
         public const string TYPE_CASE = "urn:oid:1.2.643.2.69.1.1.1.35";
         public const string TYPE_CONDITION = "urn:oid:1.2.643.2.69.1.1.1.36";
         public const string TYPE_OBSERVATION = "urn:oid:1.2.643.2.69.1.1.1.37";
+        public const string REASON_ABSENT = "urn:oid:1.2.643.2.69.1.1.1.38";
         public const string MENOPAUSE = "urn:oid:1.2.643.2.69.1.1.1.39";
         public const string GENDER = "urn:oid:1.2.643.2.69.1.1.1.40";
         public const string TYPE_ADRESS = "urn:oid:1.2.643.2.69.1.1.1.41";

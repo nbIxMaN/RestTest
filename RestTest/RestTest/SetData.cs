@@ -198,7 +198,8 @@ namespace RestTest
                     new Identifier
                     {
                         System = "urn:oid:1.2.643.2.69.1.2.6",
-                        Value = "IdOrderMis" + DateTime.Now
+                        Value = "IdOrderMis" + DateTime.Now,
+                        Assigner = new ResourceReference { Reference = organization }
                     }
                 },
                 Date = "01.01.2012",
@@ -384,7 +385,7 @@ namespace RestTest
             };
         }
 
-        public Condition SetCondition_Min(string patient)
+        public Condition SetCondition_MinDiag(string patient)
         {
             return new Condition
             {
@@ -402,6 +403,25 @@ namespace RestTest
                 ClinicalStatus = Condition.ConditionClinicalStatus.Confirmed,
             };
         }
+
+        //public Condition SetCondition_MinMenPause(string patient)
+        //{
+        //    return new Condition
+        //    {
+        //        Id = Ids.condition_min,
+        //        //Генерится при создании
+        //        Patient = new ResourceReference { Reference = patient },
+        //        Code = new CodeableConcept
+        //        {
+        //            Coding = new List<Coding> { new Coding { System = Dictionary.MENOPAUSE, Code = "N18.9", Version = "1" } }
+        //        },
+        //        Category = new CodeableConcept
+        //        {
+        //            Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_CONDITION, Code = "diagnosis", Version = "1" } }
+        //        },
+        //        ClinicalStatus = Condition.ConditionClinicalStatus.Confirmed,
+        //    };
+        //}
 
         public Observation SetObservation_BundleOrder()
         {
@@ -512,7 +532,7 @@ namespace RestTest
                         Value = "IdOrderLis" + DateTime.Now
                     }
                 },
-                Request = new ResourceReference { Reference = order},
+                Request = new ResourceReference { Reference = order },
                 Date = "02.01.2012",
                 Who = new ResourceReference { Reference = organization },
                 OrderStatus_ = OrderResponse.OrderStatus.Completed,
@@ -541,7 +561,7 @@ namespace RestTest
                 Issued = "03.01.2012",
                 Subject = new ResourceReference { Reference = patient }, //только существующий пациент
                 Performer = new ResourceReference { Reference = pract },
-                RequestDetail = new List<ResourceReference> { new ResourceReference() { Reference = diagOrder} },
+                RequestDetail = new List<ResourceReference> { new ResourceReference() { Reference = diagOrder } },
                 Result = new List<ResourceReference>() { new ResourceReference { Reference = Ids.observation_res } },
                 Conclusion = "Текст заключения по услуге B03.016.006",
                 PresentedForm = new List<Attachment>
@@ -576,7 +596,7 @@ namespace RestTest
                 // или value[x]
                 DataAbsentReason = new CodeableConcept
                 {
-                    Coding = new List<Coding>() { new Coding { System = "urn:oid:1.2.643.2.69.1.1.1.38", Code = "1", Version = "1" } }
+                    Coding = new List<Coding>() { new Coding { System = Dictionary.REASON_ABSENT, Code = "1", Version = "1" } }
 
                 }, // Code?
 
@@ -620,7 +640,12 @@ namespace RestTest
 
 
                 // как задать Value?
-
+                Value = new Hl7.Fhir.Model.Quantity
+                {
+                    Value = new decimal(2.2),
+                    Units = "ммоль/л"
+                },
+                // "светло-желтый",
 
                 ReferenceRange = new List<Observation.ObservationReferenceRangeComponent>()
                 {
@@ -638,7 +663,6 @@ namespace RestTest
                         }
                     }
                 }
-
             };
         }
     }

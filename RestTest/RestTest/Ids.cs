@@ -19,7 +19,7 @@ namespace RestTest
         static public string condition_min = "65d57862-f2c2-41ef-a5cf-27f2d53569eb";
 
         static public string observation = "651f0cdc-2e7f-4e3a-99b1-da68d2b196c6";
-        static public string observation_res = "";
+        static public string observation_res = "661f0cdc-2e7f-4e3a-99b1-da68d2b196c6";
 
         static public string coverage = "04c84a8b-8de7-400a-b9d0-53e6ce37a9bb";
         static public string diagnosticReport = "4f6a30fb-cd3c-4ab6-8757-532101f72065";
@@ -36,9 +36,9 @@ namespace RestTest
         static public string organization = "Organization/4a94e705-ee3e-46fc-bba0-0298e0fd5bd2";
         static public string organization_two = "Organization/ ";
         static public string patient = "Patient/02255d1f-548c-4b04-9ac2-7c97d3efad1a";
-        static public string practitioner = "Practitioner/131d7d5d-0f21-451d-86ec-27fa3e069e1a";
-        static public string encounter = "Encounter/f0ceca14-6847-4ea4-b128-7c86820da428";
-        static public string order = "Order/ ";
-        static public string diagnosticOrder = "DiagnosticOrder/ ";
+        static public string practitioner = "Practitioner/eb292a81-bc3a-4309-b365-9761fdee0443";
+        static public string encounter = "Encounter/862cfbb0-6d76-4820-9987-b845a652b837";
+        static public string order = "Order/c74888b2-d621-4403-82ef-3695807e4b09";
+        static public string diagnosticOrder = "DiagnosticOrder/f94d34ff-bf9b-4305-afa7-94b5dbb6518a";
     }
 }

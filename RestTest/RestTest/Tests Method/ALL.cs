@@ -37,5 +37,55 @@ namespace RestTest.Tests_Method
         //    s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
         //    (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
         //}
+
+
+        /// <summary>
+        /// Patient
+        /// Order, DiagnosticOrder(минус ссылка на Specimen), Condition
+        /// OrderResponse, DiagnosticReport, Observation
+        /// </summary>
+        [Test]
+        public void Bundle_Max()
+        {
+            //добавляем пациента
+            Patient p = (new SetData()).SetPatient();
+
+            var s1 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(p);
+            string url = "http://192.168.8.93:2223/fhir/Patient?_format=json";
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, url, s1);
+
+            dynamic patient = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content);
+
+            //задаём ссылки
+            patient = patient.id;
+            string pract = References.practitioner;
+
+            //задаём ресурсы
+            Order order = (new SetData()).SetOrder(patient, pract, References.organization);
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter,
+                                                                 null, null);
+            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
+
+            //передаём Bundle Order
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, condition, null, null, null);
+
+            string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
+            IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            
+            dynamic bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content);
+            
+
+            ////задаём ресурсы
+            //OrderResponse orderResp = (new SetData()).SetOrderResponse(patient, References.organization);
+            //DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, diagOrder);
+            //Observation observ = (new SetData()).SetObservation_BundleResult_Reason(pract);
+
+            ////передаём Bundle Result 
+            //Bundle bRes = (new SetData()).SetBundleResult(orderResp, diagRep, observ, null);
+
+            //string s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
+            //(new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s2);
+
+        }
     }
 }

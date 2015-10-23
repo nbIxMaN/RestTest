@@ -27,10 +27,8 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter, 
-                                                                 null, new string[] { Ids.condition_min });
-            Condition condition = (new SetData()).SetCondition_Min(patient);
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter, null, null);
+            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
 
             //задаём Bundle 
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, condition, null, null, null);
@@ -51,11 +49,10 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter,
-                                                                 Ids.specimen, new string[] { Ids.condition_min });
+                                                                 Ids.specimen, null);
             Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
-            Condition condition = (new SetData()).SetCondition_Min(patient);
+            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
 
             //задаём Bundle 
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, null, condition, null, null, null);
@@ -76,11 +73,10 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
-                                                                 Ids.specimen, new string[] { Ids.condition_min });
+                                                                 Ids.specimen, null);
             Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
-            Condition condition = (new SetData()).SetCondition_Min(patient);
+            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
 
             //задаём Bundle 
@@ -102,11 +98,10 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
-                                                                Ids.specimen, new string[] { Ids.condition_min, Ids.observation });
+                                                                Ids.specimen, new string[] { Ids.observation });
             Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
-            Condition condition = (new SetData()).SetCondition_Min(patient);
+            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
             Observation observation = (new SetData()).SetObservation_BundleOrder();
 
@@ -130,11 +125,10 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
-                                                                Ids.specimen, new string[] { Ids.condition_min});
+                                                                Ids.specimen, null);
             Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
-            Condition condition = (new SetData()).SetCondition_Min(patient);
+            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
             Practitioner practitioner = (new SetData()).SetPractitioner();
 
@@ -157,11 +151,10 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
-                                                                Ids.specimen, new string[] { Ids.condition_min });
+                                                                Ids.specimen, null);
             Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
-            Condition condition = (new SetData()).SetCondition_Min(patient);
+            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
             Coverage coverage = (new SetData()).SetCoverage(patient);
             //задаём Bundle 
@@ -183,11 +176,10 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
-                                                                Ids.specimen, new string[] { Ids.condition_min, Ids.observation});
+                                                                Ids.specimen, new string[] { Ids.observation});
             Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
-            Condition condition = (new SetData()).SetCondition_Min(patient);
+            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
             Coverage coverage = (new SetData()).SetCoverage(patient);
             Practitioner practitioner = (new SetData()).SetPractitioner();
@@ -222,11 +214,10 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            //supportInfo уточнить (condition же обязательный) пока что тут передаю его на всякий
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
-                                                                Ids.specimen, new string[] { Ids.condition_min, Ids.observation });
+                                                                Ids.specimen, new string[] { Ids.observation });
             Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
-            Condition condition = (new SetData()).SetCondition_Min(patient);
+            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
             Coverage coverage = (new SetData()).SetCoverage(patient);
             Practitioner practitioner = (new SetData()).SetPractitioner();
