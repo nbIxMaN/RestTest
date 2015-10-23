@@ -206,16 +206,16 @@ namespace RestTest.Tests_Method
             string url = "http://192.168.8.93:2223/fhir/Patient?_format=json";
             IRestResponse resp = (new Program()).RequestExec(Method.POST, url, s1);
 
-            dynamic patient = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content);
+            dynamic patient1 = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content);
 
             //задаём ссылки
-            patient = patient.id;
+            string patient = patient1.id;
             string pract = Ids.practitioner;
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
-                                                                Ids.specimen, new string[] { Ids.observation });
+                                                                null, new string[] { Ids.observation });
             Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
@@ -224,7 +224,7 @@ namespace RestTest.Tests_Method
             Observation observation = (new SetData()).SetObservation_BundleOrder();
 
             //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, observation, practitioner, coverage);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, encounter, condition, observation, practitioner, coverage);
             Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
             {
                 Resource = p,

@@ -234,6 +234,7 @@ namespace RestTest
                 Status = DiagnosticOrder.DiagnosticOrderStatus.Requested,
                 Item = new List<DiagnosticOrder.DiagnosticOrderItemComponent>
                 {
+                    
                     new DiagnosticOrder.DiagnosticOrderItemComponent
                     {
                         Code = new CodeableConcept
@@ -250,7 +251,16 @@ namespace RestTest
                                               new Coding { System = Dictionary.EXTENSION_FINANCE, Code = "1", Version = "1" }
                                          }
                                     }
-                                }
+                                },
+                                //new Extension
+                                //{
+                                //    Url = "urn:oid:1.2.643.2.69.1.100.2",
+                                //    Value = new ResourceReference
+                                //    {
+                                //         Reference = "Coverage/f30481cf-6a5f-4614-bb29-11542b790900"
+                                //    }
+                                //}
+                            
                             },
                             Coding = new List<Coding>
                             {
@@ -289,7 +299,7 @@ namespace RestTest
                 Collection = new Specimen.SpecimenCollectionComponent
                 {
                     Comment = new List<string> { "Комментарий к биоматериалу" },
-                    Collected = new Hl7.Fhir.Model.FhirDateTime(1998)
+                    Collected = new Hl7.Fhir.Model.FhirDateTime(1998, 10, 1)
                 },
                 Container = new List<Specimen.SpecimenContainerComponent>
                 {
@@ -310,12 +320,12 @@ namespace RestTest
             return new Specimen
             {
                 Id = Ids.specimen,
-                Type = new CodeableConcept
-                {
-                    Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_SPECIMEN, Code = "1", Version = "1" } }
-                },
+                //Type = new CodeableConcept
+                //{
+                //    Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_SPECIMEN, Code = "1", Version = "1" } }
+                //},
                 Subject = new ResourceReference { Reference = patient },
-                Collection = new Specimen.SpecimenCollectionComponent { Collected = new Hl7.Fhir.Model.FhirDateTime(1998) },
+                Collection = new Specimen.SpecimenCollectionComponent { Collected = new Hl7.Fhir.Model.Date("27.05.2015 0:00:00") },
             };
         }
 
@@ -325,7 +335,7 @@ namespace RestTest
             return new Encounter
             {
                 Id = Ids.encounter,
-                Identifier = new List<Identifier> { new Identifier { System = "urn:oid:1.2.643.2.69.1.2.6", Value = "IdCaseMis" } },
+                Identifier = new List<Identifier> { new Identifier { System = "urn:oid:1.2.643.2.69.1.2.6", Value = "IdCaseMis" + DateTime.Now } },
                 Status = Encounter.EncounterState.InProgress,
                 Class = Encounter.EncounterClass.Ambulatory,
                 Type = new List<CodeableConcept>
@@ -391,10 +401,10 @@ namespace RestTest
             {
                 Id = Ids.condition_min,
                 //Генерится при создании
-                Patient = new ResourceReference { Reference = patient },
+                Patient = new ResourceReference { Reference = patient },//R10.0 N18.9
                 Code = new CodeableConcept
                 {
-                    Coding = new List<Coding> { new Coding { System = Dictionary.DIAGNOSIS, Code = "N18.9", Version = "1" } }
+                    Coding = new List<Coding> { new Coding { System = Dictionary.DIAGNOSIS, Code = "R10.0", Version = "1" } }
                 },
                 Category = new CodeableConcept
                 {
@@ -404,24 +414,24 @@ namespace RestTest
             };
         }
 
-        //public Condition SetCondition_MinMenPause(string patient)
-        //{
-        //    return new Condition
-        //    {
-        //        Id = Ids.condition_min,
-        //        //Генерится при создании
-        //        Patient = new ResourceReference { Reference = patient },
-        //        Code = new CodeableConcept
-        //        {
-        //            Coding = new List<Coding> { new Coding { System = Dictionary.MENOPAUSE, Code = "N18.9", Version = "1" } }
-        //        },
-        //        Category = new CodeableConcept
-        //        {
-        //            Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_CONDITION, Code = "diagnosis", Version = "1" } }
-        //        },
-        //        ClinicalStatus = Condition.ConditionClinicalStatus.Confirmed,
-        //    };
-        //}
+        public Condition SetCondition_MinMenPause(string patient)
+        {
+            return new Condition
+            {
+                Id = Ids.condition_min,
+                //Генерится при создании
+                Patient = new ResourceReference { Reference = patient },
+                Code = new CodeableConcept
+                {
+                    Coding = new List<Coding> { new Coding { System = Dictionary.MENOPAUSE, Code = "1", Version = "1" } }
+                },
+                Category = new CodeableConcept
+                {
+                    Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_CONDITION, Code = "finding", Version = "1" } }
+                },
+                ClinicalStatus = Condition.ConditionClinicalStatus.Confirmed,
+            };
+        }
 
         public Observation SetObservation_BundleOrder()
         {
@@ -568,7 +578,7 @@ namespace RestTest
                 {
                     new Attachment
                     {
-                         Data = Encoding.UTF8.GetBytes(Convert.ToBase64String(Encoding.UTF8.GetBytes(qwer)))
+                         Data = Encoding.UTF8.GetBytes(qwer)
                     }
                 }
             };
