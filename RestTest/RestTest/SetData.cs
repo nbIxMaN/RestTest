@@ -305,7 +305,7 @@ namespace RestTest
                 {
                     new Specimen.SpecimenContainerComponent
                     {
-                        Identifier = new List<Identifier>() { new Identifier { System = "http://netrika.ru/container-type-identifier", Value = "barCode111" }}, // System?
+                        Identifier = new List<Identifier>() { new Identifier { System = "urn:oid:1.2.643.2.69.1.2.2", Value = "barCode111" }},
                         Type = new CodeableConcept
                         {
                             Coding = new List<Coding>() { new Coding { System = Dictionary.TYPE_CONTAINER, Code = "1", Version = "1" } }
@@ -320,10 +320,6 @@ namespace RestTest
             return new Specimen
             {
                 Id = Ids.specimen,
-                //Type = new CodeableConcept
-                //{
-                //    Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_SPECIMEN, Code = "1", Version = "1" } }
-                //},
                 Subject = new ResourceReference { Reference = patient },
                 Collection = new Specimen.SpecimenCollectionComponent { Collected = new Hl7.Fhir.Model.Date("27.05.2015 0:00:00") },
             };
