@@ -37,8 +37,8 @@ namespace RestTest
         static public string organization_two = "Organization/ ";
         static public string patient = "Patient/02255d1f-548c-4b04-9ac2-7c97d3efad1a";
         static public string practitioner = "Practitioner/eb292a81-bc3a-4309-b365-9761fdee0443";
-        static public string encounter = "Encounter/862cfbb0-6d76-4820-9987-b845a652b837";
-        static public string order = "Order/c74888b2-d621-4403-82ef-3695807e4b09";
-        static public string diagnosticOrder = "DiagnosticOrder/f94d34ff-bf9b-4305-afa7-94b5dbb6518a";
+        static public string encounter = "Encounter/1b377871-c721-40c6-8189-7d96369180b0";
+        static public string order = "Order/001dccff-f603-4262-8d5d-e66e73e499e9";
+        static public string diagnosticOrder = "DiagnosticOrder/05c93184-997d-405e-84bc-340996a59e57";
     }
 }

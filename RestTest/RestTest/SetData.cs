@@ -44,6 +44,7 @@ namespace RestTest
 
         public Patient SetPatient()
         {
+            
             return new Patient
             {
                 Address = new List<Address>
@@ -90,11 +91,11 @@ namespace RestTest
                     {
                         System = "urn:oid:1.2.643.5.1.13.2.1.1.635.23607",//System = ...635.[код страховой компании]
                         Value = "1234567891011121",
-                        //Period = new Period
-                        //{
-                        //     StartElement = new FhirDateTime("01.02.2012"),
-                        //     EndElement = new FhirDateTime("01.02.2018")
-                        //}
+                        Period = new Period
+                        {
+                             StartElement = new FhirDateTime("01.02.2012"),
+                             EndElement = new FhirDateTime("01.02.2018")
+                        }
                     }
                 }
             };
@@ -102,7 +103,7 @@ namespace RestTest
 
         public Bundle SetBundleOrder(Order order, DiagnosticOrder diagnosticOrder,
                                      Specimen specimen, Encounter encounter, Condition condition,
-                                     Observation observation, Practitioner practitioner, Coverage coverage)
+                                     Observation observation, Practitioner practitioner, Coverage coverage, Patient patient)
         {
             Bundle bundle = new Bundle();
             bundle.Meta = new Meta() { Profile = new string[] { MetaBundleOrder } };
@@ -186,6 +187,15 @@ namespace RestTest
                 };
                 bundle.Entry.Add(component);
             }
+            if (patient != null)
+            {
+                Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
+                {
+                    Resource = patient,
+                    Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.POST, Url = "Patient" }
+                };
+                bundle.Entry.Add(component);
+            }
             return bundle;
         }
 
@@ -252,14 +262,14 @@ namespace RestTest
                                          }
                                     }
                                 },
-                                //new Extension
-                                //{
-                                //    Url = "urn:oid:1.2.643.2.69.1.100.2",
-                                //    Value = new ResourceReference
-                                //    {
-                                //         Reference = "Coverage/f30481cf-6a5f-4614-bb29-11542b790900"
-                                //    }
-                                //}
+                                new Extension
+                                {
+                                    Url = "urn:oid:1.2.643.2.69.1.100.2",
+                                    Value = new ResourceReference
+                                    {
+                                         Reference = "Coverage/f30481cf-6a5f-4614-bb29-11542b790900"
+                                    }
+                                }
                             
                             },
                             Coding = new List<Coding>

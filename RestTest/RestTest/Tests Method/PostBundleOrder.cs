@@ -31,7 +31,33 @@ namespace RestTest.Tests_Method
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
 
             //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, condition, null, null, null);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
+
+            string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
+            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+        }
+
+        /// <summary>
+        /// Order, DiagnosticOrder(минус ссылка на Specimen), Condition, Patient
+        /// </summary>
+        [Test]
+        public void BundleOrder_Patient()
+        {
+            //добавляем пациента
+            Patient p = (new SetData()).SetPatient();
+            p.Id = "d89de286-01ef-4737-a4f9-a10474c5fbc5";
+
+            //задаём ссылки
+            string patient = p.Id;
+            string pract = References.practitioner;
+
+            //задаём ресурсы
+            Order order = (new SetData()).SetOrder(patient, pract, References.organization);
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter, null, null);
+            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
+
+            //задаём Bundle 
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null,p);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
@@ -55,7 +81,7 @@ namespace RestTest.Tests_Method
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
 
             //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, null, condition, null, null, null);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, null, condition, null, null, null, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
@@ -80,7 +106,7 @@ namespace RestTest.Tests_Method
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
 
             //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, null, null, null);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, null, null, null, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
@@ -106,7 +132,7 @@ namespace RestTest.Tests_Method
             Observation observation = (new SetData()).SetObservation_BundleOrder();
 
             //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, observation, null, null);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, observation, null, null, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
@@ -133,7 +159,7 @@ namespace RestTest.Tests_Method
             Practitioner practitioner = (new SetData()).SetPractitioner();
 
             //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, null, practitioner, null);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, null, practitioner, null, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
@@ -158,7 +184,7 @@ namespace RestTest.Tests_Method
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
             Coverage coverage = (new SetData()).SetCoverage(patient);
             //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, null, null, coverage);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, null, null, coverage, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
@@ -178,15 +204,15 @@ namespace RestTest.Tests_Method
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
                                                                 Ids.specimen, new string[] { Ids.observation});
-            Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
-            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
+            Specimen specimen = (new SetData()).SetSpecimen_Full(patient);
+            Condition condition = (new SetData()).SetCondition_Full(patient);
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
             Coverage coverage = (new SetData()).SetCoverage(patient);
             Practitioner practitioner = (new SetData()).SetPractitioner();
             Observation observation = (new SetData()).SetObservation_BundleOrder();
 
             //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, observation, practitioner, coverage);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, observation, practitioner, coverage, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
@@ -201,6 +227,7 @@ namespace RestTest.Tests_Method
         {
             //добавляем пациента
             Patient p = (new SetData()).SetPatient();
+            p.Id = "d89de286-01ef-4737-a4f9-a10474c5fbc5";
 
             var s1 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(p);
             string url = "http://192.168.8.93:2223/fhir/Patient?_format=json";
@@ -215,7 +242,7 @@ namespace RestTest.Tests_Method
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
-                                                                null, new string[] { Ids.observation });
+                                                                Ids.specimen, new string[] { Ids.observation });
             Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
@@ -224,7 +251,7 @@ namespace RestTest.Tests_Method
             Observation observation = (new SetData()).SetObservation_BundleOrder();
 
             //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, encounter, condition, observation, practitioner, coverage);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, encounter, condition, observation, practitioner, coverage, null);
             Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
             {
                 Resource = p,
