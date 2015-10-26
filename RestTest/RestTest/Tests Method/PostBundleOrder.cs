@@ -27,7 +27,8 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter, null, null);
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter,
+                                                                null, null);
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
 
             //задаём Bundle 
@@ -45,7 +46,7 @@ namespace RestTest.Tests_Method
         [Test]
         public void BundleOrder_Patient()
         {
-            //добавляем пациента
+            //задаём пациента
             Patient p = (new SetData()).SetPatient();
             p.Id = "d89de286-01ef-4737-a4f9-a10474c5fbc5";
 
@@ -241,7 +242,7 @@ namespace RestTest.Tests_Method
         [Test]
         public void BundleOrder_MaxPatient()
         {
-            //добавляем пациента
+            //задаём пациента
             Patient p = (new SetData()).SetPatient();
             p.Id = "d89de286-01ef-4737-a4f9-a10474c5fbc5";
 
@@ -262,12 +263,6 @@ namespace RestTest.Tests_Method
 
             //задаём Bundle 
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, encounter, condition, observation, practitioner, coverage, p);
-            Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
-            {
-                Resource = p,
-                Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.POST, Url = "Patient" }
-            };
-            b.Entry.Add(component);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
