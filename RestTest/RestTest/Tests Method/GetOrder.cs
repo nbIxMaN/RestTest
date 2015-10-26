@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Hl7.Fhir.Model;
+using RestSharp;
 
 namespace RestTest.Tests_Method
 {
@@ -13,22 +15,11 @@ namespace RestTest.Tests_Method
         [Test]
         public void Test()
         {
-            GetRequest g = new GetRequest
-            {
-                parameter = new Parameter[]
-                {
-                    new Parameter
-                    {
-                        name = "TargetCode",
-                        valueString = "123.456.789"
-                    },
-                    new Parameter
-                    {
-                        name = "Barcode",
-                        valueString ="barcode"
-                    }
-                }
-            };
+            Parameters a = new Parameters();
+            a.Add("TargetCode", new FhirString("1.2.643.2.69.1.2.2"));
+            string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
+            IRestResponse resp2 = (new Program()).RequestExec(Method.GET, "http://192.168.8.93:2223/fhir/$getorder?", s);
+            NUnit.Framework.Assert.Fail(resp2.Content);
         }
     }
 }

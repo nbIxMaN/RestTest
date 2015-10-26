@@ -299,11 +299,9 @@ namespace RestTest.Tests_Method
             Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
             {
                 Resource = practitioner,
-                Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.PUT, Url = "Practitioner" }
+                Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.PUT, Url = References.practitioner }
             };
             b.Entry.Add(component);
-
-
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
