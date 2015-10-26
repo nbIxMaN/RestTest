@@ -1,4 +1,4 @@
-п»їusing System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -20,10 +20,10 @@ namespace RestTest
         //private string organization = "4a94e705-ee3e-46fc-bba0-0298e0fd5bd2";
 
 
-        private static string[] FamilyNames = { "РњР°РєСЃРёРјРѕРІ", "РђРЅРґСЂРµРµРІ", "РЎРµСЂРіРµРµРІ", "РЎРёРґРѕСЂРѕРІ", "РРІР°РЅРѕРІ", "РџРµС‚СЂРѕРІ", "РђР±СЂР°РјРѕРІ", "Р•РІРіРµРЅСЊРµРІ", "РђСЂС…РёРїРѕРІ", "РђРЅС‚РѕРЅРѕРІ", "Р”РјРёС‚СЂРёРµРІ", "Р›РµРѕРЅРёРґРѕРІ", "Р”РµРЅРёСЃРѕРІ", "РўР°СЂР°СЃРѕРІ", "Р’Р»Р°РґРёРјРёСЂРѕРІ", "РљРѕРЅСЃС‚Р°РЅС‚РёРЅРѕРІ", "РќРёРєРѕР»Р°РµРІ", "Р РѕРјР°РЅРѕРІ", "РљРѕРЅСЃС‚Р°РЅС‚РёРЅРѕРІ", "РђСЂС‚РµРјСЊРµРІ", "Р¤РёР»РёРїРїРѕРІ", "Р’РёРєС‚РѕСЂРѕРІ", "Р’Р°СЃРёР»СЊРµРІ", "РџСЂРѕС…РѕСЂРѕРІ", "РђР»РµРєСЃРµРµРІ", "РњРёС…Р°Р№Р»РѕРІ", "РђС„Р°РЅР°СЃСЊРµРІ", "РҐР°СЂРёС‚РѕРЅРѕРІ" };
-        private static string[] GivenNames = { "РњР°РєСЃРёРј", "РђРЅРґСЂРµР№", "РЎРµСЂРіРµР№", "РЎРёРґРѕСЂ", "РРІР°РЅ", "РџС‘С‚СЂ", "РђР±СЂР°Рј", "Р•РІРіРµРЅРёР№", "РђСЂС…РёРї", "РђРЅС‚РѕРЅ", "Р”РјРёС‚СЂРёР№", "Р›РµРѕРЅРёРґ", "Р”РµРЅРёСЃ", "РўР°СЂР°СЃ", "Р’Р»Р°РґРёРјРёСЂ", "РљРѕРЅСЃС‚Р°РЅС‚РёРЅ", "РќРёРєРѕР»Р°Р№", "Р РѕРјР°РЅ", "РљРѕРЅСЃС‚Р°РЅС‚РёРЅ", "РђСЂС‚С‘Рј", "Р¤РёР»РёРїРї", "Р’РёРєС‚РѕСЂ", "Р’Р°СЃРёР»РёР№", "РџСЂРѕС…РѕСЂ", "РђР»РµРєСЃРµР№", "РњРёС…Р°РёР»", "РђС„Р°РЅР°СЃРёР№", "РҐР°СЂРёС‚РѕРЅ" };
-        private static string[] MiddleNames = { "РњР°РєСЃРёРјРѕРІРёС‡", "РђРЅРґСЂРµРµРІРёС‡", "РЎРµСЂРіРµРµРІРёС‡", "РЎРёРґРѕСЂРѕРІРёС‡", "РРІР°РЅРѕРІРёС‡", "РџРµС‚СЂРѕРІРёС‡", "РђР±СЂР°РјРѕРІРёС‡", "Р•РІРіРµРЅСЊРµРІРёС‡", "РђСЂС…РёРїРѕРІРёС‡", "РђРЅС‚РѕРЅРѕРІРёС‡", "Р”РјРёС‚СЂРёРµРІРёС‡", "Р›РµРѕРЅРёРґРѕРІРёС‡", "Р”РµРЅРёСЃРѕРІРёС‡", "РўР°СЂР°СЃРѕРІРёС‡", "Р’Р»Р°РґРёРјРёСЂРѕРІРёС‡", "РљРѕРЅСЃС‚Р°РЅС‚РёРЅРѕРІРёС‡", "РќРёРєРѕР»Р°РµРІРёС‡", "Р РѕРјР°РЅРѕРІРёС‡", "РљРѕРЅСЃС‚Р°РЅС‚РёРЅРѕРІРёС‡", "РђСЂС‚С‘РјРѕРІРёС‡", "Р¤РёР»РёРїРїРѕРІРёС‡", "Р’РёРєС‚РѕСЂРѕРІРёС‡", "Р’Р°СЃРёР»СЊРµРІРёС‡", "РџСЂРѕС…РѕСЂРѕРІРёС‡", "РђР»РµРєСЃРµРµРІРёС‡", "РњРёС…Р°Р№Р»РѕРІРёС‡", "РђС„Р°РЅР°СЃСЊРµРІРёС‡", "РҐР°СЂРёС‚РѕРЅРѕРІРёС‡" };
-        private static string[] Streets = { "РќРµРІСЃРєРёР№ РїСЂ.", "СѓР».РћРїС‚РёРєРѕРІ", "СѓР».Р¤СЂСѓРЅР·Рµ", "СѓР».Р”С‹Р±РµРЅРєРѕ", "РџРёСЃРєР°СЂС‘РІСЃРєРёР№ РїСЂ.", "СѓР». РўР°Р»Р»РёРЅСЃРєР°СЏ", "СѓР». РљР°Р·Р°РЅСЃРєР°СЏ", "РЅР°Р±. РєР°РЅР°Р»Р° Р“СЂРёР±РѕРµРґРѕРІР°", "РїР». РўСЂСѓРґР°" };
+        private static string[] FamilyNames = { "Максимов", "Андреев", "Сергеев", "Сидоров", "Иванов", "Петров", "Абрамов", "Евгеньев", "Архипов", "Антонов", "Дмитриев", "Леонидов", "Денисов", "Тарасов", "Владимиров", "Константинов", "Николаев", "Романов", "Константинов", "Артемьев", "Филиппов", "Викторов", "Васильев", "Прохоров", "Алексеев", "Михайлов", "Афанасьев", "Харитонов" };
+        private static string[] GivenNames = { "Максим", "Андрей", "Сергей", "Сидор", "Иван", "Пётр", "Абрам", "Евгений", "Архип", "Антон", "Дмитрий", "Леонид", "Денис", "Тарас", "Владимир", "Константин", "Николай", "Роман", "Константин", "Артём", "Филипп", "Виктор", "Василий", "Прохор", "Алексей", "Михаил", "Афанасий", "Харитон" };
+        private static string[] MiddleNames = { "Максимович", "Андреевич", "Сергеевич", "Сидорович", "Иванович", "Петрович", "Абрамович", "Евгеньевич", "Архипович", "Антонович", "Дмитриевич", "Леонидович", "Денисович", "Тарасович", "Владимирович", "Константинович", "Николаевич", "Романович", "Константинович", "Артёмович", "Филиппович", "Викторович", "Васильевич", "Прохорович", "Алексеевич", "Михайлович", "Афанасьевич", "Харитонович" };
+        private static string[] Streets = { "Невский пр.", "ул.Оптиков", "ул.Фрунзе", "ул.Дыбенко", "Пискарёвский пр.", "ул. Таллинская", "ул. Казанская", "наб. канала Грибоедова", "пл. Труда" };
 
         static Random R = new Random((int)DateTime.Now.Ticks);
         private static string[] RandomFIO()
@@ -39,11 +39,12 @@ namespace RestTest
 
         private static string RandomAddress()
         {
-            return Streets[R.Next(Streets.Length)] + ", Рґ." + R.Next(30).ToString() + ", РєРІ." + R.Next(150).ToString();
+            return Streets[R.Next(Streets.Length)] + ", д." + R.Next(30).ToString() + ", кв." + R.Next(150).ToString();
         }
 
         public Patient SetPatient()
         {
+            
             return new Patient
             {
                 Address = new List<Address>
@@ -56,12 +57,12 @@ namespace RestTest
                     {
                         System = "urn:oid:1.2.643.5.1.34",
                         Value = "IdPatientMis" + DateTime.Now,
-                        Assigner = new ResourceReference() { Reference = "Link/" + Ids.organization },
+                        Assigner = new ResourceReference() { Reference = References.organization_Patient },
                         Period = new Period
                         {
                              StartElement = new FhirDateTime("01.02.2012"),
                              EndElement = new FhirDateTime("01.02.2018")
-                        } //РґР»СЏ РїР°СЃРїРѕСЂС‚Р°
+                        } //для паспорта
                     }
                 },
                 BirthDate = RandomBirthDate(),
@@ -83,18 +84,18 @@ namespace RestTest
             {
                 Id = Ids.coverage,
                 Type = new Coding { System = Dictionary.TYPE_COVERAGE, Code = "2", Version = "1" },
-                Subscriber = new ResourceReference { Reference = "Patient/" + patient },
+                Subscriber = new ResourceReference { Reference = patient },
                 Identifier = new List<Identifier>
                 {
                     new Identifier
                     {
-                        System = "urn:oid:1.2.643.5.1.13.2.1.1.635.23607",//System = ...635.[РєРѕРґ СЃС‚СЂР°С…РѕРІРѕР№ РєРѕРјРїР°РЅРёРё]
+                        System = "urn:oid:1.2.643.5.1.13.2.1.1.635.23607",//System = ...635.[код страховой компании]
                         Value = "1234567891011121",
-                        //Period = new Period
-                        //{
-                        //     StartElement = new FhirDateTime("01.02.2012"),
-                        //     EndElement = new FhirDateTime("01.02.2018")
-                        //}
+                        Period = new Period
+                        {
+                             StartElement = new FhirDateTime("01.02.2012"),
+                             EndElement = new FhirDateTime("01.02.2018")
+                        }
                     }
                 }
             };
@@ -102,7 +103,7 @@ namespace RestTest
 
         public Bundle SetBundleOrder(Order order, DiagnosticOrder diagnosticOrder,
                                      Specimen specimen, Encounter encounter, Condition condition,
-                                     Observation observation, Practitioner practitioner, Coverage coverage)
+                                     Observation observation, Practitioner practitioner, Coverage coverage, Patient patient)
         {
             Bundle bundle = new Bundle();
             bundle.Meta = new Meta() { Profile = new string[] { MetaBundleOrder } };
@@ -186,14 +187,19 @@ namespace RestTest
                 };
                 bundle.Entry.Add(component);
             }
+            if (patient != null)
+            {
+                Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
+                {
+                    Resource = patient,
+                    Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.POST, Url = "Patient" }
+                };
+                bundle.Entry.Add(component);
+            }
             return bundle;
         }
 
-        //РїСЂРѕРґСѓРјР°С‚СЊ СЃСЃС‹Р»РєРё!!
-
-        //Practitioner/131d7d5d-0f21-451d-86ec-27fa3e069e1a
-        //519a08f4-c240-4e58-aa66-fe2a017b8d94 
-        public Order SetOrder(string patient, string practitioner)
+        public Order SetOrder(string patient, string practitioner, string organization)
         {
             return new Order
             {
@@ -202,13 +208,15 @@ namespace RestTest
                     new Identifier
                     {
                         System = "urn:oid:1.2.643.2.69.1.2.6",
-                        Value = "IdOrderMis" + new Random().Next(1000)
+                        Value = "IdOrderMis" + DateTime.Now,
+                        Assigner = new ResourceReference { Reference = organization }
                     }
                 },
                 Date = "01.01.2012",
-                Subject = new ResourceReference { Reference = "Patient/" + patient },
+                Subject = new ResourceReference { Reference = patient },
                 Source = new ResourceReference { Reference = practitioner },
-                Target = new ResourceReference { Reference = "Organization/" + Ids.organization },
+                Target = new ResourceReference { Reference = organization },
+                //тут всегда передаётся Ids.diagnosticReport (по постановке)
                 Detail = new List<ResourceReference> { new ResourceReference { Reference = Ids.diagnosticReport } },
                 When = new Order.OrderWhenComponent
                 {
@@ -223,45 +231,20 @@ namespace RestTest
             };
         }
 
-        private OrderResponse SetOrderResponse()
+        public DiagnosticOrder SetDiagnosticOrder(string patient, string practitioner, string encounter, string specimen, string[] supportInfo)
         {
-            return new OrderResponse
+            DiagnosticOrder d = new DiagnosticOrder
             {
-                Identifier = new List<Identifier>
-                {
-                    new Identifier
-                    {
-                        System = "urn:oid:1.2.643.2.69.1.2.2",
-                        Value = "IdOrderLis" + new Random().Next(100)
-                    }
-                },
-                Request = new ResourceReference { Reference = "Order/" + Ids.order },
-                Date = "02.01.2012",
-                Who = new ResourceReference { Reference = "Organization/" + Ids.organization },
-                OrderStatus_ = OrderResponse.OrderStatus.Completed,
-                Description = "РљРѕРјРјРµРЅС‚Р°СЂРёР№ Рє Р·Р°РєР°Р·Сѓ",
-                Fulfillment = new List<ResourceReference>() { new ResourceReference { Reference = Ids.diagnosticReport } }
-            };
-        }
-
-        public DiagnosticOrder SetDiagnosticOrder(string patient, string practitioner, string specimen, string supportInfo)
-        {
-            return new DiagnosticOrder
-            {
-                //Id СЃР°РјРѕРіРѕ РћСЂРґРµСЂР°
                 Id = Ids.diagnosticReport,
-                //Id РїР°С†РёРµРЅС‚Р°, РіРµРЅРµСЂРёС‚СЃСЏ РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё РїРѕС†РёРµРЅС‚Р°, РёРЅР°С‡Рµ РїРµРЅСЏР№ РЅР° СЃРµР±СЏ
-                Subject = new ResourceReference { Reference = "Patient/" + patient },
-                //Id РґРѕРєС‚РѕСЂР°, РґРѕРєС‚РѕСЂ РґРѕР±Р°РІР»СЏРµС‚СЃСЏ РІ Р±Р°РЅРґР»Рµ Id РёР· Ids
+                //Id пациента, генерится при добавлении пациента, иначе пеняй на себя
+                Subject = new ResourceReference { Reference = patient },
+                //Id доктора, доктор добавляется в бандле Id из Ids
                 Orderer = new ResourceReference { Reference = practitioner },
-                //Id Encounter, РѕРЅ С‚РѕР¶Рµ РІ Р±Р°РЅРґР»Рµ
-                Encounter = new ResourceReference { Reference = Ids.encounter },
-                //РџРѕРєР° С‚СѓС‚ Id Condition
-                SupportingInformation = new List<ResourceReference> { new ResourceReference { Reference = supportInfo } },
-                Specimen = new List<ResourceReference> { new ResourceReference { Reference = specimen } },
+                Encounter = new ResourceReference { Reference = encounter },
                 Status = DiagnosticOrder.DiagnosticOrderStatus.Requested,
                 Item = new List<DiagnosticOrder.DiagnosticOrderItemComponent>
                 {
+                    
                     new DiagnosticOrder.DiagnosticOrderItemComponent
                     {
                         Code = new CodeableConcept
@@ -278,7 +261,16 @@ namespace RestTest
                                               new Coding { System = Dictionary.EXTENSION_FINANCE, Code = "1", Version = "1" }
                                          }
                                     }
+                                },
+                                new Extension
+                                {
+                                    Url = "urn:oid:1.2.643.2.69.1.100.2",
+                                    Value = new ResourceReference
+                                    {
+                                         Reference = "Coverage/f30481cf-6a5f-4614-bb29-11542b790900"
+                                    }
                                 }
+                            
                             },
                             Coding = new List<Coding>
                             {
@@ -288,9 +280,23 @@ namespace RestTest
                     }
                 }
             };
+
+            //необязательные параметры
+            if (specimen != null)
+                d.Specimen = new List<ResourceReference> { new ResourceReference { Reference = specimen } };
+            // Condition/Observation всегда из Ids
+            // когда передаём condition_MIN то ссылка на codition_min, в другом случае codition
+            if (supportInfo != null)
+            {
+                d.SupportingInformation = new List<ResourceReference>();
+                foreach (string s in supportInfo)
+                    d.SupportingInformation.Add(new ResourceReference { Reference = s });
+            }
+
+            return d;
         }
 
-        public Specimen SetSpecimen(string patient)
+        public Specimen SetSpecimen_Full(string patient)
         {
             return new Specimen
             {
@@ -299,17 +305,17 @@ namespace RestTest
                 {
                     Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_SPECIMEN, Code = "1", Version = "1" } }
                 },
-                Subject = new ResourceReference { Reference = "Patient/" + patient },
+                Subject = new ResourceReference { Reference = patient },
                 Collection = new Specimen.SpecimenCollectionComponent
                 {
-                    Comment = new List<string> { "РљРѕРјРјРµРЅС‚Р°СЂРёР№ Рє Р±РёРѕРјР°С‚РµСЂРёР°Р»Сѓ" },
-                    Collected = new Hl7.Fhir.Model.FhirDateTime(1998)
+                    Comment = new List<string> { "Комментарий к биоматериалу" },
+                    Collected = new Hl7.Fhir.Model.FhirDateTime(1998, 10, 1)
                 },
                 Container = new List<Specimen.SpecimenContainerComponent>
                 {
                     new Specimen.SpecimenContainerComponent
                     {
-                        Identifier = new List<Identifier>() { new Identifier { System = "http://netrika.ru/container-type-identifier", Value = "barCode111" }}, // System?
+                        Identifier = new List<Identifier>() { new Identifier { System = "urn:oid:1.2.643.2.69.1.2.2", Value = "barCode111" }},
                         Type = new CodeableConcept
                         {
                             Coding = new List<Coding>() { new Coding { System = Dictionary.TYPE_CONTAINER, Code = "1", Version = "1" } }
@@ -319,12 +325,23 @@ namespace RestTest
             };
         }
 
-        public Encounter SetEncounter(string patient, string[] condition)
+        public Specimen SetSpecimen_Min(string patient)
+        {
+            return new Specimen
+            {
+                Id = Ids.specimen,
+                Subject = new ResourceReference { Reference = patient },
+                Collection = new Specimen.SpecimenCollectionComponent { Collected = new Hl7.Fhir.Model.Date("27.05.2015 0:00:00") },
+            };
+        }
+
+        //пока что condition берётся только первый в массиве
+        public Encounter SetEncounter(string patient, string[] condition, string organization)
         {
             return new Encounter
             {
                 Id = Ids.encounter,
-                Identifier = new List<Identifier> { new Identifier { System = "urn:oid:1.2.643.2.69.1.2.6", Value = "IdCaseMis" } },
+                Identifier = new List<Identifier> { new Identifier { System = "urn:oid:1.2.643.2.69.1.2.6", Value = "IdCaseMis" + DateTime.Now } },
                 Status = Encounter.EncounterState.InProgress,
                 Class = Encounter.EncounterClass.Ambulatory,
                 Type = new List<CodeableConcept>
@@ -334,8 +351,8 @@ namespace RestTest
                        Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_CASE, Code = "2", Version = "1" } }
                     }
                 },
-                Patient = new ResourceReference { Reference = "Patient/" + patient },
-                Reason = new List<CodeableConcept>()
+                Patient = new ResourceReference { Reference = patient },
+                Reason = new List<CodeableConcept>() //необязательный параметр
                 {
                     new CodeableConcept
                     {
@@ -343,11 +360,11 @@ namespace RestTest
                     }
                 },
                 Indication = new List<ResourceReference> { new ResourceReference { Reference = condition[0] } },
-                ServiceProvider = new ResourceReference { Reference = "Organization/" + Ids.organization }
+                ServiceProvider = new ResourceReference { Reference = organization }
             };
         }
 
-        public Condition SetCondition(string patient)
+        public Condition SetCondition_Full(string patient)
         {
             return new Condition
             {
@@ -357,11 +374,11 @@ namespace RestTest
                     new Identifier
                     {
                         System = "urn:oid:1.2.643.2.69.1.1.1.61",
-                        Value = "РЎС‚Р°РЅРґР°СЂС‚ РїРµСЂРІРёС‡РЅРѕР№ РјРµРґРёРєРѕ-СЃР°РЅРёС‚Р°СЂРЅРѕР№ РїРѕРјРѕС‰Рё РїСЂРё С…СЂРѕРЅРёС‡РµСЃРєРѕР№ Р±РѕР»РµР·РЅРё РїРѕС‡РµРє 4 СЃС‚Р°РґРёРё"
+                        Value = "Стандарт первичной медико-санитарной помощи при хронической болезни почек 4 стадии"
                     }
                 },
-                //Р“РµРЅРµСЂРёС‚СЃСЏ РїСЂРё СЃРѕР·РґР°РЅРёРё
-                Patient = new ResourceReference { Reference = "Patient/" + patient },
+                //Генерится при создании
+                Patient = new ResourceReference { Reference = patient },
                 DateAsserted = "01.02.2012",
                 Code = new CodeableConcept
                 {
@@ -372,31 +389,53 @@ namespace RestTest
                     Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_CONDITION, Code = "diagnosis", Version = "1" } }
                 },
                 ClinicalStatus = Condition.ConditionClinicalStatus.Confirmed,
-                Notes = "РЈС‚РѕС‡РЅРµРЅРёРµ",
-                //dueTo = new DueTo // РЎРѕРїСѓС‚СЃС‚РІСѓСЋС‰РµРµ Р·Р°Р±РѕР»РµРІР°РЅРёРµ/РѕСЃР»РѕР¶РЅРµРЅРёРµ 
-                //{
-                //    target = new Condition
-                //    {
-                //        identifier = new Identifier[]
-                //        {
-                //            new Identifier{
-                //            System = "urn:oid:1.2.643.2.69.1.1.1.61",}
-                //            //value?
-                //        },
-                //        subject = new ResourceReference { reference = "Patient/" + patient },
-                //        dateAsserted = Convert.ToDateTime("01.02.2012"),
-                //        Code = new CodeableConcept
-                //        {
-                //            coding = new Coding[] { new Coding { System = Dictionary.DIAGNOSIS, Code = "N18.9", Version = 1 } }
-                //        },
-                //        category = new CodeableConcept
-                //        {
-                //            coding = new Coding[] { new Coding { System = Dictionary.TYPE_CONDITION, Code = "diagnosis", Version = 1 } }
-                //        },
-                //        clinicalStatus = "confirmed",
-                //        notes = "РЈС‚РѕС‡РЅРµРЅРёРµ",
-                //    }
-                //}
+                Notes = "Уточнение",
+                DueTo = new List<Condition.ConditionDueToComponent> // Сопутствующее заболевание/осложнение 
+                {   
+                    new  Condition.ConditionDueToComponent
+                    {
+                          Target = new ResourceReference {Reference = Ids.condition_min}
+                    }
+                  
+                }
+            };
+        }
+
+        public Condition SetCondition_MinDiag(string patient)
+        {
+            return new Condition
+            {
+                Id = Ids.condition_min,
+                //Генерится при создании
+                Patient = new ResourceReference { Reference = patient },//R10.0 N18.9
+                Code = new CodeableConcept
+                {
+                    Coding = new List<Coding> { new Coding { System = Dictionary.DIAGNOSIS, Code = "R10.0", Version = "1" } }
+                },
+                Category = new CodeableConcept
+                {
+                    Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_CONDITION, Code = "diagnosis", Version = "1" } }
+                },
+                ClinicalStatus = Condition.ConditionClinicalStatus.Confirmed,
+            };
+        }
+
+        public Condition SetCondition_MinMenPause(string patient)
+        {
+            return new Condition
+            {
+                Id = Ids.condition_min,
+                //Генерится при создании
+                Patient = new ResourceReference { Reference = patient },
+                Code = new CodeableConcept
+                {
+                    Coding = new List<Coding> { new Coding { System = Dictionary.MENOPAUSE, Code = "1", Version = "1" } }
+                },
+                Category = new CodeableConcept
+                {
+                    Coding = new List<Coding> { new Coding { System = Dictionary.TYPE_CONDITION, Code = "finding", Version = "1" } }
+                },
+                ClinicalStatus = Condition.ConditionClinicalStatus.Confirmed,
             };
         }
 
@@ -413,7 +452,7 @@ namespace RestTest
                 Value = new Quantity
                 {
                     Value = 2.2m,
-                    Units = "РјРјРѕР»СЊ/Р»"
+                    Units = "ммоль/л"
                 }
             };
         }
@@ -422,7 +461,7 @@ namespace RestTest
         {
             return new Practitioner
             {
-                Id = Ids.partitioner,
+                Id = Ids.practitioner,
                 Identifier = new List<Identifier>
                 {
                     new Identifier
@@ -440,7 +479,8 @@ namespace RestTest
                 {
                     new Practitioner.PractitionerPractitionerRoleComponent
                     {
-                        ManagingOrganization = new ResourceReference { Reference = "Organization/" + Ids.organization },
+                        //вряд ли будем писать тесты c другим organization
+                        ManagingOrganization = new ResourceReference { Reference = References.organization },
                         Role = new CodeableConcept
                         {
                             Coding = new List<Coding>() { new Coding { System = Dictionary.ROLE_PRACTITIONER, Code = "73", Version = "1" } }
@@ -458,41 +498,66 @@ namespace RestTest
             };
         }
 
-        public Bundle SetBundleResult(string patient)
+        public Bundle SetBundleResult(OrderResponse orderResp, DiagnosticReport diagReport, Observation observ, Practitioner pract)
         {
-            return new Bundle
+            Bundle bundle = new Bundle();
+            bundle.Meta = new Meta() { Profile = new string[] { MetaBundleResult } };
+            bundle.Entry = new List<Bundle.BundleEntryComponent>()
             {
-                Meta = new Meta() { Profile = new string[] { MetaBundleResult } },
-                Entry = new List<Bundle.BundleEntryComponent>()
-                {
-                    new Bundle.BundleEntryComponent()
+                 new Bundle.BundleEntryComponent()
                     {
-                        Resource = SetOrderResponse(),
+                        Resource = orderResp,
                         Transaction = new Bundle.BundleEntryTransactionComponent { Method  = Bundle.HTTPVerb.POST, Url  = "OrderResponse"}
                     },
                     new Bundle.BundleEntryComponent()
                     {
-                        Resource =  SetDiagnosticReport(patient),
+                        Resource =  diagReport,
                         Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url  = "DiagnosticReport"}
                     },
 
                     new Bundle.BundleEntryComponent() 
                     {
-                        Resource = SetObservation_BundleResult(),
+                        Resource = observ,
                         Transaction = new Bundle.BundleEntryTransactionComponent() { Method  = Bundle.HTTPVerb.POST, Url  = "Observation"}
-                    },
-                    new Bundle.BundleEntryComponent()
+                    }
+            };
+
+            //необязательный параметр
+            if (pract != null)
+            {
+                Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
+                {
+                    Resource = pract,
+                    Transaction = new Bundle.BundleEntryTransactionComponent { Method = Bundle.HTTPVerb.POST, Url = "Practitioner" }
+                };
+                bundle.Entry.Add(component);
+            }
+
+            return bundle;
+        }
+
+        public OrderResponse SetOrderResponse(string order, string organization)
+        {
+            return new OrderResponse
+            {
+                Identifier = new List<Identifier>
+                {
+                    new Identifier
                     {
-                        Resource =  SetPractitioner(),
-                        Transaction = new Bundle.BundleEntryTransactionComponent() {  Method  = Bundle.HTTPVerb.POST, Url   = "Practitioner"}
-                    },
-
+                        System = "urn:oid:1.2.643.2.69.1.2.2",
+                        Value = "IdOrderLis" + DateTime.Now
+                    }
                 },
-
+                Request = new ResourceReference { Reference = order },
+                Date = "02.01.2012",
+                Who = new ResourceReference { Reference = organization },
+                OrderStatus_ = OrderResponse.OrderStatus.Completed,
+                Description = "Комментарий к заказу", //необязательный
+                Fulfillment = new List<ResourceReference>() { new ResourceReference { Reference = Ids.diagnosticReport } }
             };
         }
 
-        private DiagnosticReport SetDiagnosticReport(string patient)
+        public DiagnosticReport SetDiagnosticReport(string patient, string pract, string diagOrder)
         {
             var s = new PresentedForm();
             s.data = "<Envelope xmlns=\"http://hl7.org/fhir\"><presentedForm>Hello world</presentedForm></Envelope>";
@@ -510,46 +575,44 @@ namespace RestTest
                 },
                 Status = DiagnosticReport.DiagnosticReportStatus.Final,
                 Issued = "03.01.2012",
-                Subject = new ResourceReference { Reference = "Patient/" + patient },
-                Performer = new ResourceReference { Reference = Ids.partitioner },
-                RequestDetail = new List<ResourceReference> { new ResourceReference() { Reference = "DiagnosticOrder/" + Ids.diagnosticOrder } },
-                Result = new List<ResourceReference>() { new ResourceReference { Reference = Ids.observation } },
-                Conclusion = "РўРµРєСЃС‚ Р·Р°РєР»СЋС‡РµРЅРёСЏ РїРѕ СѓСЃР»СѓРіРµ B03.016.006",
+                Subject = new ResourceReference { Reference = patient }, //только существующий пациент
+                Performer = new ResourceReference { Reference = pract },
+                RequestDetail = new List<ResourceReference> { new ResourceReference() { Reference = diagOrder } },
+                Result = new List<ResourceReference>() { new ResourceReference { Reference = Ids.observation_res } },
+                Conclusion = "Текст заключения по услуге B03.016.006",
                 PresentedForm = new List<Attachment>
                 {
                     new Attachment
                     {
-                         //Data = Encoding.UTF8.GetBytes(Convert.ToBase64String(Encoding.UTF8.GetBytes(qwer)))
                          Data = Encoding.UTF8.GetBytes(qwer)
                     }
                 }
-                //presentedForm ?? 
             };
         }
 
-        private Observation SetObservation_BundleResult()
+        public Observation SetObservation_BundleResult_Reason(string practitioner)
         {
             return new Observation
             {
-                Id = Ids.observation,
+                Id = Ids.observation_res,
                 Code = new CodeableConcept
                 {
                     Coding = new List<Coding> { new Coding { System = Dictionary.CODE_TEST, Code = "17861-6", Version = "1" } }
                 },
-                Comments = "РљРѕРјРјРµРЅС‚Р°СЂРёР№ Рє СЂРµР·СѓР»СЊС‚Р°С‚Сѓ С‚РµСЃС‚Р°",
+                Comments = "Комментарий к результату теста",//необязательный
                 Issued = Convert.ToDateTime("02.02.2012"),
                 Status = Observation.ObservationStatus.Final,
-                Method = new CodeableConcept
+                Method = new CodeableConcept //необязательный
                 {
-                    Coding = new List<Coding> { new Coding { System = "urn:oid:1.2.643.2.69.1.2.2", Code = "РҐРёРјРёС‡РµСЃРєРёР№", Version = "1" } }
+                    Coding = new List<Coding> { new Coding { System = "urn:oid:1.2.643.2.69.1.2.2", Code = "Химический", Version = "1" } }
                 },
-                Performer = new List<ResourceReference>() { new ResourceReference() { Reference = Ids.partitioner } },
+                Performer = new List<ResourceReference>() { new ResourceReference() { Reference = practitioner } },
 
 
-                // РёР»Рё value[x]
+                // или value[x]
                 DataAbsentReason = new CodeableConcept
                 {
-                    Coding = new List<Coding>() { new Coding { System = "urn:oid:1.2.643.2.69.1.1.1.38", Code = "1", Version = "1" } }
+                    Coding = new List<Coding>() { new Coding { System = Dictionary.REASON_ABSENT, Code = "1", Version = "1" } }
 
                 }, // Code?
 
@@ -560,16 +623,62 @@ namespace RestTest
                         Low = new Quantity
                         {
                             Value = 2.15m,
-                            Units = "РјРјРѕР»СЊ/Р»"
+                            Units = "ммоль/л"
                         },
                         High = new Quantity
                         {
                             Value = 2.5m,
-                            Units = "РјРјРѕР»СЊ/Р»"
+                            Units = "ммоль/л"
                         }
                     }
                 }
 
+            };
+        }
+
+        public Observation SetObservation_BundleResult_Value(string practitioner)
+        {
+            return new Observation
+            {
+                Id = Ids.observation_res,
+                Code = new CodeableConcept
+                {
+                    Coding = new List<Coding> { new Coding { System = Dictionary.CODE_TEST, Code = "17861-6", Version = "1" } }
+                },
+                Comments = "Комментарий к результату теста",//необязательный
+                Issued = Convert.ToDateTime("02.02.2012"),
+                Status = Observation.ObservationStatus.Final,
+                Method = new CodeableConcept //необязательный
+                {
+                    Coding = new List<Coding> { new Coding { System = "urn:oid:1.2.643.2.69.1.2.2", Code = "Химический", Version = "1" } }
+                },
+                Performer = new List<ResourceReference>() { new ResourceReference() { Reference = practitioner } },
+
+
+                // как задать Value?
+                Value = new Hl7.Fhir.Model.Quantity
+                {
+                    Value = new decimal(2.2),
+                    Units = "ммоль/л"
+                },
+                // "светло-желтый",
+
+                ReferenceRange = new List<Observation.ObservationReferenceRangeComponent>()
+                {
+                    new Observation.ObservationReferenceRangeComponent()
+                    {
+                        Low = new Quantity
+                        {
+                            Value = 2.15m,
+                            Units = "ммоль/л"
+                        },
+                        High = new Quantity
+                        {
+                            Value = 2.5m,
+                            Units = "ммоль/л"
+                        }
+                    }
+                }
             };
         }
     }
