@@ -30,7 +30,9 @@ namespace RestTest.Tests_Method
             Bundle bRes = (new SetData()).SetBundleResult(orderResp, diagRep, observ, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
-            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
+            Assert.IsFalse(bundleAnsw.Contains("error"));
         }
 
         /// <summary>
@@ -53,7 +55,9 @@ namespace RestTest.Tests_Method
             Bundle bRes = (new SetData()).SetBundleResult(orderResp, diagRep, observ, practitioner);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
-            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
+            Assert.IsFalse(bundleAnsw.Contains("error"));
         }
     }
 }

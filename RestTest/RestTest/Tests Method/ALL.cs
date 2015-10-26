@@ -47,17 +47,12 @@ namespace RestTest.Tests_Method
         [Test]
         public void Bundle_Max()
         {
-            //добавляем пациента
+            //задаём пациента
             Patient p = (new SetData()).SetPatient();
-
-            var s1 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(p);
-            string url = "http://192.168.8.93:2223/fhir/Patient?_format=json";
-            IRestResponse resp = (new Program()).RequestExec(Method.POST, url, s1);
-
-            dynamic patient = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content);
+            p.Id = "d89de286-01ef-4737-a4f9-a10474c5fbc5";
 
             //задаём ссылки
-            patient = patient.id;
+            string patient = p.Id;
             string pract = References.practitioner;
 
             //задаём ресурсы
@@ -70,22 +65,22 @@ namespace RestTest.Tests_Method
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, condition, null, null, null, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
-            IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
-            
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             dynamic bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content);
-            
+            Assert.IsFalse(bundleAnsw.Contains("error"));
 
-            ////задаём ресурсы
-            //OrderResponse orderResp = (new SetData()).SetOrderResponse(patient, References.organization);
-            //DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, diagOrder);
-            //Observation observ = (new SetData()).SetObservation_BundleResult_Reason(pract);
+            //задаём ресурсы
+            OrderResponse orderResp = (new SetData()).SetOrderResponse(patient, References.organization);
+            DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, "DiagnosticOrder/" + diagnosticOrder.Id);
+            Observation observ = (new SetData()).SetObservation_BundleResult_Reason(pract);
 
-            ////передаём Bundle Result 
-            //Bundle bRes = (new SetData()).SetBundleResult(orderResp, diagRep, observ, null);
+            //передаём Bundle Result 
+            Bundle bRes = (new SetData()).SetBundleResult(orderResp, diagRep, observ, null);
 
-            //string s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
-            //(new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s2);
-
+            string s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
+            IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s2);
+            string bundleAnsw2 = Newtonsoft.Json.JsonConvert.DeserializeObject(resp2.Content).ToString();
+            Assert.IsFalse(bundleAnsw2.Contains("error"));
         }
     }
 }

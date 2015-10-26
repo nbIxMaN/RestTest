@@ -22,8 +22,8 @@ namespace RestTest.Tests_Method
             var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(p);
             string url = "http://192.168.8.93:2223/fhir/Patient?_format=json";
             IRestResponse resp = (new Program()).RequestExec(Method.POST, url, s);
-            //dynamic patient = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content);
-            //Ids.patient = patient.id;
+            string answ = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
+            Assert.IsFalse(answ.Contains("error"));
         }
     }
 }
