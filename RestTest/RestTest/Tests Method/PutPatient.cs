@@ -22,18 +22,22 @@ namespace RestTest.Tests_Method
 
             var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(p);
             string url = "http://192.168.8.93:2223/fhir/Patient?_format=json";
-            IRestResponse resp0 = (new Program()).RequestExec(Method.POST, url, s);
-            string answ0 = Newtonsoft.Json.JsonConvert.DeserializeObject(resp0.Content).ToString();
-            Assert.IsFalse(answ0.Contains("error"));
+            IRestResponse r = (new Program()).RequestExec(Method.POST, url, s);
+            dynamic answPat = Newtonsoft.Json.JsonConvert.DeserializeObject(r.Content);
+
+            string i = answPat.id;
 
             //обновление
+            p.Id = i;
+            p.Meta = new Meta
+            {
+                VersionId = answPat.meta.versionId
+            };
             p.Address = new List<Address> { address };
             
             var s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(p);
-            url = "http://192.168.8.93:2223/fhir/Patient?_format=json";
-            IRestResponse resp = (new Program()).RequestExec(Method.PUT, url, s2);
-            string answ = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            Assert.IsFalse(answ.Contains("error"));
+            url = "http://192.168.8.93:2223/fhir/Patient/" + i + "?_format=json";
+            (new Program()).RequestExec(Method.PUT, url, s2);
         }
     }
 }
