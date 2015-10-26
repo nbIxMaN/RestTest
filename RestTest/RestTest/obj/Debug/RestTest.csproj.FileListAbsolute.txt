@@ -44,3 +44,8 @@ C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\Newtons
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\nunit.framework.xml
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\RestSharp.xml
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\obj\Debug\RestTest.csprojResolveAssemblyReference.cache
+C:\Users\User\Desktop\RestTest\RestTest\RestTest\bin\Debug\Hl7.Fhir.Core.dll
+C:\Users\User\Desktop\RestTest\RestTest\RestTest\bin\Debug\Newtonsoft.Json.dll
+C:\Users\User\Desktop\RestTest\RestTest\RestTest\bin\Debug\Hl7.Fhir.Core.pdb
+C:\Users\User\Desktop\RestTest\RestTest\RestTest\bin\Debug\Hl7.Fhir.Core.xml
+C:\Users\User\Desktop\RestTest\RestTest\RestTest\bin\Debug\Newtonsoft.Json.xml
