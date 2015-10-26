@@ -15,7 +15,8 @@ namespace RestTest.Tests_Method
         public void PostPatient_Test()
         {
             Patient p = (new SetData()).SetPatient();
-
+            Parameters a = new Parameters();
+            a.Add(Base;
             var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(p);
             string url = "http://192.168.8.93:2223/fhir/Patient?_format=json";
             IRestResponse resp = (new Program()).RequestExec(Method.POST, url, s);

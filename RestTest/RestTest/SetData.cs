@@ -519,7 +519,8 @@ namespace RestTest
                 {
                     new Attachment
                     {
-                         Data = Encoding.UTF8.GetBytes(Convert.ToBase64String(Encoding.UTF8.GetBytes(qwer)))
+                         //Data = Encoding.UTF8.GetBytes(Convert.ToBase64String(Encoding.UTF8.GetBytes(qwer)))
+                         Data = Encoding.UTF8.GetBytes(qwer)
                     }
                 }
                 //presentedForm ?? 
