@@ -31,10 +31,12 @@ namespace RestTest.Tests_Method
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
 
             //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, condition, null, null, null, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
-            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
+            Assert.IsFalse(bundleAnsw.Contains("error"));
         }
 
         /// <summary>
@@ -60,7 +62,9 @@ namespace RestTest.Tests_Method
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null,p);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
-            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
+            Assert.IsFalse(bundleAnsw.Contains("error"));
         }
 
         /// <summary>
@@ -84,7 +88,9 @@ namespace RestTest.Tests_Method
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, null, condition, null, null, null, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
-            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
+            Assert.IsFalse(bundleAnsw.Contains("error"));
         }
 
         /// <summary>
@@ -109,7 +115,9 @@ namespace RestTest.Tests_Method
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, null, null, null, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
-            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
+            Assert.IsFalse(bundleAnsw.Contains("error"));
         }
 
         /// <summary>
@@ -135,7 +143,9 @@ namespace RestTest.Tests_Method
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, observation, null, null, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
-            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
+            Assert.IsFalse(bundleAnsw.Contains("error"));
         }
 
         /// <summary>
@@ -162,7 +172,9 @@ namespace RestTest.Tests_Method
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, null, practitioner, null, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
-            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
+            Assert.IsFalse(bundleAnsw.Contains("error"));
         }
 
         /// <summary>
@@ -187,7 +199,9 @@ namespace RestTest.Tests_Method
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, null, null, coverage, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
-            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
+            Assert.IsFalse(bundleAnsw.Contains("error"));
         }
 
         /// <summary>
@@ -206,7 +220,7 @@ namespace RestTest.Tests_Method
                                                                 Ids.specimen, new string[] { Ids.observation});
             Specimen specimen = (new SetData()).SetSpecimen_Full(patient);
             Condition condition = (new SetData()).SetCondition_Full(patient);
-            Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
+            Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition }, References.organization);
             Coverage coverage = (new SetData()).SetCoverage(patient);
             Practitioner practitioner = (new SetData()).SetPractitioner();
             Observation observation = (new SetData()).SetObservation_BundleOrder();
@@ -215,7 +229,9 @@ namespace RestTest.Tests_Method
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, encounter, condition, observation, practitioner, coverage, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
-            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
+            Assert.IsFalse(bundleAnsw.Contains("error"));
         }
 
         /// <summary>
@@ -229,14 +245,8 @@ namespace RestTest.Tests_Method
             Patient p = (new SetData()).SetPatient();
             p.Id = "d89de286-01ef-4737-a4f9-a10474c5fbc5";
 
-            var s1 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(p);
-            string url = "http://192.168.8.93:2223/fhir/Patient?_format=json";
-            IRestResponse resp = (new Program()).RequestExec(Method.POST, url, s1);
-
-            dynamic patient1 = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content);
-
             //задаём ссылки
-            string patient = patient1.id;
+            string patient = p.Id;
             string pract = Ids.practitioner;
 
             //задаём ресурсы
@@ -251,7 +261,7 @@ namespace RestTest.Tests_Method
             Observation observation = (new SetData()).SetObservation_BundleOrder();
 
             //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, encounter, condition, observation, practitioner, coverage, null);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, encounter, condition, observation, practitioner, coverage, p);
             Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
             {
                 Resource = p,
@@ -260,8 +270,9 @@ namespace RestTest.Tests_Method
             b.Entry.Add(component);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
-            (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
+            Assert.IsFalse(bundleAnsw.Contains("error"));
         }
-
     }
 }
