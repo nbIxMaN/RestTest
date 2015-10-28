@@ -15,13 +15,14 @@ namespace RestTest.Tests_Method
     class PostCoverage
     {
         [Test]
-        public void Test()
+        public void PostCoverage_Test()
         {
             Coverage cov = (new SetData()).SetCoverage(References.patient);
-
+            cov.Id = null;
             var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(cov);
-            string url = "http://192.168.8.93:2223/fhir/Coverage?_format=json";
-            (new Program()).RequestExec(Method.POST, url, s);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/Coverage?_format=json", s);
+            string answ = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
+            Assert.IsFalse(answ.Contains("error"));
         }
     }
 }
