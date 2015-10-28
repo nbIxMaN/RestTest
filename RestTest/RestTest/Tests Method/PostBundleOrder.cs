@@ -82,7 +82,7 @@ namespace RestTest.Tests_Method
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter,
                                                                  Ids.specimen, null);
-            Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
+            Specimen specimen = (new SetData()).SetSpecimen_Full(patient);
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
 
             //задаём Bundle 
