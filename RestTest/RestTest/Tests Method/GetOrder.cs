@@ -18,7 +18,7 @@ namespace RestTest.Tests_Method
             Parameters a = new Parameters();
             a.Add("TargetCode", new FhirString("1.2.643.2.69.1.2.2"));
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
-            IRestResponse resp2 = (new Program()).RequestExec(Method.GET, "http://192.168.8.93:2223/fhir/$getorder?", s);
+            IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/getorder?_format=json", s);
             NUnit.Framework.Assert.Fail(resp2.Content);
         }
     }
