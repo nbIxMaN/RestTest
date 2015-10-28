@@ -47,6 +47,7 @@ namespace RestTest.Tests_Method
         [Test]
         public void Bundle_Max()
         {
+            Hl7.Fhir.Model.Parameters o = new Parameters();
             //задаём пациента
             Patient p = (new SetData()).SetPatient();
             p.Id = "d89de286-01ef-4737-a4f9-a10474c5fbc5";
