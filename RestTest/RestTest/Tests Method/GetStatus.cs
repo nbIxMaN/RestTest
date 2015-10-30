@@ -76,7 +76,7 @@ namespace RestTest.Tests_Method
             NUnit.Framework.Assert.Fail(resp2.Content);
         }
         [Test]
-        public void GetStatusAfterGetOrder()
+        public void GetReceivedStatus()
         {
             //задаём ссылки
             string patient = References.patient;
@@ -98,19 +98,11 @@ namespace RestTest.Tests_Method
             target = target.Substring(target.IndexOf('/') + 1, target.Length - target.IndexOf('/') - 1);
             string orderMis = order.Identifier[0].Value;
             Parameters a = new Parameters();
-
             a.Add("TargetCode", new FhirString(target));
             a.Add("OrderMisID", new FhirString(orderMis));
             string s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
             IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getorder", s2);
-            //string source = orderResp.Identifier[0].Assigner.Reference;
-            //source = source.Substring(source.IndexOf('/') + 1, source.Length - source.IndexOf('/') - 1);
-            //string orderId = id;
-            //string orderMis = orderResp.Identifier[0].Value;
             a = new Parameters();
-
-            //a.Add("SourceCode", new FhirString(source));
-            //a.Add("OrderMisID", new FhirString(orderMis));
             a.Add("OrderId", new FhirString(id));
             s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
             resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getstatus", s2);
