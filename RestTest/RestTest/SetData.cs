@@ -15,12 +15,6 @@ namespace RestTest
         private const string MetaBundleOrder = "StructureDefinition/cd45a667-bde0-490f-b602-8d780acf4aa2";
         private const string MetaBundleResult = "StructureDefinition/21f687dd-0b3b-4a7b-af8f-04be625c0201";
 
-        //private string refDiagnosticReport = "143e62fc-eee7-4273-899c-23c60c72cb1a";
-        //private string refEncounter = "f0ceca14-6847-4ea4-b128-7c86820da428";
-
-        //private string organization = "4a94e705-ee3e-46fc-bba0-0298e0fd5bd2";
-
-
         private static string[] FamilyNames = { "Максимов", "Андреев", "Сергеев", "Сидоров", "Иванов", "Петров", "Абрамов", "Евгеньев", "Архипов", "Антонов", "Дмитриев", "Леонидов", "Денисов", "Тарасов", "Владимиров", "Константинов", "Николаев", "Романов", "Константинов", "Артемьев", "Филиппов", "Викторов", "Васильев", "Прохоров", "Алексеев", "Михайлов", "Афанасьев", "Харитонов" };
         private static string[] GivenNames = { "Максим", "Андрей", "Сергей", "Сидор", "Иван", "Пётр", "Абрам", "Евгений", "Архип", "Антон", "Дмитрий", "Леонид", "Денис", "Тарас", "Владимир", "Константин", "Николай", "Роман", "Константин", "Артём", "Филипп", "Виктор", "Василий", "Прохор", "Алексей", "Михаил", "Афанасий", "Харитон" };
         private static string[] MiddleNames = { "Максимович", "Андреевич", "Сергеевич", "Сидорович", "Иванович", "Петрович", "Абрамович", "Евгеньевич", "Архипович", "Антонович", "Дмитриевич", "Леонидович", "Денисович", "Тарасович", "Владимирович", "Константинович", "Николаевич", "Романович", "Константинович", "Артёмович", "Филиппович", "Викторович", "Васильевич", "Прохорович", "Алексеевич", "Михайлович", "Афанасьевич", "Харитонович" };
@@ -232,6 +226,8 @@ namespace RestTest
                 }
             };
         }
+
+        //если не передаётся Coverage
         public DiagnosticOrder SetDiagnosticOrder_Min(string patient, string practitioner, string encounter, string specimen, string[] supportInfo)
         {
             DiagnosticOrder d = new DiagnosticOrder
@@ -285,6 +281,8 @@ namespace RestTest
 
             return d;
         }
+
+        //если Coverage передаётся
         public DiagnosticOrder SetDiagnosticOrder(string patient, string practitioner, string encounter, string specimen, string[] supportInfo, string coverage)
         {
             DiagnosticOrder d = new DiagnosticOrder
