@@ -27,7 +27,7 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter,
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, References.encounter,
                                                                 null, null);
 
             //задаём Bundle 
@@ -36,7 +36,8 @@ namespace RestTest.Tests_Method
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            Assert.Fail(bundleAnsw);
+            if (bundleAnsw.Contains("error"))
+                Assert.Fail(bundleAnsw);
         }
 
         /// <summary>
@@ -55,7 +56,7 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter, null, null);
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, References.encounter, null, null);
 
             //задаём Bundle 
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, p);
@@ -79,7 +80,7 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter,
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, References.encounter,
                                                                  Ids.specimen, null);
             Specimen specimen = (new SetData()).SetSpecimen_Full(patient);
 
@@ -104,7 +105,7 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, Ids.encounter,
                                                                  Ids.specimen, null);
             Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
@@ -131,7 +132,7 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, Ids.encounter,
                                                                 Ids.specimen, new string[] { Ids.observation });
             Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
@@ -160,7 +161,7 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, Ids.encounter,
                                                                 Ids.specimen, null);
             Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
@@ -284,7 +285,7 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter,
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, References.encounter,
                                                                 null, null);
             Practitioner practitioner = (new SetData()).SetPractitioner();
             practitioner.Id = pract;
@@ -318,19 +319,19 @@ namespace RestTest.Tests_Method
             //задаём ссылки
             string patient = References.patient;
             string pract = References.practitioner;
-            
+            string enc = "1b377871-c721-40c6-8189-7d96369180b0";
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter,
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, enc,
                                                                 null, null);
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
-            encounter.Id = References.encounter;
-            //encounter.Meta = new Meta
-            //{
-            //    VersionId = "f37be7d7-a121-4f52-996c-5f0b2bdd5be0"
-            //};
+            encounter.Id = enc;
+            encounter.Meta = new Meta
+            {
+                VersionId = "f37be7d7-a121-4f52-996c-5f0b2bdd5be0"
+            };
             encounter.Status = Encounter.EncounterState.Finished;
 
             //задаём Bundle 
@@ -343,7 +344,7 @@ namespace RestTest.Tests_Method
             b.Entry.Add(component);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
-            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.98:5432/fhir?_format=json", s);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
             Assert.IsFalse(bundleAnsw.Contains("error"));
         }
