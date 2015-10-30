@@ -55,3 +55,5 @@ C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\CryptoP
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\Monads.NET.dll
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\obj\Debug\RestTest.Properties.Resources.resources
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\obj\Debug\RestTest.csproj.GenerateResource.Cache
+C:\Users\User\Desktop\RestTest\RestTest\RestTest\obj\Debug\RestTest.Properties.Resources.resources
+C:\Users\User\Desktop\RestTest\RestTest\RestTest\obj\Debug\RestTest.csproj.GenerateResource.Cache
