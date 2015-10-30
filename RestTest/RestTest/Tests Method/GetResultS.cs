@@ -19,11 +19,13 @@ namespace RestTest.Tests_Method
             a.Add("SourceCode", new FhirString("4a94e705-ee3e-46fc-bba0-0298e0fd5bd2"));
             //a.Add("StartDate", new FhirDateTime(2015, 07, 31, 0, 0, 0));
             //a.Add("EndDate", new FhirDateTime(2015, 08, 03, 0, 0, 0));
-            a.Add("StartDate", new Date("31.07.2015 0:00:00"));
+            a.Add("StartDate", new FhirString("31.07.2015 0:00:00"));
             //a.Add("EndDate", new Date("03.08.2015 0:00:00"));
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
             IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getresults?_format=json", s);
-            NUnit.Framework.Assert.Fail(resp2.Content);
+            if (resp2.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp2.Content);
+            Assert.Pass();
         }
         [Test]
         public void TestMax()
@@ -37,7 +39,9 @@ namespace RestTest.Tests_Method
             a.Add("EndDate", new FhirString("03.08.2015 0:00:00"));
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
             IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getresults?_format=json", s);
-            NUnit.Framework.Assert.Fail(resp2.Content);
+            if (resp2.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp2.Content);
+            Assert.Pass();
         }
     }
 }
