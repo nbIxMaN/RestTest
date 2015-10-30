@@ -53,7 +53,10 @@ C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\CryptoP
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\CryptoPro.Sharpei.ServiceModel.dll
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\CryptoPro.Sharpei.Xml.dll
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\Monads.NET.dll
+<<<<<<< HEAD
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\obj\Debug\RestTest.Properties.Resources.resources
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\obj\Debug\RestTest.csproj.GenerateResource.Cache
 C:\Users\User\Desktop\RestTest\RestTest\RestTest\obj\Debug\RestTest.Properties.Resources.resources
 C:\Users\User\Desktop\RestTest\RestTest\RestTest\obj\Debug\RestTest.csproj.GenerateResource.Cache
+=======
+>>>>>>> origin/master
