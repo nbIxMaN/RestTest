@@ -53,5 +53,3 @@ C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\CryptoP
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\CryptoPro.Sharpei.ServiceModel.dll
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\CryptoPro.Sharpei.Xml.dll
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\Monads.NET.dll
-C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\obj\Debug\RestTest.Properties.Resources.resources
-C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\obj\Debug\RestTest.csproj.GenerateResource.Cache
