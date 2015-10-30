@@ -190,7 +190,7 @@ namespace RestTest.Tests_Method
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
-                                                                Ids.specimen, null);
+                                                                Ids.specimen, null, Ids.coverage);
             Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
@@ -217,7 +217,7 @@ namespace RestTest.Tests_Method
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
-                                                                Ids.specimen, new string[] { Ids.observation });
+                                                                Ids.specimen, new string[] { Ids.observation }, Ids.coverage);
             Specimen specimen = (new SetData()).SetSpecimen_Full(patient);
             Condition condition = (new SetData()).SetCondition_Full(patient);
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition }, References.organization);
@@ -255,7 +255,7 @@ namespace RestTest.Tests_Method
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
-                                                                Ids.specimen, new string[] { Ids.observation });
+                                                                Ids.specimen, new string[] { Ids.observation }, Ids.coverage );
             Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);

@@ -15,12 +15,6 @@ namespace RestTest
         private const string MetaBundleOrder = "StructureDefinition/cd45a667-bde0-490f-b602-8d780acf4aa2";
         private const string MetaBundleResult = "StructureDefinition/21f687dd-0b3b-4a7b-af8f-04be625c0201";
 
-        //private string refDiagnosticReport = "143e62fc-eee7-4273-899c-23c60c72cb1a";
-        //private string refEncounter = "f0ceca14-6847-4ea4-b128-7c86820da428";
-
-        //private string organization = "4a94e705-ee3e-46fc-bba0-0298e0fd5bd2";
-
-
         private static string[] FamilyNames = { "Максимов", "Андреев", "Сергеев", "Сидоров", "Иванов", "Петров", "Абрамов", "Евгеньев", "Архипов", "Антонов", "Дмитриев", "Леонидов", "Денисов", "Тарасов", "Владимиров", "Константинов", "Николаев", "Романов", "Константинов", "Артемьев", "Филиппов", "Викторов", "Васильев", "Прохоров", "Алексеев", "Михайлов", "Афанасьев", "Харитонов" };
         private static string[] GivenNames = { "Максим", "Андрей", "Сергей", "Сидор", "Иван", "Пётр", "Абрам", "Евгений", "Архип", "Антон", "Дмитрий", "Леонид", "Денис", "Тарас", "Владимир", "Константин", "Николай", "Роман", "Константин", "Артём", "Филипп", "Виктор", "Василий", "Прохор", "Алексей", "Михаил", "Афанасий", "Харитон" };
         private static string[] MiddleNames = { "Максимович", "Андреевич", "Сергеевич", "Сидорович", "Иванович", "Петрович", "Абрамович", "Евгеньевич", "Архипович", "Антонович", "Дмитриевич", "Леонидович", "Денисович", "Тарасович", "Владимирович", "Константинович", "Николаевич", "Романович", "Константинович", "Артёмович", "Филиппович", "Викторович", "Васильевич", "Прохорович", "Алексеевич", "Михайлович", "Афанасьевич", "Харитонович" };
@@ -45,7 +39,7 @@ namespace RestTest
 
         public Patient SetPatient()
         {
-            
+
             return new Patient
             {
                 Address = new List<Address>
@@ -204,7 +198,7 @@ namespace RestTest
         {
             return new Order
             {
-                
+
                 Identifier = new List<Identifier>
                 {
                     new Identifier
@@ -232,6 +226,8 @@ namespace RestTest
                 }
             };
         }
+
+        //если не передаётся Coverage
         public DiagnosticOrder SetDiagnosticOrder_Min(string patient, string practitioner, string encounter, string specimen, string[] supportInfo)
         {
             DiagnosticOrder d = new DiagnosticOrder
@@ -271,7 +267,7 @@ namespace RestTest
                     }
                 }
             };
-                        //необязательные параметры
+            //необязательные параметры
             if (specimen != null)
                 d.Specimen = new List<ResourceReference> { new ResourceReference { Reference = specimen } };
             // Condition/Observation всегда из Ids
@@ -285,7 +281,9 @@ namespace RestTest
 
             return d;
         }
-        public DiagnosticOrder SetDiagnosticOrder(string patient, string practitioner, string encounter, string specimen, string[] supportInfo)
+
+        //если Coverage передаётся
+        public DiagnosticOrder SetDiagnosticOrder(string patient, string practitioner, string encounter, string specimen, string[] supportInfo, string coverage)
         {
             DiagnosticOrder d = new DiagnosticOrder
             {
@@ -321,7 +319,7 @@ namespace RestTest
                                     Url = "urn:oid:1.2.643.2.69.1.100.2",
                                     Value = new ResourceReference
                                     {
-                                         Reference = "Coverage/f30481cf-6a5f-4614-bb29-11542b790900"
+                                         Reference = coverage
                                     }
                                 }
                             
