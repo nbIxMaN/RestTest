@@ -617,6 +617,27 @@ namespace RestTest
             };
         }
 
+        public OrderResponse SetOrderResponseInProgress(string order, string organization)
+        {
+            return new OrderResponse
+            {
+                Identifier = new List<Identifier>
+                {
+                    new Identifier
+                    {
+                        System = "urn:oid:1.2.643.2.69.1.2.2",
+                        Value = "IdOrderLis" + DateTime.Now
+                    }
+                },
+                Request = new ResourceReference { Reference = order },
+                Date = "02.01.2012",
+                Who = new ResourceReference { Reference = organization },
+                OrderStatus_ = OrderResponse.OrderStatus.Accepted,
+                Description = "Comment", //необязательный
+                Fulfillment = new List<ResourceReference>() { new ResourceReference { Reference = Ids.diagnosticReport } }
+            };
+        }
+
         public OrderResponse SetOrderResponseRejected(string order, string organization)
         {
             return new OrderResponse

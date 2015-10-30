@@ -35,6 +35,41 @@ namespace RestTest.Tests_Method
         }
 
         [Test]
+        public void BundleResultInProgress_Min()
+        {
+            string patient = References.patient;
+            string pract = References.practitioner;
+
+            //задаём ресурсы
+            Order order = (new SetData()).SetOrder(patient, pract, References.organization);
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, References.encounter,
+                                                                null, null);
+
+            //задаём Bundle 
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
+
+            string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            Bundle p = (Bundle)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromJson(resp.Content);
+            string id = p.Entry[0].Resource.Id;
+            //задаём ссылки
+            string orderId = "Order/" + id;
+
+            //задаём ссылки
+            //задаём ресурсы
+            OrderResponse orderResp = (new SetData()).SetOrderResponseInProgress(orderId, References.organization);
+            DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, References.diagnosticOrder);
+            Observation observ = (new SetData()).SetObservation_BundleResult_Reason(pract);
+
+            //задаём Bundle 
+            Bundle bRes = (new SetData()).SetBundleResult(orderResp, diagRep, observ, null);
+            s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
+            resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            //var bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content);
+            Assert.Fail(resp.Content);
+        }
+
+        [Test]
         public void BundleResult_MinRejected()
         {
             string patient = References.patient;

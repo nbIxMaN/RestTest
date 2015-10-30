@@ -25,7 +25,7 @@ namespace RestTest.Tests_Method
             IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getresults?_format=json", s);
             if (resp2.StatusCode != System.Net.HttpStatusCode.OK)
                 Assert.Fail(resp2.Content);
-            Assert.Pass();
+            Assert.Pass(resp2.Content);
         }
         [Test]
         public void TestMax()
@@ -41,7 +41,7 @@ namespace RestTest.Tests_Method
             IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getresults?_format=json", s);
             if (resp2.StatusCode != System.Net.HttpStatusCode.OK)
                 Assert.Fail(resp2.Content);
-            Assert.Pass();
+            Assert.Pass(resp2.Content);
         }
     }
 }
