@@ -273,7 +273,7 @@ namespace RestTest.Tests_Method
 
         //--------------------------------Put
         /// <summary>
-        /// Order, DiagnosticOrder(минус ссылка на Specimen), Condition
+        /// Order, DiagnosticOrder(минус ссылка на Specimen)
         /// </summary>
         [Test]
         public void BundleOrder_PutPractitioner()
@@ -286,7 +286,6 @@ namespace RestTest.Tests_Method
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter,
                                                                 null, null);
-            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
             Practitioner practitioner = (new SetData()).SetPractitioner();
             practitioner.Id = pract;
             practitioner.Name.Family = new List<string> { "New FamilyName" };
@@ -296,7 +295,7 @@ namespace RestTest.Tests_Method
             };
 
             //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, condition, null, null, null, null);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
             Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
             {
                 Resource = practitioner,
@@ -319,29 +318,32 @@ namespace RestTest.Tests_Method
             //задаём ссылки
             string patient = References.patient;
             string pract = References.practitioner;
+            
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter,
                                                                 null, null);
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
-            encounter.Meta = new Meta
-            {
-                VersionId = "f37be7d7-a121-4f52-996c-5f0b2bdd5be0"
-            };
+            encounter.Id = References.encounter;
+            //encounter.Meta = new Meta
+            //{
+            //    VersionId = "f37be7d7-a121-4f52-996c-5f0b2bdd5be0"
+            //};
+            encounter.Status = Encounter.EncounterState.Finished;
 
             //задаём Bundle 
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, condition, null, null, null, null);
             Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
             {
                 Resource = encounter,
-                Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.PUT, Url = "Enconter/" + encounter.Id }
+                Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.PUT, Url = References.encounter }
             };
             b.Entry.Add(component);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
-            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.98:5432/fhir?_format=json", s);
             string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
             Assert.IsFalse(bundleAnsw.Contains("error"));
         }
