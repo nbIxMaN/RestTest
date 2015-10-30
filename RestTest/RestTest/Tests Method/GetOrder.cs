@@ -21,7 +21,7 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter,
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, References.encounter,
                                                                  null, null);
             //задаём Bundle
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
@@ -54,7 +54,7 @@ namespace RestTest.Tests_Method
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter,
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, References.encounter,
                                                                  null, null);
             //задаём Bundle
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
