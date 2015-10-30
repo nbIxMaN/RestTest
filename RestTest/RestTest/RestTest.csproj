@@ -108,11 +108,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GetRequest.cs" />
     <Compile Include="Ids.cs" />
     <Compile Include="ISignatureHelper.cs" />
     <Compile Include="Md5Helper.cs" />
-    <Compile Include="Parameter.cs" />
     <Compile Include="Dictionary.cs" />
     <Compile Include="PresentedForm.cs" />
     <Compile Include="Program.cs" />
