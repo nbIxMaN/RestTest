@@ -37,9 +37,9 @@ namespace RestTest.Tests_Method
 
             Parameters a = new Parameters();
 
-            a.Add("SourceCode", new FhirString(source));
-            a.Add("TargetCode", new FhirString(target));
-            a.Add("OrderMisID", new FhirString(orderMis));
+            a.Add("SourceCode", new FhirString("4a94e705-ee3e-46fc-bba0-0298e0fd5bd2"));
+            a.Add("TargetCode", new FhirString("25bf5360-69ec-4bea-b4c4-c5398c014d60"));
+            a.Add("OrderMisID", new FhirString("IdOrderLis3"));
             string s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
             IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getresult", s2);
             NUnit.Framework.Assert.Fail(resp2.Content);
