@@ -1,4 +1,4 @@
-﻿c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\bin\Debug\RestTest.exe.config
+c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\bin\Debug\RestTest.exe.config
 c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\bin\Debug\RestTest.exe
 c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\bin\Debug\RestTest.pdb
 c:\users\александр\documents\visual studio 2015\Projects\RestTest\RestTest\bin\Debug\RestSharp.dll
@@ -55,6 +55,4 @@ C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\CryptoP
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\bin\Debug\Monads.NET.dll
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\obj\Debug\RestTest.Properties.Resources.resources
 C:\Users\Aleksander\OneDrive\GitHub\RestTest\RestTest\RestTest\obj\Debug\RestTest.csproj.GenerateResource.Cache
-C:\Users\User\Desktop\RestTest\RestTest\RestTest\obj\Debug\RestTest.Properties.Resources.resources
-C:\Users\User\Desktop\RestTest\RestTest\RestTest\obj\Debug\RestTest.csproj.GenerateResource.Cache
 C:\Users\User\Desktop\RestTest\RestTest\RestTest\bin\Debug\Monads.NET.dll
