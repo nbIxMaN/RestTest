@@ -23,7 +23,10 @@ namespace RestTest.Tests_Method
             string url = "http://192.168.8.93:2223/fhir/Patient?_format=json";
             IRestResponse resp = (new Program()).RequestExec(Method.POST, url, s);
             string answ = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            Assert.IsFalse(answ.Contains("error"));
+            if (answ.Contains("error"))
+            {
+                Assert.Fail(answ);
+            }
         }
     }
 }
