@@ -4,13 +4,13 @@ namespace N3.EMK.Domain.BusinessEntities
 {
 	[Serializable]
 	public class SignData {
-		public string Data { get; set; }
+		public string data { get; set; }
 
-		public string PublicKey { get; set; }
+		public string public_key { get; set; }
 
-		public string Hash { get; set; }
+		public string hash { get; set; }
 
-		public string Sign { get; set; }
+		public string sign { get; set; }
 
 	}
 }

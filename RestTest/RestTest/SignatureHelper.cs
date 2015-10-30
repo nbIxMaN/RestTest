@@ -82,10 +82,10 @@ namespace N3.EMK.Infrastructure.Helpers
 
 			var signData = new SignData
 			               {
-				               Data = data,
-				               PublicKey = base64Blob,
-				               Hash = base64Hash,
-				               Sign = base64Sign
+				               data = data,
+				               public_key = base64Blob,
+				               hash = base64Hash,
+				               sign = base64Sign
 			               };
 
 			return new SerializationHelper<SignData>().Serialize(signData);
@@ -94,9 +94,9 @@ namespace N3.EMK.Infrastructure.Helpers
 		public bool VerifyN3Rsa(string signedData)
 		{
 			var signData = new SerializationHelper<SignData>().Deserialize(signedData);
-			var cspBlob = Convert.FromBase64String(signData.PublicKey);
-			var hash = Md5Helper.GetMd5Hash(signData.Data);
-			var sign = Convert.FromBase64String(signData.Sign);
+			var cspBlob = Convert.FromBase64String(signData.public_key);
+			var hash = Md5Helper.GetMd5Hash(signData.data);
+			var sign = Convert.FromBase64String(signData.sign);
 
 			var key = new RSACryptoServiceProvider();
 			key.ImportCspBlob(cspBlob);
@@ -131,10 +131,10 @@ namespace N3.EMK.Infrastructure.Helpers
 
 			var signData = new SignData
 			               {
-				               Data = data,
-				               PublicKey = base64Blob,
-				               Hash = base64Hash,
-				               Sign = base64Sign
+				               data = data,
+				               public_key = base64Blob,
+				               hash = base64Hash,
+				               sign = base64Sign
 			               };
 
 			return JsonConvert.SerializeObject(signData);
@@ -150,7 +150,7 @@ namespace N3.EMK.Infrastructure.Helpers
 			var x509 = new X509Certificate2();
 
 			var signData = new SerializationHelper<SignData>().Deserialize(signedData);
-			var cspBlob = Convert.FromBase64String(signData.PublicKey);
+			var cspBlob = Convert.FromBase64String(signData.public_key);
 			x509.Import(cspBlob);
 			if (chainValidate) {
 				var chain = new X509Chain
@@ -166,8 +166,8 @@ namespace N3.EMK.Infrastructure.Helpers
 				if (!verify) return false;
 			}
 
-			var hash = Md5Helper.GetGost3411Hash(signData.Data);
-			var sign = Convert.FromBase64String(signData.Sign);
+			var hash = Md5Helper.GetGost3411Hash(signData.data);
+			var sign = Convert.FromBase64String(signData.sign);
 
 
 			var rsaDeformatter = new GostSignatureDeformatter(x509.PublicKey.Key);
