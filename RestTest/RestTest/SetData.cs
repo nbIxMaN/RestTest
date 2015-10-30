@@ -45,7 +45,7 @@ namespace RestTest
 
         public Patient SetPatient()
         {
-            
+
             return new Patient
             {
                 Address = new List<Address>
@@ -204,7 +204,7 @@ namespace RestTest
         {
             return new Order
             {
-                
+
                 Identifier = new List<Identifier>
                 {
                     new Identifier
@@ -271,7 +271,7 @@ namespace RestTest
                     }
                 }
             };
-                        //необязательные параметры
+            //необязательные параметры
             if (specimen != null)
                 d.Specimen = new List<ResourceReference> { new ResourceReference { Reference = specimen } };
             // Condition/Observation всегда из Ids
@@ -285,7 +285,7 @@ namespace RestTest
 
             return d;
         }
-        public DiagnosticOrder SetDiagnosticOrder(string patient, string practitioner, string encounter, string specimen, string[] supportInfo)
+        public DiagnosticOrder SetDiagnosticOrder(string patient, string practitioner, string encounter, string specimen, string[] supportInfo, string coverage)
         {
             DiagnosticOrder d = new DiagnosticOrder
             {
@@ -321,7 +321,7 @@ namespace RestTest
                                     Url = "urn:oid:1.2.643.2.69.1.100.2",
                                     Value = new ResourceReference
                                     {
-                                         Reference = "Coverage/f30481cf-6a5f-4614-bb29-11542b790900"
+                                         Reference = coverage
                                     }
                                 }
                             

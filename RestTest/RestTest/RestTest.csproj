@@ -105,19 +105,15 @@
     <Compile Include="SignatureHelper.cs" />
     <Compile Include="SignData.cs" />
     <Compile Include="Tests Method\ALL.cs" />
-    <Compile Include="Tests Method\Expand.cs" />
-    <Compile Include="Tests Method\Get.cs" />
     <Compile Include="Tests Method\GetOrder.cs" />
     <Compile Include="Tests Method\GetResult.cs" />
     <Compile Include="Tests Method\GetResultS.cs" />
     <Compile Include="Tests Method\GetStatus.cs" />
-    <Compile Include="Tests Method\LookUp.cs" />
     <Compile Include="Tests Method\PostBundleOrder.cs" />
     <Compile Include="Tests Method\PostBundleResult.cs" />
     <Compile Include="Tests Method\PostCoverage.cs" />
     <Compile Include="Tests Method\PostPatient.cs" />
     <Compile Include="Tests Method\PutPatient.cs" />
-    <Compile Include="Tests Method\ValidateCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
