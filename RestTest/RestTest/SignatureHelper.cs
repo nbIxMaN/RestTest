@@ -7,6 +7,7 @@ using CryptoPro.Sharpei;
 using Monads.NET;
 using N3.EMK.Domain.BusinessEntities;
 using N3.EMK.Domain.Helpers;
+using Newtonsoft.Json;
 
 namespace N3.EMK.Infrastructure.Helpers
 {
@@ -136,7 +137,7 @@ namespace N3.EMK.Infrastructure.Helpers
 				               Sign = base64Sign
 			               };
 
-			return new SerializationHelper<SignData>().Serialize(signData);
+			return JsonConvert.SerializeObject(signData);
 		}
 
 		/// <summary>
