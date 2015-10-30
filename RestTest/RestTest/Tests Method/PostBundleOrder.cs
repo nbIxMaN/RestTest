@@ -16,7 +16,7 @@ namespace RestTest.Tests_Method
     class PostBundleOrder
     {
         /// <summary>
-        /// Order, DiagnosticOrder(минус ссылка на Specimen), Condition
+        /// Order, DiagnosticOrder(минус ссылка на Specimen)
         /// </summary>
         [Test]
         public void BundleOrder_Min()
@@ -29,10 +29,9 @@ namespace RestTest.Tests_Method
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter,
                                                                 null, null);
-            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
 
             //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, condition, null, null, null, null);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
@@ -41,7 +40,7 @@ namespace RestTest.Tests_Method
         }
 
         /// <summary>
-        /// Order, DiagnosticOrder(минус ссылка на Specimen), Condition, Patient
+        /// Order, DiagnosticOrder(минус ссылка на Specimen),  Patient
         /// </summary>
         [Test]
         public void BundleOrder_Patient()
@@ -57,10 +56,9 @@ namespace RestTest.Tests_Method
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter, null, null);
-            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
 
             //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, condition, null, null, null, p);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, p);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
@@ -70,7 +68,7 @@ namespace RestTest.Tests_Method
         }
 
         /// <summary>
-        /// Order, DiagnosticOrder, Condition, Specimen
+        /// Order, DiagnosticOrder, Specimen
         /// </summary>
         [Test]
         public void BundleOrder_Specimen()
@@ -84,10 +82,9 @@ namespace RestTest.Tests_Method
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, References.encounter,
                                                                  Ids.specimen, null);
             Specimen specimen = (new SetData()).SetSpecimen_Full(patient);
-            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
 
             //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, null, condition, null, null, null, null);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, specimen, null, null, null, null, null, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
@@ -99,7 +96,7 @@ namespace RestTest.Tests_Method
         /// Order, DiagnosticOrder (ids encounter), Condition, Specimen, Encounter
         /// </summary>
         [Test]
-        public void BundleOrder_SpecimenEncounter()
+        public void BundleOrder_SpecimenEncounterCondition()
         {
             //задаём ссылки
             string patient = References.patient;
