@@ -23,6 +23,7 @@ namespace RestTest
 
         static public string coverage = "04c84a8b-8de7-400a-b9d0-53e6ce37a9bb";
         static public string diagnosticReport = "4f6a30fb-cd3c-4ab6-8757-532101f72065";
+        //static public string diagnosticReport = DateTime.Now.ToString();
         static public string order = "cd45a667-bde0-490f-b602-8d780acf4aa2";
         //static public string supportInfo = "56350c6f-7333-4002-a622-96968b85381e";
         //static public string indicat = "71cf33b8-2eae-432d-88d5-747ef8147d0b";

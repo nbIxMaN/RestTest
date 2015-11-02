@@ -136,8 +136,9 @@ namespace RestTest.Tests_Method
 
             //задаём ссылки
             //задаём ресурсы
+            string diagnosticOrderId = "DiagnosticOrder/" + diagnosticOrder.Id;
             OrderResponse orderResp = (new SetData()).SetOrderResponseInProgress(orderId, References.organization);
-            DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, References.diagnosticOrder);
+            DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, diagnosticOrderId);
             Observation observ = (new SetData()).SetObservation_BundleResult_Reason(pract);
 
             //задаём Bundle 
@@ -148,7 +149,7 @@ namespace RestTest.Tests_Method
             a.Add("OrderId", new FhirString(id));
             string s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
             IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getstatus", s2);
-            if (resp2.Content.Contains("Requested"))
+            if (resp2.Content.Contains("InProgress"))
                 Assert.Pass();
             else
                 NUnit.Framework.Assert.Fail(resp2.Content);
