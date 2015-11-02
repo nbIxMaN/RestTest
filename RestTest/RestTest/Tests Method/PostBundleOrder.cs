@@ -292,6 +292,7 @@ namespace RestTest.Tests_Method
             practitioner.Name.Family = new List<string> { "New FamilyName" };
             practitioner.Meta = new Meta
             {
+                //постоянно меняется, пока что это поле заполняется, выяснением этого значения вручную
                 VersionId = pract
             };
 
@@ -330,6 +331,7 @@ namespace RestTest.Tests_Method
             encounter.Id = enc;
             encounter.Meta = new Meta
             {
+                //постоянно меняется, пока что это поле заполняется, выяснением этого значения вручную
                 VersionId = "0badfa59-ede5-44fd-b24b-390b7fe210ea"
             };
            encounter.Reason[0].Coding[0] = new Coding{ System = Dictionary.REASON, Code = "2", Version = "1" };
