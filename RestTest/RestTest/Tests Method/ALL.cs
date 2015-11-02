@@ -13,7 +13,7 @@ namespace RestTest.Tests_Method
     {
         /// <summary>
         /// Patient
-        /// Order, DiagnosticOrder(минус ссылка на Specimen), Condition
+        /// Order, DiagnosticOrder(минус ссылка на Specimen)
         /// OrderResponse, DiagnosticReport, Observation
         /// </summary>
         [Test]
@@ -22,24 +22,22 @@ namespace RestTest.Tests_Method
             Hl7.Fhir.Model.Parameters o = new Parameters();
             //задаём пациента
             Patient p = (new SetData()).SetPatient();
-            p.Id = "d89de286-01ef-4737-a4f9-a10474c5fbc5";
 
             //задаём ссылки
-            string patient = p.Id;
+            string patient = References.patient;
             string pract = References.practitioner;
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, References.encounter,
                                                                  null, null);
-            Condition condition = (new SetData()).SetCondition_MinDiag(patient);
 
             //передаём Bundle Order
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, condition, null, null, null, null);
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
-            dynamic bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content);
+            string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
             Assert.IsFalse(bundleAnsw.Contains("error"));
 
             //задаём ресурсы

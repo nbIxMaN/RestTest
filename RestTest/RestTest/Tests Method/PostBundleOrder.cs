@@ -330,9 +330,10 @@ namespace RestTest.Tests_Method
             encounter.Id = enc;
             encounter.Meta = new Meta
             {
-                VersionId = "f37be7d7-a121-4f52-996c-5f0b2bdd5be0"
+                VersionId = "0badfa59-ede5-44fd-b24b-390b7fe210ea"
             };
-            encounter.Status = Encounter.EncounterState.Finished;
+           encounter.Reason[0].Coding[0] = new Coding{ System = Dictionary.REASON, Code = "2", Version = "1" };
+          //  encounter.Status = Encounter.EncounterState.Finished;
 
             //задаём Bundle 
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, condition, null, null, null, null);
