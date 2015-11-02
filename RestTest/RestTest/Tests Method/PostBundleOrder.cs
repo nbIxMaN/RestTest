@@ -293,7 +293,7 @@ namespace RestTest.Tests_Method
             practitioner.Meta = new Meta
             {
                 //постоянно меняется, пока что это поле заполняется, выяснением этого значения вручную
-                VersionId = pract
+                VersionId = "b97ff454-4cf1-4855-90d5-d7adb058f319"
             };
 
             //задаём Bundle 
