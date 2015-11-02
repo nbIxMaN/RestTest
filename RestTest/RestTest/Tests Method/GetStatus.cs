@@ -71,8 +71,8 @@ namespace RestTest.Tests_Method
             string orderMis = order.Identifier[0].Value;
             Parameters a = new Parameters();
 
-            a.Add("SourceCode", new FhirString("4a94e705-ee3e-46fc-bba0-0298e0fd5bd2"));
-            a.Add("OrderMisID", new FhirString("IdOrderMis2"));
+            a.Add("SourceCode", new FhirString(source));
+            a.Add("OrderMisID", new FhirString(orderMis));
             //a.Add("OrderId", new FhirString(orderId));
             string s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
             IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getstatus", s2);

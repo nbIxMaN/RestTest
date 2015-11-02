@@ -37,7 +37,10 @@ namespace RestTest.Tests_Method
             
             var s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(p);
             url = "http://192.168.8.93:2223/fhir/Patient/" + i + "?_format=json";
-            (new Program()).RequestExec(Method.PUT, url, s2);
+            IRestResponse resp = (new Program()).RequestExec(Method.PUT, url, s2);
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp.Content);
+            Assert.Pass(resp.Content);
         }
     }
 }

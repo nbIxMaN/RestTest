@@ -36,8 +36,9 @@ namespace RestTest.Tests_Method
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            if (bundleAnsw.Contains("error"))
-                Assert.Fail(bundleAnsw);
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp.Content);
+            Assert.Pass(resp.Content);
         }
 
         /// <summary>
@@ -64,8 +65,9 @@ namespace RestTest.Tests_Method
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            if (bundleAnsw.Contains("error"))
-                Assert.Fail(bundleAnsw);
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp.Content);
+            Assert.Pass(resp.Content);
         }
 
         /// <summary>
@@ -90,7 +92,9 @@ namespace RestTest.Tests_Method
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            Assert.IsFalse(bundleAnsw.Contains("error"));
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp.Content);
+            Assert.Pass(resp.Content);
         }
 
         /// <summary>
@@ -117,7 +121,9 @@ namespace RestTest.Tests_Method
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            Assert.IsFalse(bundleAnsw.Contains("error"));
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp.Content);
+            Assert.Pass(resp.Content);
         }
 
         /// <summary>
@@ -145,7 +151,9 @@ namespace RestTest.Tests_Method
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            Assert.IsFalse(bundleAnsw.Contains("error"));
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp.Content);
+            Assert.Pass(resp.Content);
         }
 
         /// <summary>
@@ -174,7 +182,9 @@ namespace RestTest.Tests_Method
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            Assert.IsFalse(bundleAnsw.Contains("error"));
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp.Content);
+            Assert.Pass(resp.Content);
         }
 
         /// <summary>
@@ -201,7 +211,9 @@ namespace RestTest.Tests_Method
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            Assert.IsFalse(bundleAnsw.Contains("error"));
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp.Content);
+            Assert.Pass(resp.Content);
         }
 
         /// <summary>
@@ -231,10 +243,9 @@ namespace RestTest.Tests_Method
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            if (bundleAnsw.Contains("error"))
-            {
-                Assert.Fail(bundleAnsw);
-            }
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp.Content);
+            Assert.Pass(resp.Content);
         }
 
         /// <summary>
@@ -269,7 +280,9 @@ namespace RestTest.Tests_Method
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            Assert.IsFalse(bundleAnsw.Contains("error"));
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp.Content);
+            Assert.Pass(resp.Content);
         }
 
         //--------------------------------Put
@@ -295,7 +308,7 @@ namespace RestTest.Tests_Method
             practitioner.Meta = new Meta
             {
                 //постоянно меняется, пока что это поле заполняется, выяснением этого значения вручную
-                VersionId = pract
+                VersionId = "b97ff454-4cf1-4855-90d5-d7adb058f319"
             };
             Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
             {
@@ -307,7 +320,9 @@ namespace RestTest.Tests_Method
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            Assert.IsFalse(bundleAnsw.Contains("error"));
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp.Content);
+            Assert.Pass(resp.Content);
         }
 
         /// <summary>
@@ -348,7 +363,9 @@ namespace RestTest.Tests_Method
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            Assert.IsFalse(bundleAnsw.Contains("error"));
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp.Content);
+            Assert.Pass(resp.Content);
         }
     }
 }

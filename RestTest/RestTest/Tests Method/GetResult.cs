@@ -12,7 +12,7 @@ namespace RestTest.Tests_Method
     class GetResult
     {
         [Test]
-        public void MaxGetOrderWithOrderMisId()
+        public void _GetResult()
         {
             //задаём ссылки
             string patient = References.patient;
@@ -59,7 +59,9 @@ namespace RestTest.Tests_Method
             a.Add("OrderMisID", new FhirString(order.Identifier[0].Value));
             string s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
             IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getresult", s2);
-            NUnit.Framework.Assert.Fail(resp2.Content);
+            if (resp2.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp2.Content);
+            Assert.Pass(resp2.Content);
         }
     }
 }
