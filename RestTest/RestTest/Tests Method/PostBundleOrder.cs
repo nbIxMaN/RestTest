@@ -287,6 +287,8 @@ namespace RestTest.Tests_Method
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, References.encounter,
                                                                 null, null);
+            //задаём Bundle 
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
             Practitioner practitioner = (new SetData()).SetPractitioner();
             practitioner.Id = pract;
             practitioner.Name.Family = new List<string> { "New FamilyName" };
@@ -295,9 +297,6 @@ namespace RestTest.Tests_Method
                 //постоянно меняется, пока что это поле заполняется, выяснением этого значения вручную
                 VersionId = pract
             };
-
-            //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
             Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
             {
                 Resource = practitioner,

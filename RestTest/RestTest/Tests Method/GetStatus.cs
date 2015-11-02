@@ -136,7 +136,7 @@ namespace RestTest.Tests_Method
 
             //задаём ссылки
             //задаём ресурсы
-            string diagnosticOrderId = "DiagnosticOrder/" + diagnosticOrder.Id;
+            string diagnosticOrderId = "DiagnosticOrder/" + p.Entry[1].Resource.Id;
             OrderResponse orderResp = (new SetData()).SetOrderResponseInProgress(orderId, References.organization);
             DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, diagnosticOrderId);
             Observation observ = (new SetData()).SetObservation_BundleResult_Reason(pract);

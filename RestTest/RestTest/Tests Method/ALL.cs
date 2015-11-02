@@ -39,10 +39,11 @@ namespace RestTest.Tests_Method
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
             Assert.IsFalse(bundleAnsw.Contains("error"));
-
+            Bundle bundleResponce = (Bundle)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromJson(resp.Content);
+            string diagnosticOrderId = "DiagnosticOrder/" + bundleResponce.Entry[1].Resource.Id;
             //задаём ресурсы
             OrderResponse orderResp = (new SetData()).SetOrderResponse(patient, References.organization);
-            DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, "DiagnosticOrder/" + diagnosticOrder.Id);
+            DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, diagnosticOrderId);
             Observation observ = (new SetData()).SetObservation_BundleResult_Reason(pract);
 
             //передаём Bundle Result 
