@@ -160,61 +160,61 @@ namespace RestTest.Tests_Method
          /// <summary>
         /// OrderResponse, DiagnosticReport, Observation, Practitioner
         /// </summary>
-        [Test]
-        public void BundleResult_PutPractitioner()
-        {
-            //задаём ссылки
-            string patient = References.patient;
-            string pract = "ab1af9a5-91b0-4c7f-aba7-6eb4b8f43aab";
+        //[Test]
+        //public void BundleResult_PutPractitioner()
+        //{
+        //    //задаём ссылки
+        //    string patient = References.patient;
+        //    string pract = "ab1af9a5-91b0-4c7f-aba7-6eb4b8f43aab";
 
-            //задаём ресурсы
-            Order order = (new SetData()).SetOrder(patient, pract, References.organization);
-            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, References.encounter,
-                                                                 null, null);
-            //задаём Bundle
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
+        //    //задаём ресурсы
+        //    Order order = (new SetData()).SetOrder(patient, pract, References.organization);
+        //    DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, References.encounter,
+        //                                                         null, null);
+        //    //задаём Bundle
+        //    Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
 
-            string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
-            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+        //    string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
+        //    IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
 
-            Bundle requestResult = (Bundle)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromJson(resp.Content);
-            string id = requestResult.Entry[0].Resource.Id;
-            //задаём ссылки
-            string orderId = "Order/" + id;
+        //    Bundle requestResult = (Bundle)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromJson(resp.Content);
+        //    string id = requestResult.Entry[0].Resource.Id;
+        //    //задаём ссылки
+        //    string orderId = "Order/" + id;
 
-            //задаём ссылки
-            //задаём ресурсы
-            string diagnosticOrderId = "DiagnosticOrder/" + requestResult.Entry[1].Resource.Id;
+        //    //задаём ссылки
+        //    //задаём ресурсы
+        //    string diagnosticOrderId = "DiagnosticOrder/" + requestResult.Entry[1].Resource.Id;
 
-            //задаём ресурсы
-            OrderResponse orderResp = (new SetData()).SetOrderResponse(patient, References.organization);
-            DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, diagnosticOrderId);
-            Observation observ = (new SetData()).SetObservation_BundleResult_Reason(pract);
-            Practitioner practitioner = (new SetData()).SetPractitioner();
-            practitioner.Id = pract;
-            practitioner.Name.Family = new List<string> { "FamilyName" + DateTime.Now };
-            practitioner.Meta = new Meta
-            {
-                //постоянно меняется, пока что это поле заполняется, выяснением этого значения вручную
-                VersionId = "b97ff454-4cf1-4855-90d5-d7adb058f319"
-            };
+        //    //задаём ресурсы
+        //    OrderResponse orderResp = (new SetData()).SetOrderResponse(patient, References.organization);
+        //    DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, diagnosticOrderId);
+        //    Observation observ = (new SetData()).SetObservation_BundleResult_Reason(pract);
+        //    Practitioner practitioner = (new SetData()).SetPractitioner();
+        //    practitioner.Id = pract;
+        //    practitioner.Name.Family = new List<string> { "FamilyName" + DateTime.Now };
+        //    practitioner.Meta = new Meta
+        //    {
+        //        //постоянно меняется, пока что это поле заполняется, выяснением этого значения вручную
+        //        VersionId = "b97ff454-4cf1-4855-90d5-d7adb058f319"
+        //    };
 
-            //задаём Bundle 
-            Bundle bRes = (new SetData()).SetBundleResult(orderResp, diagRep, observ, null);
-            Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
-            {
-                Resource = practitioner,
-                Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.PUT, Url = References.practitioner }
-            };
-            bRes.Entry.Add(component);
+        //    //задаём Bundle 
+        //    Bundle bRes = (new SetData()).SetBundleResult(orderResp, diagRep, observ, null);
+        //    Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
+        //    {
+        //        Resource = practitioner,
+        //        Transaction = new Bundle.BundleEntryTransactionComponent() { Method = Bundle.HTTPVerb.PUT, Url = References.practitioner }
+        //    };
+        //    bRes.Entry.Add(component);
 
-            s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
-            resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
-            //string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
-                Assert.Fail(resp.Content);
-            Assert.Pass(resp.Content);
-        }
+        //    s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
+        //    resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+        //    //string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
+        //    if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+        //        Assert.Fail(resp.Content);
+        //    Assert.Pass(resp.Content);
+        //}
         
         //-----------------------------------Put
 
