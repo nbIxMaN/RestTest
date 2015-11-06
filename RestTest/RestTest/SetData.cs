@@ -611,7 +611,7 @@ namespace RestTest
                 Request = new ResourceReference { Reference = order },
                 Date = "02.01.2012",
                 Who = new ResourceReference { Reference = organization },
-                OrderStatus_ = OrderResponse.OrderStatus.Completed,
+                OrderStatus_ = OrderResponse.OrderStatus.Accepted,
                 Description = "Comment", //необязательный
                 Fulfillment = new List<ResourceReference>() { new ResourceReference { Reference = Ids.diagnosticReport } }
             };

@@ -33,16 +33,14 @@ namespace RestTest.Tests_Method
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
 
             Bundle requestResult = (Bundle)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromJson(resp.Content);
-            string id = requestResult.Entry[0].Resource.Id;
-            //задаём ссылки
-            string orderId = "Order/" + id;
 
-            //задаём ссылки
-            //задаём ресурсы
+            //задаём ссылки 
+            string id = requestResult.Entry[0].Resource.Id;
+            string orderId = "Order/" + id;
             string diagnosticOrderId = "DiagnosticOrder/" + requestResult.Entry[1].Resource.Id;
 
             //задаём ресурсы
-            OrderResponse orderResp = (new SetData()).SetOrderResponse(patient, References.organization);
+            OrderResponse orderResp = (new SetData()).SetOrderResponse(orderId, References.organization);
             DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, diagnosticOrderId);
             Observation observ = (new SetData()).SetObservation_BundleResult_Reason(pract);
 
@@ -50,7 +48,6 @@ namespace RestTest.Tests_Method
             Bundle bRes = (new SetData()).SetBundleResult(orderResp, diagRep, observ, null);
             s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
             resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
-            //var bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content);
             if (resp.StatusCode != System.Net.HttpStatusCode.OK)
                 Assert.Fail(resp.Content);
             Assert.Pass(resp.Content);
@@ -73,15 +70,12 @@ namespace RestTest.Tests_Method
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
 
             Bundle requestResult = (Bundle)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromJson(resp.Content);
-            string id = requestResult.Entry[0].Resource.Id;
-            //задаём ссылки
-            string orderId = "Order/" + id;
 
-            //задаём ссылки
-            //задаём ресурсы
+            //задаём ссылки 
+            string id = requestResult.Entry[0].Resource.Id;
+            string orderId = "Order/" + id;
             string diagnosticOrderId = "DiagnosticOrder/" + requestResult.Entry[1].Resource.Id;
 
-            //задаём ссылки
             //задаём ресурсы
             OrderResponse orderResp = (new SetData()).SetOrderResponseInProgress(orderId, References.organization);
             DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, diagnosticOrderId);
@@ -91,7 +85,6 @@ namespace RestTest.Tests_Method
             Bundle bRes = (new SetData()).SetBundleResult(orderResp, diagRep, observ, null);
             s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
             resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
-            //var bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content);
             if (resp.StatusCode != System.Net.HttpStatusCode.OK)
                 Assert.Fail(resp.Content);
             Assert.Pass(resp.Content);
@@ -139,22 +132,40 @@ namespace RestTest.Tests_Method
         public void BundleResult_Max()
         {
             //задаём ссылки
+            string pract = References.practitioner;
             string patient = References.patient;
-            string pract = Ids.practitioner;
 
             //задаём ресурсы
-            OrderResponse orderResp = (new SetData()).SetOrderResponse(patient, References.organization);
-            DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, References.diagnosticOrder);
+            Order order = (new SetData()).SetOrder(patient, pract, References.organization);
+            DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, References.encounter,
+                                                                 null, null);
+            //задаём Bundle
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
+
+            string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
+            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            Bundle requestResult = (Bundle)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromJson(resp.Content);
+
+            //задаём ссылки
+            string id = requestResult.Entry[0].Resource.Id;
+            string orderId = "Order/" + id;
+            string diagnosticOrderId = "DiagnosticOrder/" + requestResult.Entry[1].Resource.Id;
+            pract = Ids.practitioner;
+
+            //задаём ресурсы
+            OrderResponse orderResp = (new SetData()).SetOrderResponse(orderId, References.organization);
+            DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, diagnosticOrderId);
             Observation observ = (new SetData()).SetObservation_BundleResult_Reason(pract);
             Practitioner practitioner = (new SetData()).SetPractitioner();
 
             //задаём Bundle 
             Bundle bRes = (new SetData()).SetBundleResult(orderResp, diagRep, observ, practitioner);
 
-            string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
-            IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
-            //string bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
-            Assert.Fail(resp.Content);
+            s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
+            resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+                Assert.Fail(resp.Content);
+            Assert.Pass(resp.Content);
         }
 
         //-----------------------------------Put
@@ -186,21 +197,19 @@ namespace RestTest.Tests_Method
             string diagnosticOrderId = "DiagnosticOrder/" + requestResult.Entry[1].Resource.Id;
 
             //задаём ресурсы
-            OrderResponse orderResp = (new SetData()).SetOrderResponse(patient, References.organization);
-            //DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, diagnosticOrderId);
+            OrderResponse orderResp = (new SetData()).SetOrderResponse(orderId, References.organization);
+            DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, diagnosticOrderId);
             Observation observ = (new SetData()).SetObservation_BundleResult_Reason(pract);
 
             //Гетаем врача, чтобы узнать VersionId
             var client = new RestClient() { BaseUrl = new Uri("http://192.168.8.93:2223/fhir/Practitioner/" + pract) };
             var request = new RestRequest(Method.GET) { RequestFormat = DataFormat.Json };
             request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
-          //  request.AddParameter("application/json; charset=utf-8", ParameterType.RequestBody);
             IRestResponse respPractVersion = client.Execute(request);
 
-            
-            dynamic practAnsw = Hl7.Fhir.Serialization.FhirParser.ParseFromXml(respPractVersion.Content.Remove(1));
-
-          // string str = @" <Practitioner xmlns=/"http://hl7.org/fhir/"> "  + respPractVersion.Content.Remove(41);
+            // тут происходит магия (проблема с кодировкой)
+            string str = "<Practitioner xmlns=\"http://hl7.org/fhir\">" + respPractVersion.Content.Substring(43, respPractVersion.Content.Length - 43);
+            Practitioner practAnsw = (Practitioner)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(str);
 
             //собственно тут достаём этот VersionId
             string versionId = practAnsw.Meta.VersionId;
@@ -209,13 +218,10 @@ namespace RestTest.Tests_Method
             Practitioner practitioner = (new SetData()).SetPractitioner();
             practitioner.Id = pract;
             practitioner.Name.Family = new List<string> { "FamilyName" + DateTime.Now };
-            practitioner.Meta = new Meta
-            {
-                VersionId = versionId
-            };
+            practitioner.Meta = new Meta { VersionId = versionId };
 
             //задаём Bundle 
-            Bundle bRes = (new SetData()).SetBundleResult(orderResp, null, observ, null);
+            Bundle bRes = (new SetData()).SetBundleResult(orderResp, diagRep, observ, null);
             Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
             {
                 Resource = practitioner,

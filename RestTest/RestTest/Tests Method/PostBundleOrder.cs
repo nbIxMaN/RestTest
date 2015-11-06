@@ -29,7 +29,7 @@ namespace RestTest.Tests_Method
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, References.encounter,
                                                                 null, null);
-            
+
             //задаём Bundle 
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
 
@@ -266,7 +266,7 @@ namespace RestTest.Tests_Method
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder(patient, pract, Ids.encounter,
-                                                                Ids.specimen, new string[] { Ids.observation }, Ids.coverage );
+                                                                Ids.specimen, new string[] { Ids.observation }, Ids.coverage);
             Specimen specimen = (new SetData()).SetSpecimen_Min(patient);
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
@@ -300,16 +300,28 @@ namespace RestTest.Tests_Method
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, References.encounter,
                                                                 null, null);
-            //задаём Bundle 
-            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
+
+            //Гетаем врача, чтобы узнать VersionId
+            var client = new RestClient() { BaseUrl = new Uri("http://192.168.8.93:2223/fhir/" + References.practitioner) };
+            var request = new RestRequest(Method.GET) { RequestFormat = DataFormat.Json };
+            request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
+            IRestResponse respPractVersion = client.Execute(request);
+
+            // тут происходит магия (проблема с кодировкой)
+            string str = "<Practitioner xmlns=\"http://hl7.org/fhir\">" + respPractVersion.Content.Substring(43, respPractVersion.Content.Length - 43);
+            Practitioner practAnsw = (Practitioner)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(str);
+
+            //собственно тут достаём этот VersionId
+            string versionId = practAnsw.Meta.VersionId;
+
+            //а тут задаём обновлённого врача
             Practitioner practitioner = (new SetData()).SetPractitioner();
             practitioner.Id = pract;
-            practitioner.Name.Family = new List<string> { "New FamilyName" };
-            practitioner.Meta = new Meta
-            {
-                //постоянно меняется, пока что это поле заполняется, выяснением этого значения вручную
-                VersionId = "b97ff454-4cf1-4855-90d5-d7adb058f319"
-            };
+            practitioner.Name.Family = new List<string> { "New FamilyName" + DateTime.Now };
+            practitioner.Meta = new Meta { VersionId = versionId };
+
+            //задаём Bundle 
+            Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, null, null, null, null, null);
             Bundle.BundleEntryComponent component = new Bundle.BundleEntryComponent
             {
                 Resource = practitioner,
@@ -334,22 +346,33 @@ namespace RestTest.Tests_Method
             //задаём ссылки
             string patient = References.patient;
             string pract = References.practitioner;
-            string enc = "1b377871-c721-40c6-8189-7d96369180b0";
+            string enc = "b111e27a-7bb2-478d-8bc1-db08ad009c19";
 
             //задаём ресурсы
             Order order = (new SetData()).SetOrder(patient, pract, References.organization);
             DiagnosticOrder diagnosticOrder = (new SetData()).SetDiagnosticOrder_Min(patient, pract, enc,
                                                                 null, null);
             Condition condition = (new SetData()).SetCondition_MinDiag(patient);
+
+            //Гетаем encounter, чтобы узнать VersionId
+            var client = new RestClient() { BaseUrl = new Uri("http://192.168.8.93:2223/fhir/" + References.encounter) };
+            var request = new RestRequest(Method.GET) { RequestFormat = DataFormat.Json };
+            request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
+            IRestResponse respEncountVersion = client.Execute(request);
+
+            // тут происходит магия (проблема с кодировкой)
+            string str = "<Encounter xmlns=\"http://hl7.org/fhir\">" + respEncountVersion.Content.Substring(40, respEncountVersion.Content.Length - 40);
+            Encounter encountAnsw = (Encounter)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(str);
+
+            //собственно тут достаём этот VersionId
+            string versionId = encountAnsw.Meta.VersionId;
+
+            //а тут задаём обновлённый encounter
             Encounter encounter = (new SetData()).SetEncounter(patient, new string[] { Ids.condition_min }, References.organization);
             encounter.Id = enc;
-            encounter.Meta = new Meta
-            {
-                //постоянно меняется, пока что это поле заполняется, выяснением этого значения вручную
-                VersionId = "0badfa59-ede5-44fd-b24b-390b7fe210ea"
-            };
-           encounter.Reason[0].Coding[0] = new Coding{ System = Dictionary.REASON, Code = "2", Version = "1" };
-          //  encounter.Status = Encounter.EncounterState.Finished;
+            encounter.Meta = new Meta { VersionId = versionId };
+            encounter.Reason[0].Coding[0] = new Coding { System = Dictionary.REASON, Code = "2", Version = "1" };
+            encounter.Status = Encounter.EncounterState.Onleave;
 
             //задаём Bundle 
             Bundle b = (new SetData()).SetBundleOrder(order, diagnosticOrder, null, null, condition, null, null, null, null);
