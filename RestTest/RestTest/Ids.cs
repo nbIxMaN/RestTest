@@ -40,7 +40,7 @@ namespace RestTest
         static public string patient = "Patient/02255d1f-548c-4b04-9ac2-7c97d3efad1a";
 //id= eb292a81-bc3a-4309-b365-9761fdee0443
         static public string practitioner = "Practitioner/ab1af9a5-91b0-4c7f-aba7-6eb4b8f43aab";
-        static public string encounter = "Encounter/1b377871-c721-40c6-8189-7d96369180b0";
+        static public string encounter = "Encounter/b111e27a-7bb2-478d-8bc1-db08ad009c19";
         static public string order = "Order/001dccff-f603-4262-8d5d-e66e73e499e9";
         static public string diagnosticOrder = "DiagnosticOrder/05c93184-997d-405e-84bc-340996a59e57";
     }
