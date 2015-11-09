@@ -308,8 +308,8 @@ namespace RestTest.Tests_Method
             IRestResponse respPractVersion = client.Execute(request);
 
             // тут происходит магия (проблема с кодировкой)
-            string str = "<Practitioner xmlns=\"http://hl7.org/fhir\">" + respPractVersion.Content.Substring(43, respPractVersion.Content.Length - 43);
-            Practitioner practAnsw = (Practitioner)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(str);
+            var encod = new UTF8Encoding(false).GetString(respPractVersion.RawBytes, 3, respPractVersion.RawBytes.Length - 3);
+            Practitioner practAnsw = (Practitioner)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(encod);
 
             //собственно тут достаём этот VersionId
             string versionId = practAnsw.Meta.VersionId;
@@ -361,8 +361,8 @@ namespace RestTest.Tests_Method
             IRestResponse respEncountVersion = client.Execute(request);
 
             // тут происходит магия (проблема с кодировкой)
-            string str = "<Encounter xmlns=\"http://hl7.org/fhir\">" + respEncountVersion.Content.Substring(40, respEncountVersion.Content.Length - 40);
-            Encounter encountAnsw = (Encounter)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(str);
+            var encod = new UTF8Encoding(false).GetString(respEncountVersion.RawBytes, 3, respEncountVersion.RawBytes.Length - 3);
+            Encounter encountAnsw = (Encounter)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(encod);
 
             //собственно тут достаём этот VersionId
             string versionId = encountAnsw.Meta.VersionId;

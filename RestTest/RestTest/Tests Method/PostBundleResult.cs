@@ -207,9 +207,11 @@ namespace RestTest.Tests_Method
             request.AddHeader("Authorization", "N3 f0a258e5-92e4-47d3-9b6c-89362357b2b3");
             IRestResponse respPractVersion = client.Execute(request);
 
+            Practitioner practAnsw1 = (Practitioner)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(respPractVersion.Content);
+
             // тут происходит магия (проблема с кодировкой)
-            string str = "<Practitioner xmlns=\"http://hl7.org/fhir\">" + respPractVersion.Content.Substring(43, respPractVersion.Content.Length - 43);
-            Practitioner practAnsw = (Practitioner)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(str);
+            var encod = new UTF8Encoding(false).GetString(respPractVersion.RawBytes, 3, respPractVersion.RawBytes.Length - 3);
+            Practitioner practAnsw = (Practitioner)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(encod);
 
             //собственно тут достаём этот VersionId
             string versionId = practAnsw.Meta.VersionId;
