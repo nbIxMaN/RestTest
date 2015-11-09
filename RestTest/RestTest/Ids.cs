@@ -9,12 +9,12 @@ namespace RestTest
     //Ссылки на ресурс ПЕРЕДАЮЩИЙСЯ в Bundle
     class Ids
     {
-       // static public string patient = "02255d1f-548c-4b04-9ac2-7c97d3efad1a";
+        // static public string patient = "02255d1f-548c-4b04-9ac2-7c97d3efad1a";
         static public string practitioner = "131d7d5d-0f21-451d-86ec-27fa3e069e1a";
         static public string diagnosticOrder = "2c98670c-3494-4c63-bb29-71acd486da3d";
         static public string specimen = "f8cd600f-f5b5-4b18-9662-18212c1935f9";
         static public string encounter = "f0ceca14-6847-4ea4-b128-7c86820da428";
-        
+
         static public string condition = "64d57862-f2c2-41ef-a5cf-27f2d53569eb";
         static public string condition_min = "65d57862-f2c2-41ef-a5cf-27f2d53569eb";
 
@@ -33,12 +33,12 @@ namespace RestTest
     class References
     {
         static public string organization_Patient = "Link/4a94e705-ee3e-46fc-bba0-0298e0fd5bd2";
-        
+
         static public string organization = "Organization/4a94e705-ee3e-46fc-bba0-0298e0fd5bd2";
         static public string organization_two = "Organization/ ";
-        
+
         static public string patient = "Patient/02255d1f-548c-4b04-9ac2-7c97d3efad1a";
-//id= eb292a81-bc3a-4309-b365-9761fdee0443
+        //id= eb292a81-bc3a-4309-b365-9761fdee0443
         static public string practitioner = "Practitioner/ab1af9a5-91b0-4c7f-aba7-6eb4b8f43aab";
         static public string encounter = "Encounter/b111e27a-7bb2-478d-8bc1-db08ad009c19";
         static public string order = "Order/001dccff-f603-4262-8d5d-e66e73e499e9";
