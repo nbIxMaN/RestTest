@@ -19,9 +19,11 @@ namespace RestTest.Tests_Method
         {
             Coverage cov = (new SetData()).SetCoverage(References.patient);
             cov.Id = null;
+            
             var s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(cov);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/Coverage?_format=json", s);
             string answ = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content).ToString();
+            
             if (resp.StatusCode != System.Net.HttpStatusCode.Created)
                 Assert.Fail(resp.Content);
             Assert.Pass(resp.Content);

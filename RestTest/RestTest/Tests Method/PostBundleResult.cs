@@ -48,6 +48,7 @@ namespace RestTest.Tests_Method
             Bundle bRes = (new SetData()).SetBundleResult(orderResp, diagRep, observ, null);
             s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
             resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+           
             if (resp.StatusCode != System.Net.HttpStatusCode.OK)
                 Assert.Fail(resp.Content);
             Assert.Pass(resp.Content);
@@ -85,6 +86,7 @@ namespace RestTest.Tests_Method
             Bundle bRes = (new SetData()).SetBundleResult(orderResp, diagRep, observ, null);
             s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
             resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+           
             if (resp.StatusCode != System.Net.HttpStatusCode.OK)
                 Assert.Fail(resp.Content);
             Assert.Pass(resp.Content);
@@ -107,8 +109,9 @@ namespace RestTest.Tests_Method
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             Bundle p = (Bundle)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromJson(resp.Content);
-            string id = p.Entry[0].Resource.Id;
+            
             //задаём ссылки
+            string id = p.Entry[0].Resource.Id;            
             string orderId = "Order/" + id;
             pract = References.practitioner;
 
@@ -119,7 +122,7 @@ namespace RestTest.Tests_Method
             Bundle bRes = (new SetData()).SetBundleResult(orderResp, null, null, null);
             s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
             resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
-            //var bundleAnsw = Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content);
+            
             if (resp.StatusCode != System.Net.HttpStatusCode.OK)
                 Assert.Fail(resp.Content);
             Assert.Pass(resp.Content);
@@ -163,6 +166,7 @@ namespace RestTest.Tests_Method
 
             s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
             resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            
             if (resp.StatusCode != System.Net.HttpStatusCode.OK)
                 Assert.Fail(resp.Content);
             Assert.Pass(resp.Content);
@@ -171,7 +175,7 @@ namespace RestTest.Tests_Method
         //-----------------------------------Put
 
         /// <summary>
-        /// OrderResponse, DiagnosticReport, Observation, Practitioner
+        /// OrderResponse, DiagnosticReport, Observation
         /// </summary>
         [Test]
         public void BundleResult_PutPractitioner()
@@ -231,6 +235,7 @@ namespace RestTest.Tests_Method
 
             s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(bRes);
             resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
+            
             if (resp.StatusCode != System.Net.HttpStatusCode.OK)
                 Assert.Fail(resp.Content);
             Assert.Pass(resp.Content);

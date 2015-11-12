@@ -29,15 +29,13 @@ namespace RestTest.Tests_Method
 
             //обновление
             p.Id = i;
-            p.Meta = new Meta
-            {
-                VersionId = answPat.meta.versionId
-            };
+            p.Meta = new Meta { VersionId = answPat.meta.versionId };
             p.Address = new List<Address> { address };
-            
+
             var s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(p);
             url = "http://192.168.8.93:2223/fhir/Patient/" + i + "?_format=json";
             IRestResponse resp = (new Program()).RequestExec(Method.PUT, url, s2);
+           
             if (resp.StatusCode != System.Net.HttpStatusCode.OK)
                 Assert.Fail(resp.Content);
             Assert.Pass(resp.Content);

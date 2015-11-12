@@ -27,15 +27,14 @@ namespace RestTest.Tests_Method
 
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
-
             Bundle requestResult = (Bundle)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromJson(resp.Content);
-            string id = requestResult.Entry[0].Resource.Id;
-            //задаём ссылки
-            string orderId = "Order/" + id;
 
             //задаём ссылки
-            //задаём ресурсы
+            string id = requestResult.Entry[0].Resource.Id;            
+            string orderId = "Order/" + id;
             string diagnosticOrderId = "DiagnosticOrder/" + requestResult.Entry[1].Resource.Id;
+
+            //задаём ресурсы
             OrderResponse orderResp = (new SetData()).SetOrderResponseInProgress(orderId, References.organization);
             DiagnosticReport diagRep = (new SetData()).SetDiagnosticReport(patient, pract, diagnosticOrderId);
             Observation observ = (new SetData()).SetObservation_BundleResult_Reason(pract);
@@ -53,12 +52,13 @@ namespace RestTest.Tests_Method
             string orderMis = order.Identifier[0].Value;
 
             Parameters a = new Parameters();
-
             a.Add("SourceCode", new FhirString(source));
             a.Add("TargetCode", new FhirString(target));
             a.Add("OrderMisID", new FhirString(order.Identifier[0].Value));
+            
             string s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
             IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getresult", s2);
+            
             if (resp2.StatusCode != System.Net.HttpStatusCode.OK)
                 Assert.Fail(resp2.Content);
             Assert.Pass(resp2.Content);

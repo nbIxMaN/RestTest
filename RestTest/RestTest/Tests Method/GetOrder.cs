@@ -33,7 +33,7 @@ namespace RestTest.Tests_Method
             string source = order.Identifier[0].Assigner.Reference;
             source = source.Substring(source.IndexOf('/') + 1, source.Length - source.IndexOf('/') - 1);
             string target = order.Target.Reference;
-            target = target.Substring(target.IndexOf('/')+1, target.Length - target.IndexOf('/') - 1);
+            target = target.Substring(target.IndexOf('/') + 1, target.Length - target.IndexOf('/') - 1);
             string orderMis = order.Identifier[0].Value;
 
             Parameters a = new Parameters();
@@ -47,6 +47,7 @@ namespace RestTest.Tests_Method
                 Assert.Fail(resp2.Content);
             Assert.Pass(resp2.Content);
         }
+
         [Test]
         public void MinGetOrderWithOrderMisId()
         {
@@ -83,6 +84,7 @@ namespace RestTest.Tests_Method
             //var endIndex = resp2.Content.IndexOf("\"", startIndex);
             //var mys = resp2.Content.Substring(startIndex, endIndex - startIndex);
         }
+
         [Test]
         public void MinGetOrderWithBarCode()
         {
@@ -111,10 +113,11 @@ namespace RestTest.Tests_Method
             a.Add("OrderMisID", new FhirString(orderMis));
             string s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
             IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getorder", s2);
+
             if (resp2.StatusCode != System.Net.HttpStatusCode.OK)
                 Assert.Fail(resp2.Content);
             Assert.Pass(resp2.Content);
-           // var p = (Bundle)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(resp2.Content);
+            // var p = (Bundle)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(resp2.Content);
         }
     }
 }
