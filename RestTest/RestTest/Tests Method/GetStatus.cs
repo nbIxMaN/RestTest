@@ -29,23 +29,14 @@ namespace RestTest.Tests_Method
             string s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(b);
             IRestResponse resp = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir?_format=json", s);
             
-            //Bundle p = (Bundle)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromJson(resp.Content);
-            //string id = p.Entry[0].Resource.Id;
-            //string source = orderResp.Identifier[0].Assigner.Reference;
-            //source = source.Substring(source.IndexOf('/') + 1, source.Length - source.IndexOf('/') - 1);
-            //string orderId = id;
-            //string orderMis = orderResp.Identifier[0].Value;
-            
             Parameters a = new Parameters();
-            //a.Add("SourceCode", new FhirString(source));
-            //a.Add("OrderMisID", new FhirString(orderMis));
             a.Add("OrderId", new FhirString("99e4270e-a713-4fab-8ecf-e19161ece69c"));
             
             string s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
-            IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getstatus", s2);
+            IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getstatus?_format=json", s2);
             
             if (resp2.Content.Contains("Requested"))
-                Assert.Pass();
+                Assert.Pass(resp2.Content);
             else
                 NUnit.Framework.Assert.Fail(resp2.Content);
         }
@@ -88,10 +79,10 @@ namespace RestTest.Tests_Method
             a.Add("OrderId", new FhirString(id));
             
             string s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
-            IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getstatus", s2);
+            IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getstatus?_format=json", s2);
             
             if (resp2.Content.Contains("Accepted"))
-                Assert.Pass();
+                Assert.Pass(resp2.Content);
             else
                 NUnit.Framework.Assert.Fail(resp2.Content);
         }
@@ -131,7 +122,7 @@ namespace RestTest.Tests_Method
             a.Add("OrderId", new FhirString(id));
             
             string s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
-            IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getstatus", s2);
+            IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getstatus?_format=json", s2);
             if (resp2.Content.Contains("Rejected"))
                 Assert.Pass(resp2.Content);
             else
@@ -139,7 +130,7 @@ namespace RestTest.Tests_Method
         }
 
         [Test]
-        public void MinGetOrderWithOrderMisId()
+        public void MinGetStatusReceived()
         {
             //задаём ссылки
             string patient = References.patient;
@@ -170,12 +161,14 @@ namespace RestTest.Tests_Method
             a.Add("OrderMisID", new FhirString(orderMis));
   
             string s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
-            IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getorder", s2);
-            if (resp2.StatusCode != System.Net.HttpStatusCode.OK)
-                Assert.Fail(resp2.Content);
+            IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getorder?_format=json", s2);
+
+            //Проверка на то, что возвращается НЕ пустой ответ!
+            Parameters respGet = (Parameters)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromJson(resp2.Content);
+
+            if (resp2.StatusCode != System.Net.HttpStatusCode.OK || respGet.Parameter.Count == 0)
+                Assert.Fail(resp2.Content + " Это упал GetOrder");
             
-            //Assert.Pass(resp2.Content);
-            //var p = (Bundle)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(resp2.Content);
             var startIndex = resp2.Content.IndexOf("DiagnosticOrder");
             var endIndex = resp2.Content.IndexOf("\"", startIndex);
             var mys = resp2.Content.Substring(startIndex, endIndex - startIndex);
@@ -188,7 +181,7 @@ namespace RestTest.Tests_Method
             a.Add("OrderId", new FhirString(id));
             
             s2 = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
-            resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getstatus", s2);
+            resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getstatus?_format=json", s2);
             
             if (resp2.Content.Contains("Received"))
                 Assert.Pass(resp2.Content);

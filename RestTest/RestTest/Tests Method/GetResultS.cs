@@ -55,8 +55,11 @@ namespace RestTest.Tests_Method
             
             s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
             IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getresults?_format=json", s);
-            
-            if (resp2.StatusCode != System.Net.HttpStatusCode.OK)
+
+            //Проверка на то, что возвращается НЕ пустой ответ!
+            Parameters respGet = (Parameters)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromJson(resp2.Content);
+
+            if (resp2.StatusCode != System.Net.HttpStatusCode.OK || respGet.Parameter.Count == 0)
                 Assert.Fail(resp2.Content);
             Assert.Pass(resp2.Content);
         }
@@ -106,8 +109,11 @@ namespace RestTest.Tests_Method
             
             s = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToJson(a);
             IRestResponse resp2 = (new Program()).RequestExec(Method.POST, "http://192.168.8.93:2223/fhir/$getresults?_format=json", s);
-            
-            if (resp2.StatusCode != System.Net.HttpStatusCode.OK)
+
+            //Проверка на то, что возвращается НЕ пустой ответ!
+            Parameters respGet = (Parameters)Hl7.Fhir.Serialization.FhirParser.ParseResourceFromJson(resp2.Content);
+
+            if (resp2.StatusCode != System.Net.HttpStatusCode.OK || respGet.Parameter.Count == 0)
                 Assert.Fail(resp2.Content);
             Assert.Pass(resp2.Content);
         }
