@@ -51,7 +51,7 @@ namespace RestTest
                     new Identifier()
                     {
                         System = "urn:oid:1.2.643.5.1.34",
-                        Value = "IdPatientMis" + DateTime.Now,
+                        Value = "IdPatientMis" + DateTime.Now + DateTime.Now.Millisecond,
                         Assigner = new ResourceReference() { Reference = References.organization_Patient },
                         Period = new Period
                         {
@@ -204,7 +204,7 @@ namespace RestTest
                     new Identifier
                     {
                         System = "urn:oid:1.2.643.2.69.1.2.6",
-                        Value = "IdOrderMis" + DateTime.Now,
+                        Value = "IdOrderMis" + DateTime.Now + DateTime.Now.Millisecond,
                         Assigner = new ResourceReference { Reference = organization }
                     }
                 },
@@ -393,7 +393,14 @@ namespace RestTest
             return new Encounter
             {
                 Id = Ids.encounter,
-                Identifier = new List<Identifier> { new Identifier { System = "urn:oid:1.2.643.2.69.1.2.6", Value = "IdCaseMis" + DateTime.Now } },
+                Identifier = new List<Identifier> 
+                { 
+                    new Identifier 
+                    { 
+                        System = "urn:oid:1.2.643.2.69.1.2.6",
+                        Value = "IdCaseMis" + DateTime.Now + DateTime.Now.Millisecond
+                    }
+                },
                 Status = Encounter.EncounterState.InProgress,
                 Class = Encounter.EncounterClass.Ambulatory,
                 Type = new List<CodeableConcept>
@@ -519,7 +526,7 @@ namespace RestTest
                     new Identifier
                     {
                         System = "urn:oid:1.2.643.2.69.1.2.6",
-                        Value = "IdDoctorMIS" + DateTime.Now
+                        Value = "IdDoctorMIS" + DateTime.Now + DateTime.Now.Millisecond
                     }
                 },
                 Name = new HumanName()
@@ -605,7 +612,7 @@ namespace RestTest
                     new Identifier
                     {
                         System = "urn:oid:1.2.643.2.69.1.2.2",
-                        Value = "IdOrderLis" + DateTime.Now
+                        Value = "IdOrderLis" + DateTime.Now + DateTime.Now.Millisecond
                     }
                 },
                 Request = new ResourceReference { Reference = order },
@@ -626,7 +633,7 @@ namespace RestTest
                     new Identifier
                     {
                         System = "urn:oid:1.2.643.2.69.1.2.2",
-                        Value = "IdOrderLis" + DateTime.Now
+                        Value = "IdOrderLis" + DateTime.Now + DateTime.Now.Millisecond
                     }
                 },
                 Request = new ResourceReference { Reference = order },
@@ -647,7 +654,7 @@ namespace RestTest
                     new Identifier
                     {
                         System = "urn:oid:1.2.643.2.69.1.2.2",
-                        Value = "IdOrderLis" + DateTime.Now
+                        Value = "IdOrderLis" + DateTime.Now + DateTime.Now.Millisecond
                     }
                 },
                 Request = new ResourceReference { Reference = order },
